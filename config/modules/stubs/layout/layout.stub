@@ -1,0 +1,11 @@
+@extends('layouts.app')
+
+@section('trans_scripts')
+    <script>
+      window.dataLang = {!! json_encode(app('locale')->getLanguageDataApp()) !!};
+    </script>
+@endsection
+
+@section('bottom_scripts')
+    <script src="{{ mix('js/pages.js', 'assets') }}"></script>
+@endsection

@@ -1,0 +1,16 @@
+<?php
+
+namespace $NAMESPACE$\Services\Models\Repositories;
+
+use $NAMESPACE$\Interfaces\Models\Repositories\I$CLASS$Repository;
+use $NAMESPACE$\Models\$CLASS$;
+use $NAMESPACE$\Transformers\$CLASS$Resource;
+use Omadonex\LaravelSupport\Services\Model\ModelRepository;
+
+class $CLASS$Repository extends ModelRepository implements I$CLASS$Repository
+{
+    public function __construct($CLASS$ $model)
+    {
+        parent::__construct($model, $CLASS$Resource::class);
+    }
+}

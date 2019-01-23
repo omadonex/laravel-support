@@ -1,0 +1,13 @@
+{
+    "name": "$STUDLY_NAME$",
+    "alias": "$LOWER_NAME$",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\Providers\\ModuleServiceProvider"
+    ],
+    "aliases": {},
+    "requires": []
+}

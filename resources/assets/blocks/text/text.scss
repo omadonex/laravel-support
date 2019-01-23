@@ -1,0 +1,28 @@
+.text {
+  &--underline {
+    text-decoration: underline;
+  }
+  &--center {
+    text-align: center;
+  }
+  &--right {
+    text-align: right;
+  }
+  &--left {
+    text-align: left;
+  }
+  &--regular {
+    font-weight: 400;
+  }
+  &--semi-bold {
+    font-weight: 600;
+  }
+  &--bold {
+    font-weight: 700;
+  }
+  &--overflow {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}

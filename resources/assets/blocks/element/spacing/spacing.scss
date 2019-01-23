@@ -1,0 +1,270 @@
+$sp: 22px;
+$sp1: $sp * .25;
+$sp2: $sp * .5;
+$sp3: $sp;
+$sp4: $sp * 1.5;
+$sp5: $sp * 3;
+
+.m {
+  &t {
+    &--1 {
+      margin-top: $sp1;
+    }
+    &--2 {
+      margin-top: $sp2;
+    }
+    &--3 {
+      margin-top: $sp3;
+    }
+    &--4 {
+      margin-top: $sp4;
+    }
+    &--5 {
+      margin-top: $sp5;
+    }
+  }
+  &r {
+    &--1 {
+      margin-right: $sp1;
+    }
+    &--2 {
+      margin-right: $sp2;
+    }
+    &--3 {
+      margin-right: $sp3;
+    }
+    &--4 {
+      margin-right: $sp4;
+    }
+    &--5 {
+      margin-right: $sp5;
+    }
+  }
+  &b {
+    &--1 {
+      margin-bottom: $sp1;
+    }
+    &--2 {
+      margin-bottom: $sp2;
+    }
+    &--3 {
+      margin-bottom: $sp3;
+    }
+    &--4 {
+      margin-bottom: $sp4;
+    }
+    &--5 {
+      margin-bottom: $sp5;
+    }
+  }
+  &l {
+    &--1 {
+      margin-left: $sp1;
+    }
+    &--2 {
+      margin-left: $sp2;
+    }
+    &--3 {
+      margin-left: $sp3;
+    }
+    &--4 {
+      margin-left: $sp4;
+    }
+    &--5 {
+      margin-left: $sp5;
+    }
+  }
+  &x {
+    &--1 {
+      margin-left: $sp1;
+      margin-right: $sp1;
+    }
+    &--2 {
+      margin-left: $sp2;
+      margin-right: $sp2;
+    }
+    &--3 {
+      margin-left: $sp3;
+      margin-right: $sp3;
+    }
+    &--4 {
+      margin-left: $sp4;
+      margin-right: $sp4;
+    }
+    &--5 {
+      margin-left: $sp5;
+      margin-right: $sp5;
+    }
+  }
+  &y {
+    &--1 {
+      margin-top: $sp1;
+      margin-bottom: $sp1;
+    }
+    &--2 {
+      margin-top: $sp2;
+      margin-bottom: $sp2;
+    }
+    &--3 {
+      margin-top: $sp3;
+      margin-bottom: $sp3;
+    }
+    &--4 {
+      margin-top: $sp4;
+      margin-bottom: $sp4;
+    }
+    &--5 {
+      margin-top: $sp5;
+      margin-bottom: $sp5;
+    }
+  }
+  &a {
+    &--1 {
+      margin: $sp1;
+    }
+    &--2 {
+      margin: $sp2;
+    }
+    &--3 {
+      margin: $sp3;
+    }
+    &--4 {
+      margin: $sp4;
+    }
+    &--5 {
+      margin: $sp5;
+    }
+  }
+}
+
+.p {
+  &t {
+    &--1 {
+      padding-top: $sp1;
+    }
+    &--2 {
+      padding-top: $sp2;
+    }
+    &--3 {
+      padding-top: $sp3;
+    }
+    &--4 {
+      padding-top: $sp4;
+    }
+    &--5 {
+      padding-top: $sp5;
+    }
+  }
+  &r {
+    &--1 {
+      padding-right: $sp1;
+    }
+    &--2 {
+      padding-right: $sp2;
+    }
+    &--3 {
+      padding-right: $sp3;
+    }
+    &--4 {
+      padding-right: $sp4;
+    }
+    &--5 {
+      padding-right: $sp5;
+    }
+  }
+  &b {
+    &--1 {
+      padding-bottom: $sp1;
+    }
+    &--2 {
+      padding-bottom: $sp2;
+    }
+    &--3 {
+      padding-bottom: $sp3;
+    }
+    &--4 {
+      padding-bottom: $sp4;
+    }
+    &--5 {
+      padding-bottom: $sp5;
+    }
+  }
+  &l {
+    &--1 {
+      padding-left: $sp1;
+    }
+    &--2 {
+      padding-left: $sp2;
+    }
+    &--3 {
+      padding-left: $sp3;
+    }
+    &--4 {
+      padding-left: $sp4;
+    }
+    &--5 {
+      padding-left: $sp5;
+    }
+  }
+  &x {
+    &--1 {
+      padding-left: $sp1;
+      padding-right: $sp1;
+    }
+    &--2 {
+      padding-left: $sp2;
+      padding-right: $sp2;
+    }
+    &--3 {
+      padding-left: $sp3;
+      padding-right: $sp3;
+    }
+    &--4 {
+      padding-left: $sp4;
+      padding-right: $sp4;
+    }
+    &--5 {
+      padding-left: $sp5;
+      padding-right: $sp5;
+    }
+  }
+  &y {
+    &--1 {
+      padding-top: $sp1;
+      padding-bottom: $sp1;
+    }
+    &--2 {
+      padding-top: $sp2;
+      padding-bottom: $sp2;
+    }
+    &--3 {
+      padding-top: $sp3;
+      padding-bottom: $sp3;
+    }
+    &--4 {
+      padding-top: $sp4;
+      padding-bottom: $sp4;
+    }
+    &--5 {
+      padding-top: $sp5;
+      padding-bottom: $sp5;
+    }
+  }
+  &a {
+    &--1 {
+      padding: $sp1;
+    }
+    &--2 {
+      padding: $sp2;
+    }
+    &--3 {
+      padding: $sp3;
+    }
+    &--4 {
+      padding: $sp4;
+    }
+    &--5 {
+      padding: $sp5;
+    }
+  }
+}

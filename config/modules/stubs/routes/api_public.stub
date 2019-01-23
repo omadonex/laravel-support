@@ -1,0 +1,7 @@
+<?php
+
+Route::name('api.v1.$LOWER_NAME$.')->group(function () {
+    Route::group(['prefix' => 'v1/$LOWER_NAME$', 'namespace' => 'Api'], function () {
+
+    });
+});

@@ -1,0 +1,32 @@
+$sz: 22px;
+$sz1: $sz * .6;
+$sz2: $sz * .85;
+$sz3: $sz;
+$sz4: $sz * 1.25;
+$sz5: $sz * 1.5;
+$sz6: $sz * 2;
+
+.icn {
+  &--mini {
+    font-size: $sz1 !important;
+  }
+  &--tiny {
+    font-size: $sz2 !important;
+  }
+  &--normal {
+    font-size: $sz3 !important;
+  }
+  &--medium {
+    font-size: $sz4 !important;
+  }
+  &--large {
+    font-size: $sz5 !important;
+  }
+  &--big {
+    font-size: $sz6 !important;
+  }
+}
+
+.icn--disabled {
+  color: #cccccc !important;
+}

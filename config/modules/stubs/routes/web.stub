@@ -1,0 +1,9 @@
+<?php
+
+Route::name('$LOWER_NAME$.')->group(function () {
+    Route::group(['prefix' => '$LOWER_NAME$'], function () {
+        Route::group(['middleware' => 'auth'], function () {
+
+        });
+    });
+});
