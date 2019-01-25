@@ -2,16 +2,16 @@ export default {
   data() {
     return {
       pageLoader__data: {},
-      pageLoader__const: {
+      p__pageLoader__const: {
         PARAM_ENABLED: '__enabled',
         PARAM_PAGINATE: '__paginate',
         PARAM_RELATIONS: '__relations',
         PARAM_TRASHED: '__trashed',
+        GLOBAL_DATA_KEY: 'global',
       },
+      p__pageLoader__loading: false,
       p__pageLoader__page: this.$root.$route.meta.page,
       p__pageLoader__states: {},
-      p__pageLoader__loading: false,
-      p__pageLoader__globalDataKey: 'global',
     };
   },
 
@@ -25,7 +25,7 @@ export default {
     },
 
     pageLoader__globalData() {
-      return this.$root.DataMain[this.p__pageLoader__globalDataKey];
+      return this.$root.DataMain[this.p__pageLoader__const.GLOBAL_DATA_KEY];
     },
   },
 
@@ -40,8 +40,8 @@ export default {
   methods: {
     pageLoader__init(args) {
       if (!this.$root.FromBrowser) {
-        if (!this.$root.DataMain.hasOwnProperty(this.p__pageLoader__globalDataKey)) {
-          this.$set(this.$root.DataMain, this.p__pageLoader__globalDataKey, {});
+        if (!this.$root.DataMain.hasOwnProperty(this.p__pageLoader__const.GLOBAL_DATA_KEY)) {
+          this.$set(this.$root.DataMain, this.p__pageLoader__const.GLOBAL_DATA_KEY, {});
         }
 
         if (!this.$root.DataMain.hasOwnProperty(this.p__pageLoader__page)) {
@@ -82,20 +82,20 @@ export default {
       }
 
       if (callParams.hasOwnProperty('enabled')) {
-        params[this.pageLoader__const.PARAM_ENABLED] = callParams.enabled;
+        params[this.p__pageLoader__const.PARAM_ENABLED] = callParams.enabled;
       }
 
       if (callParams.hasOwnProperty('relations')) {
-        params[this.pageLoader__const.PARAM_RELATIONS] = callParams.relations;
+        params[this.p__pageLoader__const.PARAM_RELATIONS] = callParams.relations;
       }
 
       if (callParams.hasOwnProperty('trashed')) {
-        params[this.pageLoader__const.PARAM_TRASHED] = callParams.trashed;
+        params[this.p__pageLoader__const.PARAM_TRASHED] = callParams.trashed;
       }
 
       if (callParams.list) {
-        params[this.pageLoader__const.PARAM_PAGINATE] = callParams.paginate || true;
-        if (params[this.pageLoader__const.PARAM_PAGINATE]) {
+        params[this.p__pageLoader__const.PARAM_PAGINATE] = callParams.paginate || true;
+        if (params[this.p__pageLoader__const.PARAM_PAGINATE]) {
           params.page = callParams.paginatePage || 1;
         }
       }
@@ -156,7 +156,7 @@ export default {
         item = this.$root.Data__plGlobal[propName];
         global = true;
         globalParamsFuncName = item.paramsFuncName;
-        keyData = this.p__pageLoader__globalDataKey;
+        keyData = this.p__pageLoader__const.GLOBAL_DATA_KEY;
         stateName = `${keyData}__${stateName}`;
       }
 
