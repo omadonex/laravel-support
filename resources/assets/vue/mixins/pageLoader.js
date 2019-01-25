@@ -2,6 +2,12 @@ export default {
   data() {
     return {
       pageLoader__data: {},
+      pageLoader__const: {
+        PARAM_ENABLED: '__enabled',
+        PARAM_PAGINATE: '__paginate',
+        PARAM_RELATIONS: '__relations',
+        PARAM_TRASHED: '__trashed',
+      },
       p__pageLoader__page: this.$root.$route.meta.page,
       p__pageLoader__states: {},
       p__pageLoader__loading: false,
@@ -56,9 +62,11 @@ export default {
      * url *
      * propName *
      * list *
+     * enabled
      * relations
      * paginate
      * paginatePage
+     * trashed
      * loadingPropName
      * query
      * queryToSubGroup
@@ -73,11 +81,23 @@ export default {
         params.userId = this.$root.DataUser.id;
       }
 
-      params.relations = callParams.relations || false;
+      if (callParams.hasOwnProperty('enabled')) {
+        params[this.pageLoader__const.PARAM_ENABLED] = callParams.enabled;
+      }
 
-      params.paginate = (callParams.paginate === undefined) ? true : callParams.paginate;
-      if (params.paginate) {
-        params.page = callParams.paginatePage || 1;
+      if (callParams.hasOwnProperty('relations')) {
+        params[this.pageLoader__const.PARAM_RELATIONS] = callParams.relations;
+      }
+
+      if (callParams.hasOwnProperty('trashed')) {
+        params[this.pageLoader__const.PARAM_TRASHED] = callParams.trashed;
+      }
+
+      if (callParams.list) {
+        params[this.pageLoader__const.PARAM_PAGINATE] = callParams.paginate || true;
+        if (params[this.pageLoader__const.PARAM_PAGINATE]) {
+          params.page = callParams.paginatePage || 1;
+        }
       }
 
       if (callParams.query) {
