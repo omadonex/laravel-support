@@ -154,9 +154,9 @@ class ApiModelController extends ApiBaseController
         return $this->repo->find($id, [
             'resource' => $resource,
             'resourceClass' => $resourceClass,
+            'enabled' => $this->enabled,
             'relations' => $this->relations,
             'trashed' => $this->trashed,
-            'active' => $this->active,
             'smart' => $smart,
             'smartField' => $smartField,
             'closures' => $closures,
@@ -168,9 +168,9 @@ class ApiModelController extends ApiBaseController
         return $this->repo->search([
             'resource' => $resource,
             'resourceClass' => $resourceClass,
+            'enabled' => $this->enabled,
             'relations' => $this->relations,
             'trashed' => $this->trashed,
-            'active' => $this->active,
             'closures' => $closures,
         ]);
     }
@@ -180,10 +180,10 @@ class ApiModelController extends ApiBaseController
         $options = [
             'resource' => $resource,
             'resourceClass' => $resourceClass,
+            'enabled' => $this->enabled,
+            'paginate' => $this->paginate,
             'relations' => $this->relations,
             'trashed' => $this->trashed,
-            'active' => $this->active,
-            'paginate' => $this->paginate,
             'closures' => $closures,
         ];
         $method = $methodName ?: 'list';
