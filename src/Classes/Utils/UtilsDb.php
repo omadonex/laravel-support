@@ -23,7 +23,7 @@ class UtilsDb
 
         $table->string(ConstantsCustom::DB_FIELD_TRANS_LANG, ConstantsCustom::DB_FIELD_LEN_LANG)->index();
 
-        $table->unique([$fieldName, ConstantsCustom::DB_FIELD_TRANS_LANG], 'trans_unique');
+        $table->unique([$fieldName, ConstantsCustom::DB_FIELD_TRANS_LANG], "{$table->table}_trans_unique");
     }
 
     public static function addUnsafeSeedingField($table)
