@@ -1,17 +1,19 @@
 <?php
 
+use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+
 return [
-    'OmxBadParameterActiveException' => [
-        'message' => 'Параметр `active` может принимать одно из следующих значений: false | true',
+    'OmxBadParameterEnabledException' => [
+        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_ENABLED . '` может принимать одно из следующих значений: false | true',
     ],
     'OmxBadParameterPaginateException' => [
-        'message' => 'Параметр `paginate` может принимать одно из следующих значений: "false | true | integer"',
+        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_PAGINATE . '` может принимать одно из следующих значений: "false | true | integer"',
     ],
     'OmxBadParameterRelationsException' => [
-        'message' => 'Параметр `relations` может принимать одно из следующих значений: "false | true | array (:relations)"',
+        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_RELATIONS . '` может принимать одно из следующих значений: "false | true | array (:relations)"',
     ],
     'OmxBadParameterTrashedException' => [
-        'message' => 'Параметр `trashed` может принимать одно из следующих значений: "with | only"',
+        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_TRASHED . '` может принимать одно из следующих значений: "with | only"',
     ],
     'OmxClassNotUsesTraitException' => [
         'message' => 'Класс `:class` не использует trait `:trait`',

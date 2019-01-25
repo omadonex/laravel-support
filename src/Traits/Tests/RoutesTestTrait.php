@@ -146,18 +146,13 @@ trait RoutesTestTrait
                 case 'DELETE':
                     break;
             }
-
+            /*
             $parameters = [];
             if (count($routeData['parameters'])) {
                 foreach ($routeData['parameters'] as $parameter) {
                     if ($routeData['methods'][0] === 'DELETE') {
 
                     }
-                    /*
-                    switch ($parameter) {
-                        case 'license':
-                            break;
-                    }*/
                     $parameters[$parameter] = '7';
                 }
             }
@@ -190,6 +185,7 @@ trait RoutesTestTrait
                 $failed = true;
                 echo PHP_EOL;
             }
+            */
         }
 
         return !$failed;

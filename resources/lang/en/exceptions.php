@@ -1,17 +1,19 @@
 <?php
 
+use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+
 return [
-    'OmxBadParameterActiveException' => [
-        'message' => 'Param `active` can be one of next values: false | true',
+    'OmxBadParameterEnabledException' => [
+        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_ENABLED . '` can be one of next values: false | true',
     ],
     'OmxBadParameterPaginateException' => [
-        'message' => 'Param `paginate` can be one of next values: "false | true | integer"',
+        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_PAGINATE . '` can be one of next values: "false | true | integer"',
     ],
     'OmxBadParameterRelationsException' => [
-        'message' => 'Param `relations` can be one of next values: "false | true | array (:relations)"',
+        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_RELATIONS . '` can be one of next values: "false | true | array (:relations)"',
     ],
     'OmxBadParameterTrashedException' => [
-        'message' => 'Param `trashed` can be one of next values: "with | only"',
+        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_TRASHED . '` can be one of next values: "with | only"',
     ],
     'OmxClassNotUsesTraitException' => [
         'message' => 'Class `:class` not uses trait `:trait`',

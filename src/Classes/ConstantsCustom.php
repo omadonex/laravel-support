@@ -9,6 +9,11 @@ class ConstantsCustom
     const MAIN_DATA_GLOBAL_KEY = 'global';
     const MAIN_DATA_PAGE = 'mainDataPage';
 
+    const REQUEST_PARAM_ENABLED = '__enabled';
+    const REQUEST_PARAM_PAGINATE = '__paginate';
+    const REQUEST_PARAM_RELATIONS = '__relations';
+    const REQUEST_PARAM_TRASHED = '__trashed';
+
     const DB_QUERY_TRASHED_WITH = 'with';
     const DB_QUERY_TRASHED_ONLY = 'only';
 

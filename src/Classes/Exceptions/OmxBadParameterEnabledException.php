@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
-class OmxBadParameterActiveException extends \Exception
+class OmxBadParameterEnabledException extends \Exception
 {
     public function __construct()
     {
