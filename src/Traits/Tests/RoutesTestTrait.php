@@ -73,7 +73,7 @@ trait RoutesTestTrait
                         ];
                     }
 
-                    if ($routeData['method'] === 'PUT')
+                    if (($routeData['method'] === 'PUT')||($routeData['method'] == 'DELETE'))
                         $routesData[] = $routeData;
                 }
             }
@@ -120,10 +120,12 @@ trait RoutesTestTrait
         echo PHP_EOL;
         foreach ($routesData as $routeData) {
             $routeName = $routeData['name'];
+            $method = $routeData['method'];
 
-            switch ($routeData['method']) {
+            switch ($method) {
                 case 'PUT':
-                    //только update методы, поэтому необходимо иметь модель
+                case 'DELETE':
+                    //только update и delete методы, поэтому необходимо иметь модель
                     $configMeta = $this->getConfigMeta($config, $routeData);
                     $createKey = $configMeta['create'][0];
                     $createMeta = $config['createData'][$createKey];
@@ -140,10 +142,7 @@ trait RoutesTestTrait
                     }
 
                     $url = route($routeName, [$routeData['parameters'][0] => $model->id]);
-                    $response = $this->put($url.'?api_token='.$user->api_token, $createData);
-                    echo $response->status();
-                    break;
-                case 'DELETE':
+                    $response = $this->$method($url.'?api_token='.$user->api_token, $createData);
                     break;
             }
             /*
