@@ -121,7 +121,7 @@ export default {
       })
         .then((result) => {
           if (result) {
-            if (callParams.list && params.paginate) {
+            if (callParams.list && params[this.p__pageLoader__const.PARAM_PAGINATE]) {
               if (!this.$root.DataMain[factData.keyData].hasOwnProperty(callParams.propName)) {
                 this.$set(this.$root.DataMain[factData.keyData], callParams.propName, {});
               }
