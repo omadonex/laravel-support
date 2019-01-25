@@ -94,7 +94,7 @@ export default {
       }
 
       if (callParams.list) {
-        params[this.p__pageLoader__const.PARAM_PAGINATE] = callParams.paginate || true;
+        params[this.p__pageLoader__const.PARAM_PAGINATE] = callParams.hasOwnProperty('paginate') ? callParams.paginate || true;
         if (params[this.p__pageLoader__const.PARAM_PAGINATE]) {
           params.page = callParams.paginatePage || 1;
         }
