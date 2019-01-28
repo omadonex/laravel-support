@@ -184,7 +184,7 @@ trait RoutesTestTrait
                     if (array_key_exists('model', $configMeta)) {
                         $requestData = $config['modelData'][$configMeta['model']];
                     } else {
-                        $requestData = $configMeta['data'];
+                        $requestData = array_key_exists('data', $configMeta) ? $configMeta['data'] : [];
                         if (array_key_exists('append', $configMeta)) {
                             foreach ($configMeta['append'] as $appendKey => $appendData) {
                                 $modelData = $createdData[$appendData['key']]['model'];
