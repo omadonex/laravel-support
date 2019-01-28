@@ -86,4 +86,10 @@ interface IModelService
      * @return mixed
      */
     public function disable($id);
+
+    /**
+     * Удаляет все записи в таблице
+     * @return mixed
+     */
+    public function clear();
 }

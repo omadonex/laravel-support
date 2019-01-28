@@ -19,17 +19,25 @@ trait RoutesTestTrait
         $router = app('router');
         $routes = $router->getRoutes();
 
-        $routesNamePrefix = $this->module;
-        $posWebRouteNamePart = strlen($routesNamePrefix) + 1;
+        $routesWebNamePrefix = $this->module;
+        $posWebRouteNamePart = strlen($routesWebNamePrefix) + 1;
         $apiVersion = property_exists($this, 'apiVersion') ? $this->apiVersion : 'v1';
         $routesApiNamePrefix = "api.{$apiVersion}.{$this->module}";
         $posApiRouteNamePart = strlen($routesApiNamePrefix) + 1;
 
         $excludedRouteNames = [];
-        $excluded = property_exists($this, 'excluded') ? $this->excluded : [];
-        $excludedApi = property_exists($this, 'excludedApi') ? $this->excludedApi : [];
-        foreach ($excluded as $partRouteName) {
-            $excludedRouteNames[] = "{$routesNamePrefix}.{$partRouteName}";
+        $excludedWeb = [];
+        $excludedApi = [];
+        if (property_exists($this, 'excluded')) {
+            if (array_key_exists('web', $this->excluded)) {
+                $excludedWeb = $this->excluded['web'];
+            }
+            if (array_key_exists('api', $this->excluded)) {
+                $excludedApi = $this->excluded['api'];
+            }
+        }
+        foreach ($excludedWeb as $partRouteName) {
+            $excludedRouteNames[] = "{$routesWebNamePrefix}.{$partRouteName}";
         }
         foreach ($excludedApi as $partRouteName) {
             $excludedRouteNames[] = "{$routesApiNamePrefix}.{$partRouteName}";
@@ -39,7 +47,7 @@ trait RoutesTestTrait
         foreach ($routes as $route) {
             $routeName = $route->getName();
             if (!in_array($routeName, $excludedRouteNames)) {
-                $posWeb = strpos($routeName, $routesNamePrefix);
+                $posWeb = strpos($routeName, $routesWebNamePrefix);
                 $posApi = strpos($routeName, $routesApiNamePrefix);
                 if (($posWeb === 0) || ($posApi === 0)) {
                     $middleware = $route->gatherMiddleware();
@@ -142,6 +150,7 @@ trait RoutesTestTrait
         $user = factory(User::class)->create();
 
         $failed = false;
+        $createdModels = [];
 
         echo PHP_EOL;
         foreach ($routesData as $routeData) {
@@ -155,6 +164,7 @@ trait RoutesTestTrait
                         $result = $this->createModel($config, $parameter);
                         $requestData = $result['data'];
                         $parameters[$parameter] = $result['model']->id;
+                        $createdModels[] = $result['model'];
                     } else {
                         $parameters[$parameter] = $config['parameters']['static'][$parameter];
                     }
@@ -168,7 +178,9 @@ trait RoutesTestTrait
                     $createdData = [];
                     if (array_key_exists('create', $configMeta)) {
                         foreach ($configMeta['create'] as $createKey) {
-                            $createdData[$createKey] = $this->createModel($config, $createKey);
+                            $result = $this->createModel($config, $createKey);
+                            $createdData[$createKey] = $result;
+                            $createdModels[] = $result['model'];
                         }
                     }
 
@@ -221,6 +233,10 @@ trait RoutesTestTrait
                 echo "(FAILED {$status}) - '{$routeName}'";
                 $failed = true;
                 echo PHP_EOL;
+            }
+
+            foreach ($createdModels as $createdModel) {
+                $createdModel->destroy();
             }
         }
 

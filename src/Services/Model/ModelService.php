@@ -126,4 +126,9 @@ abstract class ModelService implements IModelService
         $model->disable();
         $this->callbackDisabled($model);
     }
+
+    public function clear()
+    {
+        $this->repo->query()->delete();
+    }
 }
