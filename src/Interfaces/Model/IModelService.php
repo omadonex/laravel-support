@@ -89,7 +89,8 @@ interface IModelService
 
     /**
      * Удаляет все записи в таблице
+     * @param $force
      * @return mixed
      */
-    public function clear();
+    public function clear($force = false);
 }

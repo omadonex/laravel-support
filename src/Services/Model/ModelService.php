@@ -127,8 +127,12 @@ abstract class ModelService implements IModelService
         $this->callbackDisabled($model);
     }
 
-    public function clear()
+    public function clear($force = false)
     {
-        $this->repo->query()->delete();
+        if ($force) {
+            $this->repo->query()->forceDelete();
+        } else {
+            $this->repo->query()->delete();
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace Omadonex\LaravelSupport\Traits\Tests;
 
 use App\User;
+use Modules\Typography\Interfaces\Models\Repositories\ITypographyRepository;
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
 
 trait RoutesTestTrait
@@ -234,8 +235,7 @@ trait RoutesTestTrait
             if (array_key_exists('createData', $config)) {
                 foreach ($config['createData'] as $createKey => $createData) {
                     $service = resolve($createData['service']);
-                    $service->clear();
-                    echo "{$createKey}: cleared" . PHP_EOL;
+                    $service->clear(true);
                 }
             }
         }
