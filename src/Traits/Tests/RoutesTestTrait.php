@@ -150,7 +150,6 @@ trait RoutesTestTrait
         $user = factory(User::class)->create();
 
         $failed = false;
-        $createdModels = [];
 
         echo PHP_EOL;
         foreach ($routesData as $routeData) {
@@ -164,7 +163,6 @@ trait RoutesTestTrait
                         $result = $this->createModel($config, $parameter);
                         $requestData = $result['data'];
                         $parameters[$parameter] = $result['model']->id;
-                        $createdModels[] = $result['model'];
                     } else {
                         $parameters[$parameter] = $config['parameters']['static'][$parameter];
                     }
@@ -178,9 +176,7 @@ trait RoutesTestTrait
                     $createdData = [];
                     if (array_key_exists('create', $configMeta)) {
                         foreach ($configMeta['create'] as $createKey) {
-                            $result = $this->createModel($config, $createKey);
-                            $createdData[$createKey] = $result;
-                            $createdModels[] = $result['model'];
+                            $createdData[$createKey] = $this->createModel($config, $createKey);
                         }
                     }
 
@@ -235,8 +231,12 @@ trait RoutesTestTrait
                 echo PHP_EOL;
             }
 
-            foreach ($createdModels as $createdModel) {
-                $createdModel->destroy();
+            if (array_key_exists('createData', $config)) {
+                foreach ($config['createData'] as $createKey => $createData) {
+                    $service = resolve($createData['service']);
+                    $service->clear();
+                    echo "{$createKey}: cleared" . PHP_EOL;
+                }
             }
         }
 

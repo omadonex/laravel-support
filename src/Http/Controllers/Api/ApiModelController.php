@@ -194,7 +194,7 @@ class ApiModelController extends ApiBaseController
     protected function modelCreate($data, $resource = false, $resourceClass = null)
     {
         $model = $this->service->create($data);
-        $model->load($this->relations);
+        $model->load($this->getRelations($model));
 
         return $this->repo->toResource($model, $resource, $resourceClass, false);
     }
