@@ -27,4 +27,9 @@ class ConstantsCustom
     const DB_FIELD_LEN_PRIMARY_STR = 36;
     const DB_FIELD_LEN_TOKEN_API = 64;
     const DB_FIELD_LEN_TOKEN_ACTIVATION = 64;
+
+    const TEST_AUTH_TYPE_SESSION = 'session';
+    const TEST_AUTH_TYPE_API = 'api';
+    const TEST_AUTH_TYPE_GUEST = 'guest';
+    const TEST_AUTH_TYPE_NO_MATTER = 'no_matter';
 }
