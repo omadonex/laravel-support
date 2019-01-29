@@ -201,7 +201,11 @@ trait RoutesTestTrait
                 }
             }
 
-            $url = route($routeName, $parameters);
+            $complexGenerating = property_exists($this, 'complexGenerating') ? $this->complexGenerating : false;
+            $url = route($routeName, $parameters, !$complexGenerating);
+            if ($complexGenerating) {
+                $url = "http://{$this->subdomain}.{$this->domain}{$url}";
+            }
 
             if ($routeData['aclOn']) {
                 $user->roles()->sync($routeData['acl']['roles']);
