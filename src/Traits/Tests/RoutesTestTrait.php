@@ -35,6 +35,29 @@ trait RoutesTestTrait
         }
     }
 
+    public function getExpectedStatusByRouteName($routeName)
+    {
+        if (property_exists($this, 'expectedStatus')) {
+            $apiVersion = $this->getApiVersion();
+            $flattenRouteNames = [];
+            foreach ($this->expectedStatus as $type => $data) {
+                $prefix = ($type === 'web') ? $this->module : "api.{$apiVersion}.{$this->module}";
+                foreach ($data as $partName => $expectedStatus) {
+                    if ($routeName === "{$prefix}.{$partName}") {
+                        return $expectedStatus;
+                    }
+                }
+            }
+        }
+
+        return 200;
+    }
+
+    public function getApiVersion()
+    {
+        return property_exists($this, 'apiVersion') ? $this->apiVersion : 'v1';
+    }
+
     public function getRoutesData()
     {
         $router = app('router');
@@ -42,7 +65,7 @@ trait RoutesTestTrait
 
         $routesWebNamePrefix = $this->module;
         $posWebRouteNamePart = strlen($routesWebNamePrefix) + 1;
-        $apiVersion = property_exists($this, 'apiVersion') ? $this->apiVersion : 'v1';
+        $apiVersion = $this->getApiVersion();
         $routesApiNamePrefix = "api.{$apiVersion}.{$this->module}";
         $posApiRouteNamePart = strlen($routesApiNamePrefix) + 1;
 
@@ -172,8 +195,7 @@ trait RoutesTestTrait
         $user = factory(User::class)->create();
 
         $failed = false;
-
-        echo PHP_EOL;
+        $countFailed = 0;
         foreach ($routesData as $routeData) {
             $routeName = $routeData['name'];
             $method = $routeData['method'];
@@ -253,10 +275,14 @@ trait RoutesTestTrait
                     break;
             }
 
-            if ($response && (($status = $response->status()) !== 200)) {
-                echo "(FAILED {$status}) - '{$routeName}'";
+            $expectedStatus = $this->getExpectedStatusByRouteName($routeName);
+            if ($response && (($status = $response->status()) !== $expectedStatus)) {
+                if (!$failed) {
+                    echo PHP_EOL . "Testing `{$this->module}` routes:" . PHP_EOL;
+                }
+                echo "(FAILED: {$status}, expected: {$expectedStatus}) - '{$routeName}'" . PHP_EOL;
                 $failed = true;
-                echo PHP_EOL;
+                $countFailed += 1;
             }
 
             if (array_key_exists('createData', $config)) {
@@ -265,6 +291,10 @@ trait RoutesTestTrait
                     $service->clear(true);
                 }
             }
+        }
+
+        if ($failed) {
+            echo "Total routes failed: {$countFailed}" . PHP_EOL;
         }
 
         return !$failed;
