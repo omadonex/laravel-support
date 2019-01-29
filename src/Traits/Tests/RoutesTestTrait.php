@@ -166,15 +166,6 @@ trait RoutesTestTrait
 
         return null;
     }
-    
-    public function sendRequest($method, $url, $data = [])
-    {
-        if ($method === 'GET') {
-            return $this->$method($url);
-        }
-
-        return $this->$method($url, $data);
-    }
 
     public function checkRoutes($routesData, $config)
     {
