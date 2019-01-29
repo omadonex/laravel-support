@@ -38,8 +38,8 @@ return [
             'seeder/seederTest' => 'Database/Seeders/TestDatabaseSeeder.php',
             'seeder/seederUnsafe' => 'Database/Seeders/UnsafeDatabaseSeeder.php',
             'layout/layout' => 'Resources/views/layouts/module.blade.php',
-            'test/routes' => 'Test/Feature/Routes/RoutesTest.php',
-            'test/routesConfig' => 'Test/Feature/Routes/config.php',
+            'test/routes' => 'Tests/Feature/Routes/RoutesTest.php',
+            'test/routesConfig' => 'Tests/Feature/Routes/config.php',
             'composer' => 'composer.json',
         ],
         'replacements' => [
