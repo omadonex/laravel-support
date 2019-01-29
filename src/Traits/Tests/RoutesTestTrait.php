@@ -5,6 +5,7 @@ namespace Omadonex\LaravelSupport\Traits\Tests;
 use App\User;
 use Modules\Typography\Interfaces\Models\Repositories\ITypographyRepository;
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;
 
 trait RoutesTestTrait
 {
@@ -143,7 +144,7 @@ trait RoutesTestTrait
         $createData = array_key_exists('data', $createMeta) ? $createMeta['data'] : $config['modelData'][$key];
 
         if ($translatable) {
-            $createDataSplitted = $this->splitData($createData);
+            $createDataSplitted = UtilsApp::splitModelDataWithTranslate($createData);
             $model = $service->createT($createDataSplitted['data'], $createDataSplitted['dataT']);
         } else {
             $model = $service->create($createData);
@@ -165,22 +166,7 @@ trait RoutesTestTrait
 
         return null;
     }
-
-    public function splitData($data) {
-        $dataM = [];
-
-        foreach ($data as $key => $value) {
-            if ((substr($key, 0, 2) !== '__') && ($key !== 't')) {
-                $dataM[$key] = $value;
-            }
-        }
-
-        return [
-            'data' => $dataM,
-            'dataT' => $data['t'],
-        ];
-    }
-
+    
     public function sendRequest($method, $url, $data = [])
     {
         if ($method === 'GET') {

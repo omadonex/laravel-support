@@ -8,6 +8,7 @@ use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterEnabledException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterPaginateException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterRelationsException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterTrashedException;
+use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;
 use Omadonex\LaravelSupport\Interfaces\Model\IModelRepository;
 use Omadonex\LaravelSupport\Interfaces\Model\IModelService;
 
@@ -118,21 +119,6 @@ class ApiModelController extends ApiBaseController
         throw new OmxBadParameterTrashedException;
     }
 
-    private function splitData($data) {
-        $dataM = [];
-
-        foreach ($data as $key => $value) {
-            if ((substr($key, 0, 2) !== '__') && ($key !== 't')) {
-                $dataM[$key] = $value;
-            }
-        }
-
-        return [
-            'data' => $dataM,
-            'dataT' => $data['t'],
-        ];
-    }
-
     private function getRelations($model)
     {
         $prop = 'availableRelations';
@@ -201,7 +187,7 @@ class ApiModelController extends ApiBaseController
 
     protected function modelCreateT($data, $resource = false, $resourceClass = null)
     {
-        $dataSplit = $this->splitData($data);
+        $dataSplit = UtilsApp::splitModelDataWithTranslate($data);
 
         $model = $this->service->createT($dataSplit['data'], $dataSplit['dataT']);
         $model->load($this->getRelations($model));
@@ -219,7 +205,7 @@ class ApiModelController extends ApiBaseController
 
     protected function modelUpdateT($id, $data, $resource = false, $resourceClass = null)
     {
-        $dataSplit = $this->splitData($data);
+        $dataSplit = UtilsApp::splitModelDataWithTranslate($data);
         $model = $this->service->updateT($id, $dataSplit['data'], $dataSplit['dataT'], true);
         $model->load($this->getRelations($model));
 

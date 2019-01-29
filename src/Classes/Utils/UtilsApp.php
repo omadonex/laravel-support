@@ -156,4 +156,20 @@ class UtilsApp
 
         return $data;
     }
+
+    public static function splitModelDataWithTranslate($data)
+    {
+        $dataM = [];
+
+        foreach ($data as $key => $value) {
+            if ((substr($key, 0, 2) !== '__') && ($key !== 't')) {
+                $dataM[$key] = $value;
+            }
+        }
+
+        return [
+            'data' => $dataM,
+            'dataT' => $data['t'],
+        ];
+    }
 }
