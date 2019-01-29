@@ -15,6 +15,26 @@ trait RoutesTestTrait
         $this->assertTrue($this->checkRoutes($routesData, $config));
     }
 
+    public function applyRouteDataModifiers($routeData, $route)
+    {
+        $routeDataModifiers = property_exists($this, 'routeDataModifiers') ? $this->routeDataModifiers : [];
+        $modifiedRouteData = $routeData;
+        foreach ($routeDataModifiers as $routeDataModifier) {
+            $modifiedRouteData = $this->$routeDataModifier($modifiedRouteData, $route);
+        }
+
+        return $modifiedRouteData;
+    }
+
+    public function applyRouteDataModifiersInit($routeData)
+    {
+        $routeDataModifiers = property_exists($this, 'routeDataModifiers') ? $this->routeDataModifiers : [];
+        foreach ($routeDataModifiers as $routeDataModifier) {
+            $initName = "{$routeDataModifier}Init";
+            $modifiedRouteData = $this->$initName($routeData);
+        }
+    }
+
     public function getRoutesData()
     {
         $router = app('router');
@@ -83,6 +103,7 @@ trait RoutesTestTrait
                         ];
                     }
 
+                    $routeData = $this->applyRouteDataModifiers($routeData, $route);
                     $routesData[] = $routeData;
                 }
             }
@@ -201,16 +222,18 @@ trait RoutesTestTrait
                 }
             }
 
-            $complexGenerating = property_exists($this, 'complexGenerating') ? $this->complexGenerating : false;
-            $url = route($routeName, $parameters, !$complexGenerating);
-            if ($complexGenerating) {
-                $url = "http://{$this->subdomain}.{$this->domain}{$url}";
+            $applyHostToRoute = property_exists($this, 'applyHostToRoute') ? $this->applyHostToRoute : false;
+            $url = route($routeName, $parameters, !$applyHostToRoute);
+            if ($applyHostToRoute) {
+                $url = "http://{$this->host}{$url}";
             }
 
             if ($routeData['aclOn']) {
                 $user->roles()->sync($routeData['acl']['roles']);
                 $user->privileges()->sync($routeData['acl']['privileges']);
             }
+
+            $this->applyRouteDataModifiersInit($routeData);
 
             $response = null;
             switch ($routeData['authType']) {
