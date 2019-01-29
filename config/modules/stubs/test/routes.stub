@@ -1,19 +1,11 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Tests\Feature\Routes;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\RoutesTestCase;
 
-class $CLASS$ extends TestCase
+class RoutesTest extends RoutesTestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testRoutes()
-    {
-        $this->assertTrue(true);
-    }
+    protected $module = '$LOWER_NAME$';
+    protected $configPath = 'modules/$STUDLY_NAME$/Tests/Feature/Routes/config.php';
 }

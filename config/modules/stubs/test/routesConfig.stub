@@ -1,0 +1,24 @@
+<?php
+
+$modelData = [
+    //'key' => [],
+];
+
+$createData = [
+    //'key' => [],
+];
+
+return [
+    'modelData' => $modelData,
+    'createData' => $createData,
+
+    'parameters' => [
+        'create' => [],
+        'static' => [],
+    ],
+
+    'requests' => [
+        'web' => [],
+        'api' => [],
+    ],
+];

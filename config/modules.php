@@ -38,7 +38,8 @@ return [
             'seeder/seederTest' => 'Database/Seeders/TestDatabaseSeeder.php',
             'seeder/seederUnsafe' => 'Database/Seeders/UnsafeDatabaseSeeder.php',
             'layout/layout' => 'Resources/views/layouts/module.blade.php',
-            'test/routes' => 'Test/Feature/RoutesTest.php',
+            'test/routes' => 'Test/Feature/Routes/RoutesTest.php',
+            'test/routesConfig' => 'Test/Feature/Routes/config.php',
             'composer' => 'composer.json',
         ],
         'replacements' => [
@@ -56,6 +57,7 @@ return [
             'mailer/mailerService' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'seeder/seederTest' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'seeder/seederUnsafe' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
+            'test/routes' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'composer' => [
                 'LOWER_NAME',
                 'STUDLY_NAME',
