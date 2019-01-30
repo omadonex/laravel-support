@@ -41,7 +41,7 @@ class Remove extends Command
         if ($this->confirm('Are you sure for removing module? WARNING: IT REMOVES ALL FILES IN MODULE FOLDER!!!')) {
             $moduleName = $this->argument('name');
             $studlyName = ucfirst($moduleName);
-            //UtilsCustom::removeDir(base_path("modules/{$studlyName}"));
+            UtilsCustom::removeDir(base_path("modules/{$studlyName}"));
             $this->updatePhpUnitXml($studlyName);
         }
     }
@@ -52,8 +52,19 @@ class Remove extends Command
         $xml = new \SimpleXMLElement(file_get_contents($path));
         foreach ($xml->testsuites->testsuite as $testsuite) {
             $testsType = (string)$testsuite->attributes()['name'];
-            $directory = $testsuite->addChild('directory', "./modules/{$studlyName}/Tests/{$testsType}");
-            $directory->addAttribute('suffix', 'Test.php');
+            $index = 0;
+            $found = false;
+            foreach ($testsuite->children() as $child) {
+                if ((string)$child === "./modules/{$studlyName}/Tests/{$testsType}") {
+                    $found = true;
+                    break;
+                }
+                $index++;
+            }
+
+            if ($found) {
+                unset($testsuite->directory[$index]);
+            }
         }
         $xml->saveXML($path);
     }
