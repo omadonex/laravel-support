@@ -18,7 +18,7 @@ class Make extends Command
      *
      * @var string
      */
-    protected $description = 'Making module';
+    protected $description = 'Make module';
 
     /**
      * Create a new command instance.
@@ -63,5 +63,19 @@ class Make extends Command
 
         mkdir("$path/Resources/assets/vue/Components", 0755, true);
         mkdir("$path/Resources/assets/vue/Page", 0755, true);
+
+        $this->updatePhpUnitXml($studlyName);
+    }
+
+    private function updatePhpUnitXml($studlyName)
+    {
+        $path = base_path('phpunit.xml');
+        $xml = new \SimpleXMLElement(file_get_contents($path));
+        foreach ($xml->testsuites->testsuite as $testsuite) {
+            $testsType = (string)$testsuite->attributes()['name'];
+            $directory = $testsuite->addChild('directory', "./modules/{$studlyName}/Tests/{$testsType}");
+            $directory->addAttribute('suffix', 'Test.php');
+        }
+        $xml->saveXML($path);
     }
 }

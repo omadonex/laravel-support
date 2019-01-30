@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Omadonex\LaravelSupport\Commands\Database\UnsafeSeeding;
 use Omadonex\LaravelSupport\Commands\Module\Make;
 use Omadonex\LaravelSupport\Commands\Module\MakeModel;
+use Omadonex\LaravelSupport\Commands\Module\Remove;
 use Omadonex\LaravelSupport\Commands\Module\RemoveModel;
 
 class SupportServiceProvider extends ServiceProvider
@@ -38,6 +39,7 @@ class SupportServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 Make::class,
+                Remove::class,
                 MakeModel::class,
                 RemoveModel::class,
             ]);
