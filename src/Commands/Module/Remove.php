@@ -51,7 +51,6 @@ class Remove extends Command
         $path = base_path('phpunit.xml');
         $xml = new \SimpleXMLElement(file_get_contents($path));
         foreach ($xml->testsuites->testsuite as $testsuite) {
-        foreach ($xml->testsuites->testsuite as $testsuite) {
             $testsType = (string)$testsuite->attributes()['name'];
             $directory = $testsuite->addChild('directory', "./modules/{$studlyName}/Tests/{$testsType}");
             $directory->addAttribute('suffix', 'Test.php');
