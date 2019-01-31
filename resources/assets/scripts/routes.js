@@ -53,9 +53,8 @@ class RoutesUtils {
           nameBase: routeInfo.name,
           page: this.getCamelName(routeName),
           breadcrumbs: breadcrumbs,
-          auth: routeInfo.auth,
-          acl: routeInfo.acl,
-        }
+        },
+        middleware: routeInfo.middleware,
       });
     });
 
