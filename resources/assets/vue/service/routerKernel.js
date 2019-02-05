@@ -14,9 +14,13 @@ const RouterKernelService = {
       return (new this.Data__routerKernel[key]).handle(this.$root, actions);
     },
 
-    routerKernel__init() {
+    routerKernel__init(usingStore) {
       this.$router.beforeEach((to, from, next) => {
-        this.FromBrowser = false;
+        if (usingStore) {
+          this.xSetFromBrowser(false);
+        } else {
+          this.appFromBrowser = false;
+        }
 
         if (to.meta.middleware && Array.isArray(to.meta.middleware)) {
           let middlewareCount = to.meta.middleware.length;
