@@ -53,8 +53,9 @@ class RoutesUtils {
           nameBase: routeInfo.name,
           page: this.getCamelName(routeName),
           breadcrumbs: breadcrumbs,
+          middleware: routeInfo.middleware,
+          actions: routeInfo.actions,
         },
-        middleware: routeInfo.middleware,
       });
     });
 

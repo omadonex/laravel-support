@@ -5,12 +5,10 @@ class AclMiddleware extends Middleware {
     return 'acl';
   }
 
-  handle($root, next, actions) {
+  handle($root, actions) {
     if ((actions.roles && !$root.acl__checkRoles(actions.roles))
       || (actions.privileges && !$root.acl__check(actions.privileges))) {
-      next({ name: "app.error.404" });
-
-      return false;
+      return { name: "app.error.404" };
     }
 
     return true;
