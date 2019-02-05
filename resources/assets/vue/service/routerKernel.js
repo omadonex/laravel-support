@@ -16,10 +16,12 @@ const RouterKernelService = {
 
     routerKernel__init(usingStore) {
       this.$router.beforeEach((to, from, next) => {
-        if (usingStore) {
-          this.xSetFromBrowser(false);
-        } else {
-          this.appFromBrowser = false;
+        if (this.appFromBrowser) {
+          if (usingStore) {
+            this.xSetFromBrowser(false);
+          } else {
+            this.appFromBrowser = false;
+          }
         }
 
         if (to.meta.middleware && Array.isArray(to.meta.middleware)) {
