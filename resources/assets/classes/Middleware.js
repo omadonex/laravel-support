@@ -1,5 +1,5 @@
 class Middleware {
-  handle($root, next, actions) {
+  handle($root, actions) {
 
   }
 }
