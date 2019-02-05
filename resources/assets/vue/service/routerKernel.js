@@ -10,8 +10,8 @@ const RouterKernelService = {
       this.Data__routerKernel[key] = middleware;
     },
 
-    routerKernel__processMiddleware(key, next, actions) {
-      return (new this.Data__routerKernel[key]).handle(this.$root, next, actions);
+    routerKernel__processMiddleware(key, actions) {
+      return (new this.Data__routerKernel[key]).handle(this.$root, actions);
     },
 
     routerKernel__init() {
