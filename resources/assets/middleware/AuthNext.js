@@ -6,7 +6,7 @@ class AuthNextMiddleware extends Middleware {
   }
 
   handle($root, actions) {
-    if (!$root.LoggedIn) {
+    if (!$root.appLoggedIn) {
       return { name: "login" };
     }
 

@@ -17,7 +17,7 @@ export default {
 
   computed: {
     pageLoader__ready() {
-      return this.$root.FromBrowser || !this.p__pageLoader__loading;
+      return this.$root.appFromBrowser || !this.p__pageLoader__loading;
     },
 
     pageLoader__pageData() {
@@ -39,7 +39,7 @@ export default {
 
   methods: {
     pageLoader__init(args) {
-      if (!this.$root.FromBrowser) {
+      if (!this.$root.appFromBrowser) {
         if (!this.$root.DataMain.hasOwnProperty(this.p__pageLoader__const.GLOBAL_DATA_KEY)) {
           this.$set(this.$root.DataMain, this.p__pageLoader__const.GLOBAL_DATA_KEY, {});
         }
@@ -77,7 +77,7 @@ export default {
     pageLoader__load(callParams) {
       let params = {};
 
-      if (this.$root.LoggedIn) {
+      if (this.$root.appLoggedIn) {
         params.userId = this.$root.DataUser.id;
       }
 

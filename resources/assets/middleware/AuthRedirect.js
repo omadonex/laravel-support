@@ -6,7 +6,7 @@ class AuthRedirectMiddleware extends Middleware {
   }
 
   handle($root, actions) {
-    if (!$root.LoggedIn) {
+    if (!$root.appLoggedIn) {
       return $root.route('login');
     }
 
