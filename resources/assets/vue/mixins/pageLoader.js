@@ -16,16 +16,20 @@ export default {
   },
 
   computed: {
+    p__pageLoader__usingStore() {
+      return this.$root.Data__pageLoader.config.store;
+    },
+
     pageLoader__ready() {
       return this.$root.appFromBrowser || !this.p__pageLoader__loading;
     },
 
     pageLoader__pageData() {
-      return this.$root.DataMain[this.p__pageLoader__page];
+      return this.p__pageLoader__dataGetProp(this.p__pageLoader__page);
     },
 
     pageLoader__globalData() {
-      return this.$root.DataMain[this.p__pageLoader__const.GLOBAL_DATA_KEY];
+      return this.p__pageLoader__dataGetProp(this.p__pageLoader__const.GLOBAL_DATA_KEY);
     },
   },
 
@@ -38,14 +42,43 @@ export default {
   },
 
   methods: {
+    p__pageLoader__dataKeyExists(dotKey) {
+      let obj = this.p__pageLoader__usingStore ? this.$store.page.data : this.$root.DataMain;
+
+      return this.$root.propExists(obj, dotKey);
+    },
+
+    p__pageLoader__dataGetProp(dotKey) {
+      let obj = this.p__pageLoader__usingStore ? this.$store.page.data : this.$root.DataMain;
+
+      return this.$root.getProp(obj, dotKey);
+    },
+
+    p__pageLoader__dataDeleteProp(dotKey) {
+      if (this.p__pageLoader__usingStore) {
+        console.log('store delete: ' + dotKey);
+      } else {
+        delete this.$root.getProp(this.$root.DataMain, dotKey);
+      }
+    },
+
+    p__pageLoader__dataSet(prop, value, dotKey) {
+      if (this.p__pageLoader__usingStore) {
+        console.log('store init: ' + dotKey);
+      } else {
+        let obj = dotKey ? this.$root.getProp(this.$root.DataMain, dotKey) : this.$root.DataMain;
+        this.$set(obj, prop, value);
+      }
+    },
+
     pageLoader__init(args) {
       if (!this.$root.appFromBrowser) {
-        if (!this.$root.DataMain.hasOwnProperty(this.p__pageLoader__const.GLOBAL_DATA_KEY)) {
-          this.$set(this.$root.DataMain, this.p__pageLoader__const.GLOBAL_DATA_KEY, {});
+        if (!this.p__pageLoader__dataKeyExists(this.p__pageLoader__const.GLOBAL_DATA_KEY)) {
+          this.p__pageLoader__dataSet(this.p__pageLoader__const.GLOBAL_DATA_KEY, {});
         }
 
-        if (!this.$root.DataMain.hasOwnProperty(this.p__pageLoader__page)) {
-          this.$set(this.$root.DataMain, this.p__pageLoader__page, {});
+        if (!this.p__pageLoader__dataKeyExists(this.p__pageLoader__page)) {
+          this.p__pageLoader__dataSet(this.p__pageLoader__page, {});
         }
 
         let props = this.p__pageLoader__getPropsForLoading(false, args);
@@ -108,8 +141,8 @@ export default {
 
       let factData = this.p__pageLoader__getFactData(callParams.propName);
 
-      if (factData.item.force && this.$root.DataMain[factData.keyData].hasOwnProperty(callParams.propName)) {
-        delete this.$root.DataMain[factData.keyData][callParams.propName];
+      if (factData.item.force && this.p__pageLoader__dataKeyExists(`${factData.keyData}.${callParams.propName}`)) {
+        this.p__pageLoader__dataDeleteProp(`${factData.keyData}.${callParams.propName}`);
       }
 
       return this.$root.smartAjax__call({
@@ -122,23 +155,23 @@ export default {
         .then((result) => {
           if (result) {
             if (callParams.list && params[this.p__pageLoader__const.PARAM_PAGINATE]) {
-              if (!this.$root.DataMain[factData.keyData].hasOwnProperty(callParams.propName)) {
-                this.$set(this.$root.DataMain[factData.keyData], callParams.propName, {});
+              if (!this.p__pageLoader__dataKeyExists(`${factData.keyData}.${callParams.propName}`)) {
+                this.p__pageLoader__dataSet(callParams.propName, {}, factData.keyData);
               }
 
-              let propObj = this.$root.DataMain[factData.keyData][callParams.propName];
+              let dotKey = `${factData.keyData}.${callParams.propName}`;
 
               if ((callParams.queryToSubGroup === true) && callParams.query && callParams.query.hasOwnProperty(callParams.queryPropName)) {
-                if (!this.$root.DataMain[factData.keyData][callParams.propName].hasOwnProperty(callParams.query[callParams.queryPropName])) {
-                  this.$set(this.$root.DataMain[factData.keyData][callParams.propName], callParams.query[callParams.queryPropName], {});
+                if (!this.p__pageLoader__dataKeyExists(`${factData.keyData}.${callParams.propName}.${callParams.query[callParams.queryPropName]}`)) {
+                  this.p__pageLoader__dataSet(callParams.query[callParams.queryPropName], {}, `${factData.keyData}.${callParams.propName}`);
                 }
-                propObj = this.$root.DataMain[factData.keyData][callParams.propName][callParams.query[callParams.queryPropName]];
+                dotKey = `${factData.keyData}.${callParams.propName}.${callParams.query[callParams.queryPropName]}`;
               }
 
-              this.$set(propObj, params.page, result.data);
-              this.$set(propObj, 'meta', result.meta);
+              this.p__pageLoader__dataSet(params.page, result.data, dotKey);
+              this.p__pageLoader__dataSet('meta', result.meta, dotKey);
             } else {
-              this.$set(this.$root.DataMain[factData.keyData], callParams.propName, result.data);
+              this.p__pageLoader__dataSet(callParams.propName, result.data, factData.keyData);
             }
           }
 
@@ -175,7 +208,7 @@ export default {
         let factData = this.p__pageLoader__getFactData(propName);
         if (factData.item.deferred === deferred) {
           let propArgs = (args && args.hasOwnProperty(propName)) ? args[propName] : undefined;
-          if (!this.$root.DataMain[factData.keyData].hasOwnProperty(propName)) {
+          if (!this.p__pageLoader__dataKeyExists(`${factData.keyData}.${propName}`)) {
             let setLoading = !deferred;
             props.push({propName: propName, propArgs: propArgs, setLoading: setLoading, global: factData.global, globalParamsFuncName: factData.globalParamsFuncName});
           } else if (!factData.item.once) {

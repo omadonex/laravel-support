@@ -52,6 +52,19 @@ const CommonService = {
       return obj[prop];
     },
 
+    propExists(obj, prop) {
+      if (typeof obj === 'undefined') {
+        return undefined;
+      }
+
+      const lastIndex = prop.lastIndexOf('.');
+      if (lastIndex > -1) {
+        return this.getProp(obj, prop.substring(0, lastIndex)).hasOwnProperty(prop.substr(lastIndex + 1));
+      }
+
+      return obj.hasOwnProperty(prop);
+    },
+
     getCamelName(dotName) {
       const dotParts = dotName.split('.');
       const countParts = dotParts.length;
