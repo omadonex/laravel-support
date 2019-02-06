@@ -64,6 +64,11 @@ export default {
 
     p__pageLoader__dataSet(prop, value, dotKey) {
       if (this.p__pageLoader__usingStore) {
+        this.$store.commit('page/updateData', {
+          prop: prop,
+          data: value,
+          dotKey: dotKey,
+        });
         console.log('store init: ' + dotKey);
       } else {
         let obj = dotKey ? this.$root.getProp(this.$root.DataMain, dotKey) : this.$root.DataMain;
