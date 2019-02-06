@@ -43,13 +43,13 @@ export default {
 
   methods: {
     p__pageLoader__dataKeyExists(dotKey) {
-      let obj = this.p__pageLoader__usingStore ? this.$store.page.data : this.$root.DataMain;
+      let obj = this.p__pageLoader__usingStore ? this.$store.state.page.data : this.$root.DataMain;
 
       return this.$root.propExists(obj, dotKey);
     },
 
     p__pageLoader__dataGetProp(dotKey) {
-      let obj = this.p__pageLoader__usingStore ? this.$store.page.data : this.$root.DataMain;
+      let obj = this.p__pageLoader__usingStore ? this.$store.state.page.data : this.$root.DataMain;
 
       return this.$root.getProp(obj, dotKey);
     },
