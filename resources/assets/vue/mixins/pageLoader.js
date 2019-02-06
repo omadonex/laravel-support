@@ -69,7 +69,6 @@ export default {
           data: value,
           dotKey: dotKey,
         });
-        console.log('store init: ' + dotKey);
       } else {
         let obj = dotKey ? this.$root.getProp(this.$root.DataMain, dotKey) : this.$root.DataMain;
         this.$set(obj, prop, value);
