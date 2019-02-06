@@ -1,4 +1,4 @@
-import getProp from '../../../scripts/helpers';
+import { getProp } from '../../../scripts/helpers';
 
 const state = {
   data: {},
