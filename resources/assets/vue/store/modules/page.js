@@ -17,6 +17,11 @@ const mutations = {
     }
   },
 
+  pl__deleteData(state, payload) {
+    let obj = getProp(state.data, payload.dotKey);
+    delete obj[payload.prop];
+  },
+
   pl__addItemToList(state, payload) {
     //TODO omadonex: если список пагинированный, то можно подумать насчет вставки записи в нужное место
     //TODO но в этом случае придется уведомлялки пользователю отправлять о добавлении записи, иначе он может ее не найти

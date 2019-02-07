@@ -54,11 +54,15 @@ export default {
       return this.$root.getProp(obj, dotKey);
     },
 
-    p__pageLoader__dataDeleteProp(dotKey) {
+    p__pageLoader__dataDeleteProp(prop, dotKey) {
       if (this.p__pageLoader__usingStore) {
-        console.log('store delete: ' + dotKey);
+        this.$store.commit('page/pl__deleteData', {
+          prop: prop,
+          dotKey: dotKey,
+        });
       } else {
-        delete this.$root.getProp(this.$root.DataMain, dotKey);
+        let obj = this.$root.getProp(this.$root.DataMain, dotKey);
+        delete obj[prop];
       }
     },
 
@@ -152,7 +156,7 @@ export default {
       let factData = this.p__pageLoader__getFactData(callParams.propName);
 
       if (factData.item.force && this.p__pageLoader__dataKeyExists(`${factData.keyData}.${callParams.propName}`)) {
-        this.p__pageLoader__dataDeleteProp(`${factData.keyData}.${callParams.propName}`);
+        this.p__pageLoader__dataDeleteProp(callParams.propName, factData.keyData);
       }
 
       return this.$root.smartAjax__call({
