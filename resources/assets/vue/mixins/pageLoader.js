@@ -75,6 +75,12 @@ export default {
       }
     },
 
+    pageLoader__getStoreKey(prop, global) {
+      let key = global ? this.p__pageLoader__const.GLOBAL_DATA_KEY : this.p__pageLoader__page;
+
+      return `${key}.${prop}`;
+    },
+
     pageLoader__init(args) {
       if (!this.$root.appFromBrowser) {
         if (!this.p__pageLoader__dataKeyExists(this.p__pageLoader__const.GLOBAL_DATA_KEY)) {

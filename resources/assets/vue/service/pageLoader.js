@@ -13,6 +13,15 @@ const PageLoaderService = {
     pageLoader__useStore() {
       this.Data__pageLoader.config.store = true;
     },
+
+    pageLoader__initStoreData(data) {
+      for (let prop in data) {
+        this.$store.commit('page/updateData', {
+          prop: prop,
+          data: data[prop],
+        });
+      }
+    },
   },
 };
 
