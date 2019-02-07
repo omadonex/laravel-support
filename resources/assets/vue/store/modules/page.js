@@ -6,7 +6,7 @@ const state = {
 };
 
 const mutations = {
-  pl__UpdateData(state, payload) {
+  pl__updateData(state, payload) {
     let prop = payload.prop;
     let dotKey = payload.dotKey;
     if (dotKey) {
@@ -17,7 +17,7 @@ const mutations = {
     }
   },
 
-  pl__AddItemToList(state, payload) {
+  pl__addItemToList(state, payload) {
     //TODO omadonex: если список пагинированный, то можно подумать насчет вставки записи в нужное место
     //TODO но в этом случае придется уведомлялки пользователю отправлять о добавлении записи, иначе он может ее не найти
     let obj = getProp(state.data, payload.propKey);
