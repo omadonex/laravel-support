@@ -53,7 +53,7 @@
 
       saveModel(model) {
         if (this.storePropKey) {
-          this.$store.commit('page/addItemToList', {
+          this.$store.commit('page/pl__addItemToList', {
             propKey: this.storePropKey,
             creating: this.isCreatingModel,
             item: model,

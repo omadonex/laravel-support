@@ -16,7 +16,7 @@ const PageLoaderService = {
 
     pageLoader__initStoreData(data) {
       for (let prop in data) {
-        this.$store.commit('page/updateData', {
+        this.$store.commit('page/pl__updateData', {
           prop: prop,
           data: data[prop],
         });

@@ -64,7 +64,7 @@ export default {
 
     p__pageLoader__dataSet(prop, value, dotKey) {
       if (this.p__pageLoader__usingStore) {
-        this.$store.commit('page/updateData', {
+        this.$store.commit('page/pl__updateData', {
           prop: prop,
           data: value,
           dotKey: dotKey,
