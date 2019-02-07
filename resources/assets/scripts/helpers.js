@@ -69,7 +69,7 @@ function propExists(obj, prop) {
 
   const lastIndex = prop.lastIndexOf('.');
   if (lastIndex > -1) {
-    return this.getProp(obj, prop.substring(0, lastIndex)).hasOwnProperty(prop.substr(lastIndex + 1));
+    return getProp(obj, prop.substring(0, lastIndex)).hasOwnProperty(prop.substr(lastIndex + 1));
   }
 
   return obj.hasOwnProperty(prop);
