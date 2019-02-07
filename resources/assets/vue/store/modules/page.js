@@ -16,6 +16,15 @@ const mutations = {
       state.data = { ...state.data, [prop]: payload.data };
     }
   },
+
+  addItemToList(state, payload) {
+    let obj = getProp(state.data, payload.propKey);
+    let list = Array.isArray(obj) ? obj : obj[obj.meta.current_page];
+    const index = payload.creating ? list.length : list.findIndex(item => item.id === payload.item.id);
+    if (index > -1) {
+      list.splice(index, 1, payload.item);
+    }
+  },
 };
 
 export default {

@@ -75,7 +75,7 @@ export default {
       }
     },
 
-    pageLoader__getStoreKey(prop, global) {
+    pageLoader__getStorePropKey(prop, global) {
       let key = global ? this.p__pageLoader__const.GLOBAL_DATA_KEY : this.p__pageLoader__page;
 
       return `${key}.${prop}`;

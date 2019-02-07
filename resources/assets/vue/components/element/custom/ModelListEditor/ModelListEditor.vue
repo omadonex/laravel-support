@@ -23,6 +23,7 @@
 
     props: {
       modelList: { type: [Array, Object], required: true },
+      storePropKey: { type: String, default: null },
       title: { type: String, default: '' },
     },
 
@@ -51,11 +52,18 @@
       },
 
       saveModel(model) {
-        let list = Array.isArray(this.modelList) ? this.modelList : this.modelList[this.modelList.meta.current_page];
-        const index = this.isCreatingModel ? list.length : list.findIndex(item => item.id === model.id);
-
-        if (index > -1) {
-          list.splice(index, 1, model);
+        if (this.storePropKey) {
+          this.$store.commit('page/addItemToList', {
+            propKey: this.storePropKey,
+            creating: this.isCreatingModel,
+            item: model,
+          });
+        } else {
+          let list = Array.isArray(this.modelList) ? this.modelList : this.modelList[this.modelList.meta.current_page];
+          const index = this.isCreatingModel ? list.length : list.findIndex(item => item.id === model.id);
+          if (index > -1) {
+            list.splice(index, 1, model);
+          }
         }
 
         if (this.isCreatingModel) {
