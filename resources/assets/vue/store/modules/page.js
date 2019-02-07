@@ -41,7 +41,22 @@ const mutations = {
   modifyList__removeItem(state, payload) {
     let list = getProp(state.data, payload.propKey);
     list.splice(payload.index, 1);
-  }
+  },
+
+  modifyList__updateItem(state, payload) {
+    let list = getProp(state.data, payload.propKey);
+    list[payload.index] = payload.item;
+  },
+
+  modifyObj__setProp(state, payload) {
+    let obj = getProp(state.data, payload.propKey);
+    obj[payload.prop] = payload.value;
+  },
+
+  modifyObj__deleteProp(state, payload) {
+    let obj = getProp(state.data, payload.propKey);
+    delete obj[payload.prop];
+  },
 };
 
 export default {

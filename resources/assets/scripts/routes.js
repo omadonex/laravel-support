@@ -1,4 +1,5 @@
 import cloneDeep from 'clone-deep';
+import { getCamelName } from "./helpers";
 
 /**
  * https://github.com/tightenco/ziggy
@@ -11,22 +12,6 @@ window.route = null;
 delete window.route;
 
 class RoutesUtils {
-  fUpCase(str) {
-    return `${str.charAt(0).toUpperCase()}${str.slice(1)}`;
-  }
-
-  getCamelName(dotName) {
-    const dotParts = dotName.split(".");
-    const countParts = dotParts.length;
-    let name = dotParts[0];
-
-    for (let i = 1; i < countParts; i += 1) {
-      name += this.fUpCase(dotParts[i]);
-    }
-
-    return name;
-  }
-
   generate(routesInfo, module) {
     let data = [];
     routesInfo.forEach((routeInfo) => {
@@ -51,7 +36,7 @@ class RoutesUtils {
         meta: {
           module: module,
           nameBase: routeInfo.name,
-          page: this.getCamelName(routeName),
+          page: getCamelName(routeName),
           breadcrumbs: breadcrumbs,
           middleware: routeInfo.middleware,
           actions: routeInfo.actions,
