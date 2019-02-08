@@ -3,5 +3,9 @@ export default {
     getThis() {
       return this;
     },
+
+    getEventBus() {
+      return window.EventBus;
+    }
   },
 };
