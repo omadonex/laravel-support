@@ -17,7 +17,8 @@ class RoutesUtils {
 
     routesInfo.forEach((routeInfo) => {
       let routeName = module ? `${module}.${routeInfo.name}` : routeInfo.name;
-      let path = Routes(routeName, {}, false).url();
+      let params = (routeInfo.params !== undefined) ? routeInfo.params : {};
+      let path = Routes(routeName, params, false).url();
 
       let breadcrumbs = [];
       routeInfo.breadcrumbs.forEach((breadcrumbRouteName) => {
