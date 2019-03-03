@@ -12,6 +12,7 @@ return [
     ],
     'add' => 'Add',
     'cancel' => 'Cancel',
+    'close' => 'Close',
     'confirm' => 'Confirm',
     'delete' => 'Delete',
     'disable' => 'Disable',
