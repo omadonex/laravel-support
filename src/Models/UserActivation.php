@@ -7,8 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserActivation extends Model
 {
-    protected $fillable = ['token'];
+    protected $fillable = ['token', 'sent_at'];
     protected $primaryKey = 'user_id';
+    protected $dates = ['sent_at'];
+    public $timestamps = false;
     public $incrementing = false;
 
     public function user()

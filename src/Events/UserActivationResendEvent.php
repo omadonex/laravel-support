@@ -14,16 +14,17 @@ class UserActivationResendEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $user;
+    public $user, $userActivation;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $userActivation)
     {
         $this->user = $user;
+        $this->userActivation = $userActivation;
     }
 
     /**
