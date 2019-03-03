@@ -68,7 +68,7 @@ const AclService = {
      * @returns {*}
      */
     acl__check(privileges) {
-      if (!this.$root.appLoggedIn) {
+      if (!this.$root.auth__loggedIn) {
         return false;
       }
 
@@ -97,7 +97,7 @@ const AclService = {
      * @returns {*}
      */
     acl__checkRoles(rolesCombined, rootStrict) {
-      if (!this.$root.appLoggedIn) {
+      if (!this.$root.auth__loggedIn) {
         return false;
       }
 

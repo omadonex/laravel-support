@@ -124,7 +124,7 @@ export default {
     pageLoader__load(callParams) {
       let params = {};
 
-      if (this.$root.appLoggedIn) {
+      if (this.$root.auth__loggedIn) {
         params.userId = this.$root.DataUser.id;
       }
 
