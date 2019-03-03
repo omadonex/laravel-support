@@ -18,6 +18,6 @@ class UserActivation extends Model
 
     public function getActivationUrl()
     {
-        return route('user.activation', $this->token);
+        return route('app.user.activation', $this->token);
     }
 }
