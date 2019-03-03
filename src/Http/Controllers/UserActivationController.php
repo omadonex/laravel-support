@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsResponseJson;
+use Omadonex\LaravelSupport\Events\UserActivationResendEvent;
 use Omadonex\LaravelSupport\Http\Requests\UserActivateRequest;
 use Omadonex\LaravelSupport\Models\UserActivation;
 
@@ -57,6 +58,21 @@ class UserActivationController extends Controller
             'activationToken' => [
                 trans('support::auth.activationToken'),
             ],
+        ]);
+    }
+
+    public function resendActivation()
+    {
+        if (!auth()->check() || auth()->user()->isActivated() || !auth()->user()->userActivation) {
+            return UtilsResponseJson::errorResponse([
+                'message' => 'error',
+            ]);
+        }
+
+        event(new UserActivationResendEvent(auth()->user()));
+
+        return UtilsResponseJson::okResponse([
+            'message' => 'ok',
         ]);
     }
 }
