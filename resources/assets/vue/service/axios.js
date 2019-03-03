@@ -1,4 +1,4 @@
-const User = {
+const AxiosService = {
   mounted() {
     if (this.$root.DataUser.apiToken) {
       this.$root.Data__smartAjax.axios.defaults.headers.common.Authorization = `Bearer ${this.$root.DataUser.apiToken}`;
@@ -11,6 +11,6 @@ const User = {
 
 export default {
   install(Vue, options) {
-    Vue.mixin(User);
+    Vue.mixin(AxiosService);
   },
 };
