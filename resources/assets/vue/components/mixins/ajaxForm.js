@@ -1,3 +1,5 @@
+import Model from '../../../classes/Model';
+
 export default {
   data() {
     return {

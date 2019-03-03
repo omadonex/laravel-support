@@ -43,8 +43,6 @@
 </template>
 
 <script>
-  import Model from '../../../../../classes/Model';
-
   import ConfirmButton from '../../custom/Confirm/ConfirmButton.vue';
   import AjaxFormMixin from '../../../mixins/ajaxForm';
   import TranslateMixin from '../../../../mixins/translate';
