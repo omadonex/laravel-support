@@ -10,7 +10,7 @@
       :top="$root.Data__notify.snackbar.top"
       :bottom="$root.Data__notify.snackbar.bottom"
       auto-height>
-    {{ $root.snackbar.text }}
+    {{ $root.Data__notify.snackbar.text }}
     <v-btn dark flat @click.native="$root.Data__notify.snackbar.value = false">{{ t('close') }}</v-btn>
   </v-snackbar>
 </template>

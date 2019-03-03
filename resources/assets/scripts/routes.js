@@ -14,9 +14,10 @@ delete window.route;
 class RoutesUtils {
   generate(routesInfo, module) {
     let data = [];
+
     routesInfo.forEach((routeInfo) => {
       let routeName = module ? `${module}.${routeInfo.name}` : routeInfo.name;
-      let path = Routes(routeName, null, false).url();
+      let path = Routes(routeName, {}, false).url();
 
       let breadcrumbs = [];
       routeInfo.breadcrumbs.forEach((breadcrumbRouteName) => {
