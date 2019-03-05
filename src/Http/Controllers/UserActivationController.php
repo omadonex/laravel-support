@@ -88,7 +88,7 @@ class UserActivationController extends Controller
             $seconds = $now->diffInSeconds($userActivation->sent_at);
 
             return UtilsResponseJson::errorResponse([
-                ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendTime', $seconds),
+                ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendTime', ['seconds' => $seconds]),
             ]);
         }
 
