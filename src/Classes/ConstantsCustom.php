@@ -5,9 +5,12 @@ namespace Omadonex\LaravelSupport\Classes;
 class ConstantsCustom
 {
     const REDIRECT_URL = 'redirectUrl';
+    const ERROR_MESSAGE = 'errorMessage';
     const MAIN_DATA_GLOBAL = 'mainDataGlobal';
     const MAIN_DATA_GLOBAL_KEY = 'global';
     const MAIN_DATA_PAGE = 'mainDataPage';
+
+    const ACTIVATION_EMAIL_REPEAT_MINUTES = 5;
 
     const REQUEST_PARAM_ENABLED = '__enabled';
     const REQUEST_PARAM_PAGINATE = '__paginate';

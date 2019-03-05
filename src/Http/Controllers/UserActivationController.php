@@ -29,6 +29,7 @@ class UserActivationController extends Controller
             if (!auth()->check()) {
                 Auth::login($user);
             }
+
             UtilsApp::addLiveNotify(trans('support::auth.activated'));
 
             return redirect('/');
@@ -61,7 +62,7 @@ class UserActivationController extends Controller
             UtilsApp::addLiveNotify(trans('support::auth.activated'));
 
             return UtilsResponseJson::okResponse([
-                'redirectUrl' => route('content.lesson.index'),
+                ConstantsCustom::REDIRECT_URL => route('content.lesson.index'),
             ], true);
         }
 
@@ -78,13 +79,14 @@ class UserActivationController extends Controller
         $userActivation = auth()->check() ? $user->userActivation : null;
         if (!auth()->check() || $user->isActivated() || !$userActivation) {
             return UtilsResponseJson::errorResponse([
-                'errorMessage' => 'error',
+                ConstantsCustom::ERROR_MESSAGE => 'error',
             ]);
         }
 
-        if (Carbon::now()->diffInMinutes($userActivation->sent_at) < 5) {
+        $now = Carbon::now();
+        if ($now->diffInMinutes($userActivation->sent_at) < ConstantsCustom::ACTIVATION_EMAIL_REPEAT_MINUTES) {
             return UtilsResponseJson::errorResponse([
-                'errorMessage' => 'time',
+                ConstantsCustom::ERROR_MESSAGE => 'time',
             ]);
         }
 
