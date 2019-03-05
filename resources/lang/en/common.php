@@ -25,6 +25,7 @@ return [
     'error' => 'Error',
     'info' => 'Info',
     'pickDate' => 'Pick a date',
+    'send' => 'Send',
     'subdomain' => 'Sub domain',
     'submit' => 'Submit',
     'success' => 'Success',

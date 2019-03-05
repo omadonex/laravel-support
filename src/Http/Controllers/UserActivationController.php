@@ -79,23 +79,25 @@ class UserActivationController extends Controller
         $userActivation = auth()->check() ? $user->userActivation : null;
         if (!auth()->check() || $user->isActivated() || !$userActivation) {
             return UtilsResponseJson::errorResponse([
-                ConstantsCustom::ERROR_MESSAGE => 'error',
+                ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendError'),
             ]);
         }
 
         $now = Carbon::now();
         if ($now->diffInMinutes($userActivation->sent_at) < ConstantsCustom::ACTIVATION_EMAIL_REPEAT_MINUTES) {
+            $seconds = $now->diffInSeconds($userActivation->sent_at);
+
             return UtilsResponseJson::errorResponse([
-                ConstantsCustom::ERROR_MESSAGE => 'time',
+                ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendTime', $seconds),
             ]);
         }
 
-        $userActivation->update(['sent_at' => Carbon::now()]);
+        $userActivation->update(['sent_at' => $now]);
 
         event(new UserActivationResendEvent($user, $userActivation));
 
         return UtilsResponseJson::okResponse([
-            'message' => 'ok',
+            'message' => trans('support::auth.activationResendSuccess'),
         ]);
     }
 }
