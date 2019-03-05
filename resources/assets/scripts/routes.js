@@ -18,7 +18,14 @@ class RoutesUtils {
     routesInfo.forEach((routeInfo) => {
       let routeName = module ? `${module}.${routeInfo.name}` : routeInfo.name;
       let params = (routeInfo.params !== undefined) ? routeInfo.params : {};
+      let dynamic = (routeInfo.dynamic !== undefined) ? routeInfo.dynamic : [];
+      dynamic.forEach((item) => {
+        params[item] = `dynamic_${item}`;
+      });
       let path = Routes(routeName, params, false).url();
+      dynamic.forEach((item) => {
+        path = path.replace(`dynamic_${item}`, `:${item}`);
+      });
 
       let breadcrumbs = [];
       routeInfo.breadcrumbs.forEach((breadcrumbRouteName) => {

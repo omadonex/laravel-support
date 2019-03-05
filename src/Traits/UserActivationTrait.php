@@ -16,12 +16,19 @@ trait UserActivationTrait
         return $this->activated;
     }
 
-    public function activate($data)
+    public function activate($activation, $data = [])
     {
-        $this->update([
-            'activated' => true,
-            'username' => $data['username'],
-            'password' => bcrypt($data['password']),
-        ]);
+        if (!$this->isActivated()) {
+            $this->update(array_merge([
+                'activated' => true,
+            ], $data));
+        }
+
+        $activation->delete();
+    }
+
+    public function isRandom()
+    {
+        return $this->random;
     }
 }

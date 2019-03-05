@@ -22,6 +22,18 @@ class UserActivationController extends Controller
             abort(404);
         }
 
+        $user = $userActivation->user;
+        if (!$user->isRandom()) {
+            $user->activate($userActivation);
+
+            if (!auth()->check()) {
+                Auth::login($user);
+            }
+            UtilsApp::addLiveNotify(trans('support::auth.activated'));
+
+            return redirect('/');
+        }
+
         $data = [
             ConstantsCustom::MAIN_DATA_PAGE => [
                 'token' => $token,
@@ -37,12 +49,10 @@ class UserActivationController extends Controller
         $userActivation = UserActivation::where('token', $request->token)->first();
         if ($userActivation) {
             $user = $userActivation->user;
+            $activationData = $request->all();
+            $activationData['password'] = bcrypt($activationData['password']);
 
-            if (!$user->isActivated()) {
-                $user->activate($request->all());
-            }
-
-            $userActivation->delete();
+            $user->activate($userActivation, $activationData);
 
             if (!auth()->check()) {
                 Auth::login($user);
