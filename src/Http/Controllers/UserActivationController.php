@@ -85,7 +85,7 @@ class UserActivationController extends Controller
 
         $now = Carbon::now();
         if ($now->diffInMinutes($userActivation->sent_at) < ConstantsCustom::ACTIVATION_EMAIL_REPEAT_MINUTES) {
-            $seconds = $now->diffInSeconds($userActivation->sent_at);
+            $seconds = ConstantsCustom::ACTIVATION_EMAIL_REPEAT_MINUTES * 60 - $now->diffInSeconds($userActivation->sent_at);
 
             return UtilsResponseJson::errorResponse([
                 ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendTime', ['seconds' => $seconds]),
