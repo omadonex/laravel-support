@@ -18,7 +18,7 @@ trait LoggingTrait
         $this->logging = false;
     }
 
-    private function log($message, $level = 'info')
+    protected function log($message, $level = 'info')
     {
         $className = (new \ReflectionClass($this))->getShortName();
         if ($this->logging) {
