@@ -220,4 +220,11 @@ class UtilsCustom
 
         return $out;
     }
+
+    public static function swapValues(&$x, &$y)
+    {
+        $tmp = $x;
+        $x = $y;
+        $y = $tmp;
+    }
 }
