@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Log;
 
 trait LoggingTrait
 {
-    private $logging = false;
+    protected $logging = false;
 
     public function enableLogging()
     {
