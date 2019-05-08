@@ -28,14 +28,19 @@ class ImagickUtilities
         return null;
     }
 
-    public static function makePreview($contents, $resolution = 72)
+    public static function makePreview($contents, $resolution = null)
     {
         $img = self::loadInstance($contents);
         $img->setImageFormat('jpg');
 
-        //$img->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
+        if ($resolution) {
+            $img->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
+        }
 
-        return $img->getImageBlob();
+        $resultContents = $img->getImageBlob();
+        $img->destroy();
+
+        return $resultContents;
     }
 
     public static function scale($contents, $w, $h)
@@ -60,8 +65,10 @@ class ImagickUtilities
 
         $img->setImageResolution($scaledDpi, $scaledDpi);
         $img->scaleImage($scaledWPix, $scaledHPix);
+        $resultContents = $img->getImageBlob();
+        $img->destroy();
 
-        return $img->getImageBlob();
+        return $resultContents;
     }
 
     public static function determineParams($contents)
@@ -74,9 +81,14 @@ class ImagickUtilities
             return null;
         }
 
+        $wPix = $img->getImageWidth();
+        $hPix = $img->getImageHeight();
+
+        $img->destroy();
+
         return [
-            'wPix' => $img->getImageWidth(),
-            'hPix' => $img->getImageHeight(),
+            'wPix' => $wPix,
+            'hPix' => $hPix,
             'dpi' => $xDpi,
         ];
     }
@@ -85,8 +97,10 @@ class ImagickUtilities
     {
         $img = self::loadInstance($contents);
         $img->cropImage($wPix, $hPix, $xPix, $yPix);
+        $resultContents = $img->getImageBlob();
+        $img->destroy();
 
-        return $img->getImageBlob();
+        return $resultContents;
     }
 
     private static function getTempFolder()
@@ -148,6 +162,15 @@ class ImagickUtilities
         Storage::disk('local')->deleteDirectory($folder);
 
         return $resultContents;
+    }
+
+    public static function getColorspace($contents)
+    {
+        $img = self::loadInstance($contents);
+        $colorspace = $img->getImageColorspace();
+        $img->destroy();
+
+        return $colorspace;
     }
 
     public static function getColorspaceName($colorspace)
