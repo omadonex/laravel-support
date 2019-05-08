@@ -6,6 +6,9 @@ use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class GhostScriptUtilities
 {
+    /**
+     * @return string
+     */
     private static function getTempFolder()
     {
         $str = UtilsCustom::random_str(20);
@@ -13,7 +16,12 @@ class GhostScriptUtilities
         return "temp/{$str}";
     }
 
-
+    /**
+     * @param $contents
+     * @param null $resolution
+     * @return mixed
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
     public static function makePreview($contents, $resolution = null)
     {
         $folder = self::getTempFolder();
@@ -28,6 +36,12 @@ class GhostScriptUtilities
         return $resultContents;
     }
 
+    /**
+     * @param $path
+     * @param null $resolution
+     * @return mixed
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
     public static function makePreviewFromFile($path, $resolution = null)
     {
         $folder = self::getTempFolder();

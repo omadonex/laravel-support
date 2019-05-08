@@ -7,6 +7,11 @@ use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class ImagickUtilities
 {
+    /**
+     * @param $contents
+     * @return \Imagick
+     * @throws \ImagickException
+     */
     private static function loadInstance($contents)
     {
         $img = new \Imagick;
@@ -15,6 +20,10 @@ class ImagickUtilities
         return $img;
     }
 
+    /**
+     * @param $contents
+     * @return string|null
+     */
     private static function getImageFormat($contents)
     {
         $finfo = new \finfo(FILEINFO_MIME_TYPE);
@@ -28,6 +37,13 @@ class ImagickUtilities
         return null;
     }
 
+    /**
+     * @param $contents
+     * @param $w
+     * @param $h
+     * @return string
+     * @throws \ImagickException
+     */
     public static function scale($contents, $w, $h)
     {
         $img = self::loadInstance($contents);
@@ -39,7 +55,6 @@ class ImagickUtilities
             throw new \Exception();
         }
         $dpi = $resolution['x'];
-
 
         $scaleCalculator = new ScaleCalculator($width, $height, $dpi);
         $scaleData = $scaleCalculator->getScaleData($w, $h);
@@ -56,6 +71,11 @@ class ImagickUtilities
         return $resultContents;
     }
 
+    /**
+     * @param $contents
+     * @return array|null
+     * @throws \ImagickException
+     */
     public static function determineParams($contents)
     {
         $img = self::loadInstance($contents);
@@ -78,6 +98,15 @@ class ImagickUtilities
         ];
     }
 
+    /**
+     * @param $contents
+     * @param $wPix
+     * @param $hPix
+     * @param $xPix
+     * @param $yPix
+     * @return string
+     * @throws \ImagickException
+     */
     public static function crop($contents, $wPix, $hPix, $xPix, $yPix)
     {
         $img = self::loadInstance($contents);
@@ -88,6 +117,9 @@ class ImagickUtilities
         return $resultContents;
     }
 
+    /**
+     * @return string
+     */
     private static function getTempFolder()
     {
         $str = UtilsCustom::random_str(20);
@@ -95,6 +127,12 @@ class ImagickUtilities
         return "temp/{$str}";
     }
 
+    /**
+     * @param $contents
+     * @param $colorspace
+     * @return mixed
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
     public static function convertToColorspace($contents, $colorspace)
     {
         $folder = self::getTempFolder();
@@ -111,6 +149,12 @@ class ImagickUtilities
         return $resultContents;
     }
 
+    /**
+     * @param $contents
+     * @param null $resolution
+     * @return string
+     * @throws \ImagickException
+     */
     public static function makePreview($contents, $resolution = null)
     {
         $img = self::loadInstance($contents);
@@ -126,6 +170,13 @@ class ImagickUtilities
         return $resultContents;
     }
 
+    /**
+     * @param $contents
+     * @param $colorspace
+     * @param null $resolution
+     * @return mixed
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
     public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null)
     {
         $folder = self::getTempFolder();
@@ -143,6 +194,13 @@ class ImagickUtilities
         return $resultContents;
     }
 
+    /**
+     * @param $contents
+     * @param $cuttingFieldsSize
+     * @return mixed
+     * @throws \ImagickException
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
     public static function drawCuttingFields($contents, $cuttingFieldsSize)
     {
         $folder = self::getTempFolder();
@@ -164,6 +222,11 @@ class ImagickUtilities
         return $resultContents;
     }
 
+    /**
+     * @param $contents
+     * @return int
+     * @throws \ImagickException
+     */
     public static function getColorspace($contents)
     {
         $img = self::loadInstance($contents);
@@ -173,6 +236,10 @@ class ImagickUtilities
         return $colorspace;
     }
 
+    /**
+     * @param $colorspace
+     * @return string
+     */
     public static function getColorspaceName($colorspace)
     {
         switch ($colorspace) {
@@ -199,6 +266,11 @@ class ImagickUtilities
         }
     }
 
+    /**
+     * @param $colorspace
+     * @param bool $getContents
+     * @return false|string|null
+     */
     public static function getProfileByColorspace($colorspace, $getContents = false)
     {
         $path = null;

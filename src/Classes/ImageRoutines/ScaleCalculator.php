@@ -25,6 +25,13 @@ class ScaleCalculator
     private $dpi;           //оригинал: разрешение (dpi)
     private $scaleError;    //допустимая погрешность измерений (мм)
 
+    /**
+     * ScaleCalculator constructor.
+     * @param $wPix
+     * @param $hPix
+     * @param $dpi
+     * @param float $scaleError
+     */
     public function __construct($wPix, $hPix, $dpi, $scaleError = self::DEFAULT_SCALE_ERROR)
     {
         $this->wPix = $wPix;
@@ -35,11 +42,21 @@ class ScaleCalculator
         $this->scaleError = $scaleError;
     }
 
+    /**
+     * @param $pix
+     * @param $dpi
+     * @return float|int
+     */
     public static function toMm($pix, $dpi)
     {
         return $pix / $dpi * self::INCH_SM * 10;
     }
 
+    /**
+     * @param $mm
+     * @param $dpi
+     * @return float
+     */
     public static function toPix($mm, $dpi)
     {
         return round($mm * $dpi / (self::INCH_SM * 10));

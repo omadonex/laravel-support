@@ -11,7 +11,7 @@ class ImagickProcessor extends ShellProcessor
      * @param $output
      * @param $colorspaceName
      * @param $profile
-     * @return array
+     * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
     public static function convertToColorspace($input, $output, $colorspaceName, $profile)
@@ -27,8 +27,8 @@ class ImagickProcessor extends ShellProcessor
      * @param $colorspaceName
      * @param $profile
      * @param $profileSRGB
-     * @param $resolution
-     * @return array
+     * @param null $resolution
+     * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
     public static function makeSRGBPreviewWithCloseColors($input, $output, $colorspaceName, $profile, $profileSRGB, $resolution = null)
@@ -46,7 +46,7 @@ class ImagickProcessor extends ShellProcessor
      * @param $input
      * @param $output
      * @param $payload
-     * @return array
+     * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
     public static function drawCuttingFields($input, $output, $payload)
