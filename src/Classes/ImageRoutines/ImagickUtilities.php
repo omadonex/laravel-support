@@ -96,7 +96,7 @@ class ImagickUtilities
         return "temp/{$str}";
     }
 
-    public static function convertToColorspace($contents, $colorspace, $generateSRGBPreview = false)
+    public static function convertToColorspace($contents, $colorspace)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
@@ -106,18 +106,27 @@ class ImagickUtilities
         $colorspaceName = self::getColorspaceName($colorspace);
         $colorspaceProfile = self::getProfileByColorspace($colorspace);
         ImagickProcessor::convertToColorspace($inputPath, $outputPath, $colorspaceName, $colorspaceProfile);
-        $data['converted'] = Storage::disk('local')->get("{$folder}/output");
-
-        if ($generateSRGBPreview) {
-            $previewPath = storage_path("app/{$folder}/preview");
-            $profileSRGB = self::getProfileByColorspace(\Imagick::COLORSPACE_SRGB);
-            ImagickProcessor::makeSRGBPreviewWithCloseColors($inputPath, $previewPath, $colorspaceName, $colorspaceProfile, $profileSRGB);
-            $data['preview'] = Storage::disk('local')->get("{$folder}/preview");
-        }
-
+        $resultContents = Storage::disk('local')->get("{$folder}/output");
         Storage::disk('local')->deleteDirectory($folder);
 
-        return $data;
+        return $resultContents;
+    }
+
+    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace)
+    {
+        $folder = self::getTempFolder();
+        $inputPath = storage_path("app/{$folder}/input");
+        $outputPath = storage_path("app/{$folder}/output");
+        Storage::disk('local')->put("{$folder}/input", $contents);
+
+        $colorspaceName = self::getColorspaceName($colorspace);
+        $colorspaceProfile = self::getProfileByColorspace($colorspace);
+        $profileSRGB = self::getProfileByColorspace(\Imagick::COLORSPACE_SRGB);
+        ImagickProcessor::makeSRGBPreviewWithCloseColors($inputPath, $outputPath, $colorspaceName, $colorspaceProfile, $profileSRGB);
+        $resultContents = Storage::disk('local')->get("{$folder}/output");
+        Storage::disk('local')->deleteDirectory($folder);
+
+        return $resultContents;
     }
 
     public static function drawCuttingFields($contents, $cuttingFieldsSize)
