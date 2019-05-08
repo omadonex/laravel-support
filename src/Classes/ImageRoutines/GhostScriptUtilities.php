@@ -28,4 +28,14 @@ class GhostScriptUtilities
         return $resultContents;
     }
 
+    public static function makePreviewFromFile($path, $resolution = null)
+    {
+        $folder = self::getTempFolder();
+        $outputPath = storage_path("app/{$folder}/output");
+        GhostScriptProcessor::makePreview($path, $outputPath, $resolution);
+        $resultContents = Storage::disk('local')->get("{$folder}/output");
+        Storage::disk('local')->deleteDirectory($folder);
+
+        return $resultContents;
+    }
 }
