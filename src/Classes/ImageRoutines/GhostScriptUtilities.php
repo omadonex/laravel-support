@@ -2,6 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes\ImageRoutines;
 
+use Illuminate\Support\Facades\Storage;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class GhostScriptUtilities
@@ -12,8 +13,10 @@ class GhostScriptUtilities
     private static function getTempFolder()
     {
         $str = UtilsCustom::random_str(20);
+        $folder = "temp/{$str}";
+        Storage::disk('local')->makeDirectory($folder);
 
-        return "temp/{$str}";
+        return $folder;
     }
 
     /**
