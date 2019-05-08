@@ -3,6 +3,7 @@
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxUnexpectedException extends \Exception
 {
@@ -12,7 +13,7 @@ class OmxUnexpectedException extends \Exception
     {
         $this->exception = $exception;
 
-        $exClassName = get_class($this);
+        $exClassName = UtilsCustom::getShortClassName($this);;
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'code' => $exception->getCode(),
             'message' => $exception->getMessage(),

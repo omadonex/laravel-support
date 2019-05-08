@@ -3,6 +3,7 @@
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxModelNotSmartFoundException extends \Exception
 {
@@ -16,7 +17,7 @@ class OmxModelNotSmartFoundException extends \Exception
         $this->value = $value;
         $this->field = $field;
 
-        $exClassName = get_class($this);
+        $exClassName = UtilsCustom::getShortClassName($this);;
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'table' => $model->getTable(),
             'field' => $field,

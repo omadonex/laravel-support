@@ -6,6 +6,11 @@ use Illuminate\Support\Str;
 
 class UtilsCustom
 {
+    public static function getShortClassName($class)
+    {
+        return (new \ReflectionClass($class))->getShortName();
+    }
+
     public static function random_str($length,
         $keySpace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
     {

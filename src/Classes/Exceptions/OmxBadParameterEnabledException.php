@@ -3,12 +3,13 @@
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxBadParameterEnabledException extends \Exception
 {
     public function __construct()
     {
-        $exClassName = get_class($this);
+        $exClassName = UtilsCustom::getShortClassName($this);
         parent::__construct(trans("support::exceptions.{$exClassName}.message"), ConstantsCustom::EXCEPTION_BAD_PARAMETER_ENABLED);
     }
 }

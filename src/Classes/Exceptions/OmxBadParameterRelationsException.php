@@ -3,6 +3,7 @@
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxBadParameterRelationsException extends \Exception
 {
@@ -13,7 +14,7 @@ class OmxBadParameterRelationsException extends \Exception
         $this->availableRelations = $availableRelations;
 
         $relationsStr = implode(", ", $availableRelations);
-        $exClassName = get_class($this);
+        $exClassName = UtilsCustom::getShortClassName($this);;
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'relations' => $relationsStr,
         ]), ConstantsCustom::EXCEPTION_BAD_PARAMETER_RELATIONS);
