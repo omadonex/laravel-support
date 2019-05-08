@@ -3,6 +3,12 @@
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
 
 return [
+    'OmxUnexpectedException' => [
+        'message' => 'Непредвиденная ошибка: (код: `:code`; сообщение: `:message`)',
+    ],
+    'OmxShellException' => [
+        'message' => 'Ошибка выполнения консольного скрипта (результат: `:result`)'
+    ],
     'OmxBadParameterEnabledException' => [
         'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_ENABLED . '` может принимать одно из следующих значений: false | true',
     ],
@@ -32,8 +38,5 @@ return [
     ],
     'OmxModelProtectedException' => [
         'message' => 'Запись защищена и не может быть изменена (модель `:class`)',
-    ],
-    'OmxShellException' => [
-        'message' => 'Ошибка выполнения консольного скрипта (результат: `:result`)'
     ],
 ];

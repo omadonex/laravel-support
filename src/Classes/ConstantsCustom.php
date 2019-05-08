@@ -36,7 +36,8 @@ class ConstantsCustom
     const TEST_AUTH_TYPE_GUEST = 'guest';
     const TEST_AUTH_TYPE_NO_MATTER = 'no_matter';
 
-    const EXCEPTION_SHELL = 100;
+    const EXCEPTION_UNEXPECTED = 100;
+    const EXCEPTION_SHELL = 101;
 
     const EXCEPTION_CLASS_NOT_USES_TRAIT = 200;
     const EXCEPTION_METHOD_NOT_FOUND_IN_CLASS = 201;
