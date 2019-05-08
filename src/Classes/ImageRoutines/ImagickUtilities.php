@@ -28,21 +28,6 @@ class ImagickUtilities
         return null;
     }
 
-    public static function makePreview($contents, $resolution = null)
-    {
-        $img = self::loadInstance($contents);
-        $img->setImageFormat('jpg');
-
-        if ($resolution) {
-            $img->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
-        }
-
-        $resultContents = $img->getImageBlob();
-        $img->destroy();
-
-        return $resultContents;
-    }
-
     public static function scale($contents, $w, $h)
     {
         $img = self::loadInstance($contents);
@@ -126,7 +111,22 @@ class ImagickUtilities
         return $resultContents;
     }
 
-    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace)
+    public static function makePreview($contents, $resolution = null)
+    {
+        $img = self::loadInstance($contents);
+        $img->setImageFormat('jpg');
+
+        if ($resolution) {
+            $img->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
+        }
+
+        $resultContents = $img->getImageBlob();
+        $img->destroy();
+
+        return $resultContents;
+    }
+
+    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
@@ -136,7 +136,7 @@ class ImagickUtilities
         $colorspaceName = self::getColorspaceName($colorspace);
         $colorspaceProfile = self::getProfileByColorspace($colorspace);
         $profileSRGB = self::getProfileByColorspace(\Imagick::COLORSPACE_SRGB);
-        ImagickProcessor::makeSRGBPreviewWithCloseColors($inputPath, $outputPath, $colorspaceName, $colorspaceProfile, $profileSRGB);
+        ImagickProcessor::makeSRGBPreviewWithCloseColors($inputPath, $outputPath, $colorspaceName, $colorspaceProfile, $profileSRGB, $resolution);
         $resultContents = Storage::disk('local')->get("{$folder}/output");
         Storage::disk('local')->deleteDirectory($folder);
 

@@ -7,32 +7,32 @@ use Omadonex\LaravelSupport\Classes\ShellProcessor\ShellProcessor;
 class GhostScriptProcessor extends ShellProcessor
 {
     /**
-     * @param $pathInputPdf
-     * @param $pathOutputJpg
-     * @param int $resolution
-     * @return array
+     * @param $input
+     * @param $output
+     * @param null $resolution
+     * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
     public static function makePreview($input, $output, $resolution = null)
     {
         if (is_null($resolution)) {
-            $command = sprintf('gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -sOutputFile=%s %s', $output, $input);
+            $command = "gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -sOutputFile={$output} {$input}";
         } else {
-            $command = sprintf('gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -r%d -sOutputFile=%s %s', $resolution, $output, $input);
+            $command = "gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -r{$resolution} -sOutputFile={$output} {$input}";
         }
 
         return self::call($command);
     }
 
     /**
-     * @param $pathFile
+     * @param $input
      * @param $outputFolder
      * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function splitPDF($pathFile, $outputFolder)
+    public static function splitPDF($input, $outputFolder)
     {
-        $command = sprintf('gs -q -dNODISPLAY -c "(%s) (r) file runpdfbegin pdfpagecount = quit"', $pathFile);
+        $command = "gs -q -dNODISPLAY -c '({$input}) (r) file runpdfbegin pdfpagecount = quit'";
         $output = self::call($command);
         $countPages = (int) $output[0];
         $data = [
@@ -41,7 +41,8 @@ class GhostScriptProcessor extends ShellProcessor
         ];
         for ($i = 0; $i < $countPages; $i++) {
             $pathOutput = "{$outputFolder}/{$i}.pdf";
-            $command = sprintf("gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -dFirstPage=%d -dLastPage=%d -sOutputFile=%s %s", $i + 1, $i + 1, $pathOutput, $pathFile);
+            $index = $i + 1;
+            $command = "gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -dFirstPage={$index} -dLastPage={$index} -sOutputFile={$pathOutput} {$input}";
             self::call($command);
             $data['pathArray'][] = $pathOutput;
         }
