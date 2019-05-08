@@ -13,9 +13,13 @@ class GhostScriptProcessor extends ShellProcessor
      * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function convertPdfToJpg($pathInputPdf, $pathOutputJpg, $resolution = 72)
+    public static function makePreview($input, $output, $resolution = null)
     {
-        $command = sprintf('gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -r%d -sOutputFile=%s %s', $resolution, $pathOutputJpg, $pathInputPdf);
+        if (is_null($resolution)) {
+            $command = sprintf('gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -sOutputFile=%s %s', $output, $input);
+        } else {
+            $command = sprintf('gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -r%d -sOutputFile=%s %s', $resolution, $output, $input);
+        }
 
         return self::call($command);
     }
