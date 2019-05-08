@@ -33,4 +33,7 @@ return [
     'OmxModelProtectedException' => [
         'message' => 'Record is protected and cannot be changed (model `:class`)',
     ],
+    'OmxShellException' => [
+        'message' => 'Shell script execution error (result: `:result`)'
+    ],
 ];

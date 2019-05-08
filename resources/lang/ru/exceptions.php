@@ -33,4 +33,7 @@ return [
     'OmxModelProtectedException' => [
         'message' => 'Запись защищена и не может быть изменена (модель `:class`)',
     ],
+    'OmxShellException' => [
+        'message' => 'Ошибка выполнения консольного скрипта (результат: `:result`)'
+    ],
 ];

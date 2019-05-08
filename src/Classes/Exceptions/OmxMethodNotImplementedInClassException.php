@@ -2,6 +2,8 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
+use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+
 class OmxMethodNotImplementedInClassException extends \Exception
 {
     protected $className;
@@ -16,6 +18,6 @@ class OmxMethodNotImplementedInClassException extends \Exception
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'method' => $methodName,
             'class' => $className,
-        ]));
+        ]), ConstantsCustom::EXCEPTION_METHOD_NOT_IMPLEMENTED_IN_CLASS);
     }
 }

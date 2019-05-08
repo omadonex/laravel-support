@@ -2,6 +2,8 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
+use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+
 class OmxModelNotSearchedException extends \Exception
 {
     protected $model;
@@ -14,6 +16,6 @@ class OmxModelNotSearchedException extends \Exception
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'table' => $model->getTable(),
             'class' => get_class($model),
-        ]));
+        ]), ConstantsCustom::EXCEPTION_MODEL_NOT_SEARCHED);
     }
 }
