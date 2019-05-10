@@ -16,6 +16,10 @@ interface IFileStorageBase
 
     public function size(FileMeta $fileMeta);
 
+    public function copy(FileMeta $fileMetaOld, FileMeta $fileMetaNew);
+
+    public function move(FileMeta $fileMetaOld, FileMeta $fileMetaNew);
+
     public function url(FileMeta $fileMeta);
 
     public function s3GetPresignedUrl(FileMeta $fileMeta, $s3Command = 'PutObject', $expires = 30);

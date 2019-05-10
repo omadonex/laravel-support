@@ -42,6 +42,16 @@ abstract class FileStorageBase implements IFileStorageBase
         return $this->adapter->size($fileMeta->getDisk(), $fileMeta->getPath());
     }
 
+    public function copy(FileMeta $fileMetaOld, FileMeta $fileMetaNew)
+    {
+        return $this->adapter->copy($fileMetaOld->getDisk(), $fileMetaOld->getPath(), $fileMetaNew->getPath());
+    }
+
+    public function move(FileMeta $fileMetaOld, FileMeta $fileMetaNew)
+    {
+        return $this->adapter->move($fileMetaOld->getDisk(), $fileMetaOld->getPath(), $fileMetaNew->getPath());
+    }
+
     public function url(FileMeta $fileMeta)
     {
         return $this->adapter->url($fileMeta->getDisk(), $fileMeta->getPath());

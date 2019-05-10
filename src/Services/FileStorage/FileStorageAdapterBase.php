@@ -55,6 +55,16 @@ abstract class FileStorageAdapterBase implements IFileStorageAdapter
         return $this->getStorage($disk)->size($filename);
     }
 
+    public function copy($disk, $filenameOld, $filenameNew)
+    {
+        $this->getStorage($disk)->copy($filenameOld, $filenameNew);
+    }
+
+    public function move($disk, $filenameOld, $filenameNew)
+    {
+        $this->getStorage($disk)->move($filenameOld, $filenameNew);
+    }
+
     public function url($disk, $filename)
     {
         return $this->getStorage($disk)->url($filename);

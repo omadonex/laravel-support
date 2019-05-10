@@ -14,6 +14,10 @@ interface IFileStorageAdapter
 
     public function size($disk, $filename);
 
+    public function copy($disk, $filenameOld, $filenameNew);
+
+    public function move($disk, $filenameOld, $filenameNew);
+
     public function makeDirectory($disk, $directory);
 
     public function deleteDirectory($disk, $directory);
