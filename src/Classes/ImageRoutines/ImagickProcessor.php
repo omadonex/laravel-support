@@ -34,7 +34,7 @@ class ImagickProcessor extends ShellProcessor
     public static function makeSRGBPreviewWithCloseColors($input, $output, $colorspaceName, $profile, $profileSRGB, $resolution = null)
     {
         if (is_null($resolution)) {
-            $command = "convert {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} {$output}";
+            $command = "convert {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} jpg:{$output}";
         } else {
             $command = "convert -density {$resolution}x{$resolution} {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} jpg:{$output}";
         }
