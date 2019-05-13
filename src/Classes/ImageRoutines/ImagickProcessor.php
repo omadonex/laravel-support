@@ -36,7 +36,7 @@ class ImagickProcessor extends ShellProcessor
         if (is_null($resolution)) {
             $command = "convert {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} {$output}";
         } else {
-            $command = "convert -density {$resolution}x{$resolution} {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} {$output}";
+            $command = "convert -density {$resolution}x{$resolution} {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} jpg:{$output}";
         }
 
         return self::call($command);
