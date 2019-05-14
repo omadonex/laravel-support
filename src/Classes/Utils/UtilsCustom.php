@@ -232,4 +232,11 @@ class UtilsCustom
         $x = $y;
         $y = $tmp;
     }
+
+    public static function evalMimeType($contents)
+    {
+        $finfo = new \finfo(FILEINFO_MIME_TYPE);
+
+        return $finfo->buffer($contents);
+    }
 }
