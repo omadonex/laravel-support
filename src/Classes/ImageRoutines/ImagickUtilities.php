@@ -92,8 +92,7 @@ class ImagickUtilities
             $dpi = null;
             if ($strict) {
                 if (($xDpi === 0) || ($yDpi === 0) || ($xDpi !== $yDpi)) {
-                    //TODO omadonex: нормальный Exception
-                    throw new \Exception();
+                    return null;
                 }
 
                 $dpi = $xDpi;
