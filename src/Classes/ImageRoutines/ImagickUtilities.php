@@ -133,6 +133,7 @@ class ImagickUtilities
 
         $img = self::loadInstance($contents);
         $img->setImageResolution($scaledDpi, $scaledDpi);
+        $img->setIteratorIndex(0);
         $img->scaleImage($scaledWPix, $scaledHPix);
         $resultContents = $img->getImageBlob();
 
