@@ -27,7 +27,7 @@ class ImagickUtilities
      * @param int $index
      * @return array
      */
-    private static function process($img, $callback, $all = true, $index = 0)
+    private static function process($img, $callback, $all, $index)
     {
         if ($all) {
             $result = [];
@@ -80,7 +80,7 @@ class ImagickUtilities
      * @return array
      * @throws \ImagickException
      */
-    public static function determineParams($contents, $strict = true, $all = true, $index = 0)
+    public static function determineParams($contents, $strict = true, $all = false, $index = 0)
     {
         $img = self::loadInstance($contents);
 
@@ -152,7 +152,7 @@ class ImagickUtilities
      * @return array
      * @throws \ImagickException
      */
-    public static function crop($contents, $wPix, $hPix, $xPix, $yPix, $all = true, $index = 0)
+    public static function crop($contents, $wPix, $hPix, $xPix, $yPix, $all = false, $index = 0)
     {
         $img = self::loadInstance($contents);
 
@@ -197,7 +197,7 @@ class ImagickUtilities
      * @return array
      * @throws \ImagickException
      */
-    public static function makePreview($contents, $resolution = null, $all = true, $index = 0)
+    public static function makePreview($contents, $resolution = null, $all = false, $index = 0)
     {
         $img = self::loadInstance($contents);
 
@@ -224,7 +224,7 @@ class ImagickUtilities
      * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null, $all = true, $index = 0)
+    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null, $all = false, $index = 0)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
