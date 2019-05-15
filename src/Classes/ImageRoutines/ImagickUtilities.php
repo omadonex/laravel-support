@@ -12,10 +12,11 @@ class ImagickUtilities
      * @return \Imagick
      * @throws \ImagickException
      */
-    private static function loadInstance($contents)
+    private static function loadInstance($contents, $iteratorIndex = 0)
     {
         $img = new \Imagick;
         $img->readImageBlob($contents);
+        $img->setIteratorIndex($iteratorIndex);
 
         return $img;
     }

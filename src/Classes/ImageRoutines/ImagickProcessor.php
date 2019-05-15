@@ -55,4 +55,17 @@ class ImagickProcessor extends ShellProcessor
 
         return self::call($command);
     }
+
+    /**
+     * @param $input
+     * @return mixed
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
+    public static function identify($input, $verbose = false)
+    {
+        $verboseStr = $verbose ? '-verbose ' : '';
+        $command = "identify {$verboseStr}{$input}";
+
+        return self::call($command);
+    }
 }
