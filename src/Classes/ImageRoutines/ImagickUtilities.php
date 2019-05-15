@@ -12,13 +12,37 @@ class ImagickUtilities
      * @return \Imagick
      * @throws \ImagickException
      */
-    private static function loadInstance($contents, $iteratorIndex = 0)
+    private static function loadInstance($contents)
     {
         $img = new \Imagick;
         $img->readImageBlob($contents);
-        $img->setIteratorIndex($iteratorIndex);
 
         return $img;
+    }
+
+    /**
+     * @param $img
+     * @param $callback
+     * @param bool $all
+     * @param int $index
+     * @return array
+     */
+    private static function process($img, $callback, $all = true, $index = 0)
+    {
+        if ($all) {
+            $result = [];
+            $countImages = $img->getNumberImages();
+            for ($i = 0; $i < $countImages; $i++) {
+                $img->setIteratorIndex($i);
+                $result[] = $callback($img, $i);
+            }
+
+            return $result;
+        }
+
+        $img->setIteratorIndex($index);
+
+        return $callback($img, $index);
     }
 
     /**
@@ -39,6 +63,57 @@ class ImagickUtilities
     }
 
     /**
+     * @return string
+     */
+    private static function getTempFolder()
+    {
+        $str = UtilsCustom::random_str(20);
+
+        return "temp/{$str}";
+    }
+
+    /**
+     * @param $contents
+     * @param bool $strict
+     * @param bool $all
+     * @param int $index
+     * @return array
+     * @throws \ImagickException
+     */
+    public static function determineParams($contents, $strict = true, $all = true, $index = 0)
+    {
+        $img = self::loadInstance($contents);
+
+        $processResult = self::process($img, function ($instance, $iterator) use ($strict) {
+            $resolution = $instance->getImageResolution();
+            $xDpi = (int) $resolution['x'];
+            $yDpi = (int) $resolution['y'];
+
+            $dpi = null;
+            if ($strict) {
+                if (($xDpi === 0) || ($yDpi === 0) || ($xDpi !== $yDpi)) {
+                    //TODO omadonex: нормальный Exception
+                    throw new \Exception();
+                }
+
+                $dpi = $xDpi;
+            }
+
+            return [
+                'wPix' => $instance->getImageWidth(),
+                'hPix' => $instance->getImageHeight(),
+                'xDpi' => $resolution['x'],
+                'yDpi' => $resolution['y'],
+                'dpi' => $dpi,
+            ];
+        }, $all, $index);
+
+        $img->destroy();
+
+        return $processResult;
+    }
+
+    /**
      * @param $contents
      * @param $w
      * @param $h
@@ -47,56 +122,24 @@ class ImagickUtilities
      */
     public static function scale($contents, $w, $h)
     {
-        $img = self::loadInstance($contents);
-        $width = $img->getImageWidth();
-        $height = $img->getImageHeight();
-        $resolution = $img->getImageResolution();
-        if ($resolution['x'] != $resolution['y']) {
-            //TODO omadonex: нормальный Exception
-            throw new \Exception();
-        }
-        $dpi = $resolution['x'];
+        //Скалируем только нулевой слой, т.к. в случае с несколькими слоями он является слитым
+        $params = self::determineParams($contents, true, false);
 
-        $scaleCalculator = new ScaleCalculator($width, $height, $dpi);
+        $scaleCalculator = new ScaleCalculator($params['wPix'], $params['hPix'], $params['dpi']);
         $scaleData = $scaleCalculator->getScaleData($w, $h);
 
         $scaledDpi = $scaleData['scaled']['dpi'];
-        $scaledWPix = $width + $scaleData['adjust']['wPix'];
-        $scaledHPix = $height + $scaleData['adjust']['hPix'];
+        $scaledWPix = $params['wPix'] + $scaleData['adjust']['wPix'];
+        $scaledHPix = $params['hPix'] + $scaleData['adjust']['hPix'];
 
+        $img = self::loadInstance($contents);
         $img->setImageResolution($scaledDpi, $scaledDpi);
         $img->scaleImage($scaledWPix, $scaledHPix);
         $resultContents = $img->getImageBlob();
-        $img->destroy();
+
+        $img->clear();
 
         return $resultContents;
-    }
-
-    /**
-     * @param $contents
-     * @return array|null
-     * @throws \ImagickException
-     */
-    public static function determineParams($contents)
-    {
-        $img = self::loadInstance($contents);
-        $resolution = $img->getImageResolution();
-        $xDpi = $resolution['x'];
-        $yDpi = $resolution['y'];
-        if (($xDpi == 0) || ($yDpi == 0) || ($xDpi !== $yDpi)) {
-            return null;
-        }
-
-        $wPix = $img->getImageWidth();
-        $hPix = $img->getImageHeight();
-
-        $img->destroy();
-
-        return [
-            'wPix' => $wPix,
-            'hPix' => $hPix,
-            'dpi' => $xDpi,
-        ];
     }
 
     /**
@@ -105,27 +148,24 @@ class ImagickUtilities
      * @param $hPix
      * @param $xPix
      * @param $yPix
-     * @return string
+     * @param bool $all
+     * @param int $index
+     * @return array
      * @throws \ImagickException
      */
-    public static function crop($contents, $wPix, $hPix, $xPix, $yPix)
+    public static function crop($contents, $wPix, $hPix, $xPix, $yPix, $all = true, $index = 0)
     {
         $img = self::loadInstance($contents);
-        $img->cropImage($wPix, $hPix, $xPix, $yPix);
-        $resultContents = $img->getImageBlob();
-        $img->destroy();
 
-        return $resultContents;
-    }
+        $processResult = self::process($img, function ($instance, $iterator) use ($wPix, $hPix, $xPix, $yPix) {
+            $instance->cropImage($wPix, $hPix, $xPix, $yPix);
 
-    /**
-     * @return string
-     */
-    private static function getTempFolder()
-    {
-        $str = UtilsCustom::random_str(20);
+            return $instance->getImageBlob();
+        }, $all, $index);
 
-        return "temp/{$str}";
+        $img->clear();
+
+        return $processResult;
     }
 
     /**
@@ -153,43 +193,65 @@ class ImagickUtilities
     /**
      * @param $contents
      * @param null $resolution
-     * @return string
+     * @param bool $all
+     * @param int $index
+     * @return array
      * @throws \ImagickException
      */
-    public static function makePreview($contents, $resolution = null)
+    public static function makePreview($contents, $resolution = null, $all = true, $index = 0)
     {
         $img = self::loadInstance($contents);
-        $img->setImageFormat('jpg');
 
-        if ($resolution) {
-            $img->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
-        }
+        $processResult = self::process($img, function ($instance, $iterator) use ($resolution) {
+            $instance->setImageFormat('jpg');
+            if ($resolution) {
+                $instance->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
+            }
 
-        $resultContents = $img->getImageBlob();
-        $img->destroy();
+            return $instance->getImageBlob();
+        }, $all, $index);
 
-        return $resultContents;
+        $img->clear();
+
+        return $processResult;
     }
 
     /**
      * @param $contents
      * @param $colorspace
      * @param null $resolution
-     * @return mixed
+     * @param bool $all
+     * @param int $index
+     * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null)
+    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null, $all = true, $index = 0)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
-        $outputPath = storage_path("app/{$folder}/output");
+        $outputPathSuffix = $all ? '' : "-{$index}";
+        $outputPath = storage_path("app/{$folder}/output{$outputPathSuffix}");
         Storage::disk('local')->put("{$folder}/input", $contents);
+
+        $countImages = count(ImagickProcessor::identify($inputPath));
+        if (($countImages > 1) && !$all) {
+            $inputPath .= "[{$index}]";
+        }
 
         $colorspaceName = self::getColorspaceName($colorspace);
         $colorspaceProfile = self::getProfileByColorspace($colorspace);
         $profileSRGB = self::getProfileByColorspace(\Imagick::COLORSPACE_SRGB);
         ImagickProcessor::makeSRGBPreviewWithCloseColors($inputPath, $outputPath, $colorspaceName, $colorspaceProfile, $profileSRGB, $resolution);
-        $resultContents = Storage::disk('local')->get("{$folder}/output");
+
+        if ($all) {
+            $resultContents = [];
+            for ($i = 0; $i < $countImages; $i++) {
+                $resultContents[] = Storage::disk('local')->get("{$folder}/output{$outputPathSuffix}-{$i}");
+            }
+        } else {
+            $resultContents = Storage::disk('local')->get("{$folder}/output{$outputPathSuffix}");
+        }
+
         Storage::disk('local')->deleteDirectory($folder);
 
         return $resultContents;
@@ -209,9 +271,10 @@ class ImagickUtilities
         $outputPath = storage_path("app/{$folder}/output");
         Storage::disk('local')->put("{$folder}/input", $contents);
 
-        $params = self::determineParams($contents);
+        $params = self::determineParams($contents, true, false);
         $fieldsPix = ScaleCalculator::toPix($cuttingFieldsSize, $params['dpi']);
-        ImagickProcessor::drawCuttingFields($inputPath, $outputPath, [
+        //Рисуем только на нулевом слое, т.к. дорисовывать поля везде нет возможности
+        ImagickProcessor::drawCuttingFields("{$inputPath}[0]", $outputPath, [
             'width' => $params['wPix'] + 2 * $fieldsPix,
             'height' => $params['hPix'] + 2 * $fieldsPix,
             'fields' => $fieldsPix,
@@ -232,7 +295,7 @@ class ImagickUtilities
     {
         $img = self::loadInstance($contents);
         $colorspace = $img->getImageColorspace();
-        $img->destroy();
+        $img->clear();
 
         return $colorspace;
     }
