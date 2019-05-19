@@ -107,9 +107,25 @@ class ImagickUtilities
             ];
         }, $all, $index);
 
-        $img->destroy();
+        $img->clear();
 
         return $processResult;
+    }
+
+    /**
+     * @param $contents
+     * @param $degrees
+     * @return string
+     * @throws \ImagickException
+     */
+    public static function rotate($contents, $degrees)
+    {
+        $img = self::loadInstance($contents);
+        $img->rotateImage(new \ImagickPixel(), $degrees);
+        $resultContents = $img->getImageBlob();
+        $img->clear();
+
+        return $resultContents;
     }
 
     /**
