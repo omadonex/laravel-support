@@ -115,17 +115,24 @@ class ImagickUtilities
     /**
      * @param $contents
      * @param $degrees
-     * @return string
+     * @param bool $all
+     * @param int $index
+     * @return array
      * @throws \ImagickException
      */
-    public static function rotate($contents, $degrees)
+    public static function rotate($contents, $degrees, $all = false, $index = 0)
     {
         $img = self::loadInstance($contents);
-        $img->rotateImage(new \ImagickPixel(), $degrees);
-        $resultContents = $img->getImageBlob();
+
+        $processResult = self::process($img, function ($instance, $iterator) use ($degrees) {
+            $instance->rotateImage(new \ImagickPixel(), $degrees);
+
+            return $instance->getImageBlob();
+        }, $all, $index);
+
         $img->clear();
 
-        return $resultContents;
+        return $processResult;
     }
 
     /**
