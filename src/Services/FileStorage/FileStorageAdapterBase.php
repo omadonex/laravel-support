@@ -7,26 +7,29 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class FileStorageAdapterBase implements IFileStorageAdapter
 {
-    protected $cloudOn;
+    const DISK_KEY_LOCAL = 'local';
+    const DISK_KEY_CLOUD = 'cloud';
 
-    public function __construct($cloudOn = false)
+    protected $cloud;
+    protected $disks;
+
+    public function __construct($cloud = false)
     {
-        $this->cloudOn = $cloudOn;
+        $this->cloud = $cloud;
+        $key = $cloud ? self::DISK_KEY_CLOUD : self::DISK_KEY_LOCAL;
+        $this->disks = $this->getStorageDiskArray()[$key];
     }
 
     abstract protected function getStorageDiskArray();
 
     private function getStorage($disk)
     {
-        $key = $this->cloudOn ? 'cloud' : 'local';
-        $storageDisk = $this->getStorageDiskArray()[$key][$disk];
-
-        return Storage::disk($storageDisk);
+        return Storage::disk($this->disks[$disk]);
     }
 
     public function put($disk, $filename, $contents, $cold = true)
     {
-        if ($this->cloudOn && $cold) {
+        if ($this->cloud && $cold) {
             $this->getStorage($disk)->getDriver()->put($filename, $contents, ['StorageClass' => 'COLD']);
         } else {
             $this->getStorage($disk)->put($filename, $contents);
@@ -80,7 +83,7 @@ abstract class FileStorageAdapterBase implements IFileStorageAdapter
 
     public function s3GetPresignedUrl($disk, $filename, $s3Command = 'PutObject', $expires = 30)
     {
-        if (!$this->cloudOn) {
+        if (!$this->cloud) {
             return null;
         }
 
@@ -104,7 +107,7 @@ abstract class FileStorageAdapterBase implements IFileStorageAdapter
 
     public function s3DoesObjectExist($disk, $filename)
     {
-        if (!$this->cloudOn) {
+        if (!$this->cloud) {
             return null;
         }
 
