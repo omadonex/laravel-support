@@ -7,13 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 abstract class FileStorageAdapterBase implements IFileStorageAdapter
 {
-    protected $environment;
     protected $cloudOn;
 
-    public function __construct()
+    public function __construct($cloudOn = false)
     {
-        $this->environment = app()->environment();
-        $this->cloudOn = env('CLOUD_STORAGE', false);
+        $this->cloudOn = $cloudOn;
     }
 
     abstract protected function getStorageDiskArray();
