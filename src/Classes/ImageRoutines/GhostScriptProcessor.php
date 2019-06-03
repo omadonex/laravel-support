@@ -49,4 +49,18 @@ class GhostScriptProcessor extends ShellProcessor
 
         return $data;
     }
+
+    /**
+     * @param $inputPages
+     * @param $output
+     * @return mixed
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
+    public static function mergePDF($inputPages, $output)
+    {
+        $pagesStr = implode(' ', $inputPages);
+        $command = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile={$output} {$pagesStr}";
+
+        return self::call($command);
+    }
 }

@@ -314,11 +314,43 @@ class ImagickUtilities
      * @return string
      * @throws \ImagickException
      */
-    public static function convertToPDF($pagesContents)
+    public static function convertToPDF($contents, $returnPath = false, $all = false, $index = 0)
+    {
+        $img = self::loadInstance($contents);
+
+        $processResult = self::process($img, function ($instance, $iterator) use ($returnPath) {
+            $instance->setImageFormat('pdf');
+            return $instance->getImageBlob();
+            /*
+            $folder = self::getTempFolder();
+            Storage::disk('local')->makeDirectory($folder);
+            $path = storage_path("app/{$folder}") . '/input.pdf';
+            $instance->writeImage($path);
+
+            if ($returnPath) {
+                return [
+                    'path' => $path,
+                    'folder' => $folder,
+                ];
+            }
+
+            return Storage::disk('local')->get("{$folder}/input.pdf");
+            */
+        }, $all, $index);
+
+        $img->clear();
+
+        return $processResult;
+    }
+
+    /*
+    public static function unionPDF($pagesContents)
     {
         $img = new \Imagick;
         foreach ($pagesContents as $pageContents) {
-            $img->addImage(self::loadInstance($pageContents));
+            $pageImg = self::loadInstance($pageContents);
+            $pageImg->setImageFormat('pdf');
+            $img->addImage($pageImg);
         }
         $img->setImageFormat('pdf');
 
@@ -333,6 +365,7 @@ class ImagickUtilities
 
         return $resultContents;
     }
+    */
 
     /**
      * @param $contents
