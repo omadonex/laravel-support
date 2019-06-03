@@ -310,6 +310,31 @@ class ImagickUtilities
     }
 
     /**
+     * @param $pagesContents
+     * @return string
+     * @throws \ImagickException
+     */
+    public static function convertToPDF($pagesContents)
+    {
+        $img = new \Imagick;
+        foreach ($pagesContents as $pageContents) {
+            $img->addImage(self::loadInstance($pageContents));
+        }
+        $img->setImageFormat('pdf');
+
+        $folder = self::getTempFolder();
+        Storage::disk('local')->makeDirectory($folder);
+        $path = storage_path("app/{$folder}") . '/input';
+        $img->writeImages($path, true);
+        $img->clear();
+
+        $resultContents = Storage::disk('local')->get("{$folder}/input");
+        Storage::disk('local')->deleteDirectory($folder);
+
+        return $resultContents;
+    }
+
+    /**
      * @param $contents
      * @return int
      * @throws \ImagickException
