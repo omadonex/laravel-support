@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Omadonex\LaravelSupport\Classes\ImageRoutines;
 
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 use setasign\Fpdi\Fpdi;
