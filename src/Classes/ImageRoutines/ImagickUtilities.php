@@ -310,8 +310,11 @@ class ImagickUtilities
     }
 
     /**
-     * @param $pagesContents
-     * @return string
+     * @param $contents
+     * @param bool $returnPath
+     * @param bool $all
+     * @param int $index
+     * @return array
      * @throws \ImagickException
      */
     public static function convertToPDF($contents, $returnPath = false, $all = false, $index = 0)
@@ -320,52 +323,14 @@ class ImagickUtilities
 
         $processResult = self::process($img, function ($instance, $iterator) use ($returnPath) {
             $instance->setImageFormat('pdf');
+
             return $instance->getImageBlob();
-            /*
-            $folder = self::getTempFolder();
-            Storage::disk('local')->makeDirectory($folder);
-            $path = storage_path("app/{$folder}") . '/input.pdf';
-            $instance->writeImage($path);
-
-            if ($returnPath) {
-                return [
-                    'path' => $path,
-                    'folder' => $folder,
-                ];
-            }
-
-            return Storage::disk('local')->get("{$folder}/input.pdf");
-            */
         }, $all, $index);
 
         $img->clear();
 
         return $processResult;
     }
-
-    /*
-    public static function unionPDF($pagesContents)
-    {
-        $img = new \Imagick;
-        foreach ($pagesContents as $pageContents) {
-            $pageImg = self::loadInstance($pageContents);
-            $pageImg->setImageFormat('pdf');
-            $img->addImage($pageImg);
-        }
-        $img->setImageFormat('pdf');
-
-        $folder = self::getTempFolder();
-        Storage::disk('local')->makeDirectory($folder);
-        $path = storage_path("app/{$folder}") . '/input';
-        $img->writeImages($path, true);
-        $img->clear();
-
-        $resultContents = Storage::disk('local')->get("{$folder}/input");
-        Storage::disk('local')->deleteDirectory($folder);
-
-        return $resultContents;
-    }
-    */
 
     /**
      * @param $contents
