@@ -251,7 +251,7 @@ class ImagickUtilities
      * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function convertToJpgUsingColorspace($contents, $colorspace, $resolution = null, $all = false, $index = 0)
+    public static function convertToJpgSRGB($contents, $colorspace, $resolution = null, $all = false, $index = 0)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
