@@ -79,6 +79,22 @@ export default {
       }
     },
 
+    p__pageLoader__setProp(prop, value, dotKey, global) {
+      let key = global ? this.p__pageLoader__const.GLOBAL_DATA_KEY : this.p__pageLoader__page;
+      let keyFull = dotKey ? `${key}.${dotKey}` : key;
+      this.p__pageLoader__dataSet(prop, value, keyFull);
+      //TODO omadonex: сделать разделение для добавление нового свойства и обновление значения
+      //TODO проверить работу vuex store
+    },
+
+    pageLoader__setPropPage(prop, value, dotKey) {
+      return this.p__pageLoader__setProp(prop, value, dotKey, false);
+    },
+
+    pageLoader__setPropGlobal(prop, value, dotKey) {
+      return this.p__pageLoader__setProp(prop, value, dotKey, true);
+    },
+
     pageLoader__getStorePropKey(prop, global) {
       let key = global ? this.p__pageLoader__const.GLOBAL_DATA_KEY : this.p__pageLoader__page;
 
