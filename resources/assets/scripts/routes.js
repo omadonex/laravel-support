@@ -34,7 +34,7 @@ class RoutesUtils {
           module: module,
           name: routeName,
           nameBase: breadcrumbRouteName,
-          page: this.getCamelName(routeName),
+          page: getCamelName(routeName),
         });
       });
 
