@@ -203,6 +203,10 @@ export default {
             } else {
               this.p__pageLoader__dataSet(callParams.propName, result.data, factData.keyData);
             }
+
+            if (factData.item.hasOwnProperty('onLoad')) {
+              this.$root[factData.item.onLoad](result.data, this);
+            }
           }
 
           return result;
