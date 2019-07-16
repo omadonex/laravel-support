@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserAuthenticate extends Model
 {
     protected $table = 'user_authenticates';
-    protected $fillable = ['network', 'uid', 'identity', 'profile'];
+    protected $fillable = ['user_id', 'network', 'uid', 'identity', 'profile'];
 
 	public function user()
     {
