@@ -65,11 +65,12 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->namespace($this->namespace)
-            ->middleware('auth:api')
+            ->middleware(['auth:api', 'activity'])
             ->group(Module::getModulePath('$STUDLY_NAME$') .'/Routes/api_secure.php');
 
         Route::prefix('api')
             ->namespace($this->namespace)
+            ->middleware(['tryAuth', 'activity'])
             ->group(Module::getModulePath('$STUDLY_NAME$') .'/Routes/api_public.php');
     }
 }
