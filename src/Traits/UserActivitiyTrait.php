@@ -4,7 +4,7 @@ namespace Omadonex\LaravelSupport\Traits;
 
 use Omadonex\LaravelSupport\Models\UserActivity;
 
-trait UserActivitiesTrait
+trait UserActivitiyTrait
 {
     public function activity()
     {
