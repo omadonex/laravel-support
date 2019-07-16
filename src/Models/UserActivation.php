@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserActivation extends Model
 {
+    protected $table = 'user_activations';
     protected $fillable = ['token', 'sent_at'];
     protected $primaryKey = 'user_id';
     protected $dates = ['sent_at'];
