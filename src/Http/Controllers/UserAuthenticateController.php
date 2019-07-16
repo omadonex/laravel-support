@@ -3,6 +3,7 @@
 namespace Omadonex\LaravelSupport\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\User\IUserService;
 use App\User;
 use Carbon\Carbon;
 use Omadonex\LaravelSupport\Models\UserAuthenticate;
