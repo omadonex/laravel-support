@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 use Omadonex\LaravelSupport\Models\UserAuthenticate;
+use Omadonex\LaravelSupport\Traits\UserUtmTrait;
 
 class UserAuthenticateController extends Controller
 {
@@ -16,7 +17,7 @@ class UserAuthenticateController extends Controller
      * Авторизация через соц. сети
      * Используется ulogin для получения данных о соц. сети пользователя
      */
-    public function social() {
+    public function social(IUserService $userService) {
         //Отправляем запрос на сайт ulogin
         $s = file_get_contents('http://ulogin.ru/token.php?token=' . $_POST['token'] . '&host=' . $_SERVER['HTTP_HOST']);
         //ulogin возвращает строку с данными, после декодирования - это массив
@@ -30,21 +31,17 @@ class UserAuthenticateController extends Controller
         $user = User::where('email', $identities['email'])->first();
         if (is_null($user)) {
             //юзера не нашли, создаем нового, генерируем случайный пароль, имя берем из социалок
-            //емэйл из социалок или из введенных данных, так как он проверен.
-            $password = UtilsCustom::random_str(10);
-            //$identities['first_name'] . ' ' . $identities['last_name']
-            $user = User::create([
-                'activated' => true,
-                'username' => UtilsCustom::random_str(20),
+            $user = $userService->createExt([
                 'email' => $identities['email'],
-                'password' => bcrypt($password),
-                'api_token' => UtilsCustom::random_str(ConstantsCustom::DB_FIELD_LEN_TOKEN_API),
                 //'url_photo' => $identities['photo_big'],
-            ]);
+                //$identities['first_name'] . ' ' . $identities['last_name']
+            ], true)['user'];
+            //емэйл из социалок или из введенных данных, так как он проверен.
 
-            if (in_array(UserActivationTrait::class, class_uses(User::class))
+            if (in_array(UserUtmTrait::class, class_uses(User::class))) {
+                $user->setUtm();
+            }
 
-            $this->attachUtm($user);
             //$this->setReferral($user);
             //$this->setPartner($user);
             //создаем новую запись в таблице аутентификаций, соответствующую выбранной социалке.
