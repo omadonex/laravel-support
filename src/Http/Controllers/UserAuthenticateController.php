@@ -6,8 +6,6 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
-use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 use Omadonex\LaravelSupport\Models\UserAuthenticate;
 use Omadonex\LaravelSupport\Traits\UserUtmTrait;
 
@@ -33,8 +31,11 @@ class UserAuthenticateController extends Controller
             //юзера не нашли, создаем нового, генерируем случайный пароль, имя берем из социалок
             $user = $userService->createExt([
                 'email' => $identities['email'],
-                //'url_photo' => $identities['photo_big'],
-                //$identities['first_name'] . ' ' . $identities['last_name']
+                'meta' => [
+                    'avatar' => $identities['photo_big'],
+                    'fname' => $identities['first_name'],
+                    'sname' => $identities['last_name'],
+                ],
             ], true)['user'];
             //емэйл из социалок или из введенных данных, так как он проверен.
 

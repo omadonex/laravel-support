@@ -6,7 +6,7 @@ use Omadonex\LaravelSupport\Models\Utm;
 
 trait UserUtmTrait
 {
-    public function authenticates()
+    public function utm()
     {
         return $this->belongsTo(Utm::class);
     }
