@@ -5,7 +5,6 @@ namespace Omadonex\LaravelSupport\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Omadonex\LaravelSupport\Models\UserAuthenticate;
 use Omadonex\LaravelSupport\Traits\UserUtmTrait;
 
@@ -73,7 +72,7 @@ class UserAuthenticateController extends Controller
         }
 
         //логиним юзера
-        Auth::login($user, true);
+        auth()->login($user, true);
 
         $lang = app('locale')->getCurrLanguage();
 
