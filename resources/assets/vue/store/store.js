@@ -4,6 +4,7 @@ import page from './modules/page';
 const state = {
   loggedIn: false,
   fromBrowser: true,
+  siteUrl: null,
 };
 
 const mutations = {
@@ -13,7 +14,11 @@ const mutations = {
 
   xSetLoggedIn(state, value) {
     state.loggedIn = value;
-  }
+  },
+
+  xSetSiteUrl(state, value) {
+    state.siteUrl = value;
+  },
 };
 
 const getters = {
@@ -23,7 +28,11 @@ const getters = {
 
   appFromBrowser: state => {
     return state.fromBrowser;
-  }
+  },
+
+  appSiteUrl: state => {
+    return state.siteUrl;
+  },
 };
 
 const debug = process.env.NODE_ENV !== 'production';

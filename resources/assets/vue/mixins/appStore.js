@@ -5,6 +5,7 @@ export default {
     ...mapGetters([
       'appLoggedIn',
       'appFromBrowser',
+      'appSiteUrl',
     ]),
   },
 
@@ -12,6 +13,7 @@ export default {
     ...mapMutations([
       'xSetFromBrowser',
       'xSetLoggedIn',
+      'xSetSiteUrl',
     ]),
   }
 };
