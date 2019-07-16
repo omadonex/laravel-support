@@ -50,10 +50,10 @@ trait PersonNamesTrait
     {
         $initials = '';
         if ($this->first_name) {
-            $initials .= $this->first_name[0] . '.';
+            $initials .= mb_substr($this->first_name, 0, 1) . '.';
         }
         if ($this->opt_name) {
-            $initials .= $this->opt_name[0] . '.';
+            $initials .= mb_substr($this->opt_name, 0, 1) . '.';
         }
         $str = trim($this->last_name . ' ' . $initials);
 
