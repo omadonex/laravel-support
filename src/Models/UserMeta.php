@@ -11,7 +11,7 @@ class UserMeta extends Model
     use PersonNamesTrait;
 
     protected $table = 'user_metas';
-    protected $fillable = ['display_name', 'fname', 'sname', 'tname', 'avatar', 'phone', 'email_reserve'];
+    protected $fillable = ['display_name', 'first_name', 'last_name', 'opt_name', 'avatar', 'phone', 'email_reserve'];
     protected $primaryKey = 'user_id';
     public $timestamps = false;
     public $incrementing = false;

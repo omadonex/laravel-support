@@ -33,8 +33,8 @@ class UserAuthenticateController extends Controller
                 'email' => $identities['email'],
                 'meta' => [
                     'avatar' => $identities['photo_big'],
-                    'fname' => $identities['first_name'],
-                    'sname' => $identities['last_name'],
+                    'first_name' => $identities['first_name'],
+                    'last_name' => $identities['last_name'],
                 ],
             ], true)['user'];
             //емэйл из социалок или из введенных данных, так как он проверен.
