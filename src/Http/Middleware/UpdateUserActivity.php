@@ -19,7 +19,7 @@ class UpdateUserActivity
     public function handle($request, Closure $next)
     {
         if (auth()->check()) {
-            DB::update(['last_active_at' => Carbon::now()->timestamp])->where('user_id', auth()->id());
+            DB::table('user_activities')->where('user_id', auth()->id())->update(['last_active_at' => Carbon::now()]);
         }
 
         return $next($request);
