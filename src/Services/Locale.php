@@ -76,7 +76,7 @@ class Locale implements ILocale
     public function getLanguageList($languageKeys = [])
     {
         $langs = $this->getSupportedLocales();
-        $keys = ($languageKeys === []) ? array_keys($langs) : $languageKeys;
+        $keys = ($languageKeys === []) ? array_keys($langs) : array_intersect($languageKeys, array_keys($langs));
         $languageList = [];
         foreach ($keys as $key) {
             $languageList[] = [
