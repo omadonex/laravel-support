@@ -42,14 +42,14 @@ class PDFUtilities
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function resize($contents, $w, $h)
+    public static function scale($contents, $w, $h)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input.pdf");
         $outputPath = storage_path("app/{$folder}/output.pdf");
         Storage::disk('local')->put("{$folder}/input.pdf", $contents);
 
-        PDFProcessor::resize($inputPath, $outputPath, $w, $h);
+        PDFProcessor::scale($inputPath, $outputPath, $w, $h);
         $resultContents = Storage::disk('local')->get("{$folder}/output.pdf");
         Storage::disk('local')->deleteDirectory($folder);
 
