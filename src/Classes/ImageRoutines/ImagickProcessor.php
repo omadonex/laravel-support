@@ -46,7 +46,7 @@ class ImagickProcessor extends ShellProcessor
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function makeSRGBPreviewWithCloseColors($input, $output, $colorspaceName, $profile, $profileSRGB, $resolution = null)
+    public static function convertToJpgUsingColorspace($input, $output, $colorspaceName, $profile, $profileSRGB, $resolution = null)
     {
         if (is_null($resolution)) {
             $command = "convert {$input} -colorspace {$colorspaceName} -profile {$profile} -profile {$profileSRGB} jpg:{$output}";

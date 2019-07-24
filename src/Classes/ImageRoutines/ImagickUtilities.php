@@ -221,12 +221,15 @@ class ImagickUtilities
      * @return array
      * @throws \ImagickException
      */
-    public static function makePreview($contents, $resolution = null, $all = false, $index = 0)
+    public static function convertToJpg($contents, $resolution = null, $all = false, $index = 0)
     {
         $img = self::loadInstance($contents);
 
         $processResult = self::process($img, function ($instance, $iterator) use ($resolution) {
-            $instance->setImageFormat('jpg');
+            $instance->setImageFormat('jpeg');
+            $instance->setImageCompression(\Imagick::COMPRESSION_JPEG);
+            $instance->setImageCompressionQuality(100);
+
             if ($resolution) {
                 $instance->resampleImage($resolution, $resolution, \Imagick::FILTER_UNDEFINED, 1);
             }
@@ -248,7 +251,7 @@ class ImagickUtilities
      * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function makeSRGBPreviewWithCloseColors($contents, $colorspace, $resolution = null, $all = false, $index = 0)
+    public static function convertToJpgSRGB($contents, $colorspace, $resolution = null, $all = false, $index = 0)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
@@ -264,7 +267,7 @@ class ImagickUtilities
         $colorspaceName = self::getColorspaceName($colorspace);
         $colorspaceProfile = self::getProfileByColorspace($colorspace);
         $profileSRGB = self::getProfileByColorspace(\Imagick::COLORSPACE_SRGB);
-        ImagickProcessor::makeSRGBPreviewWithCloseColors($inputPath, $outputPath, $colorspaceName, $colorspaceProfile, $profileSRGB, $resolution);
+        ImagickProcessor::convertToJpgUsingColorspace($inputPath, $outputPath, $colorspaceName, $colorspaceProfile, $profileSRGB, $resolution);
 
         if ($all) {
             $resultContents = [];

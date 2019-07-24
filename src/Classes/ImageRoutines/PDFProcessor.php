@@ -4,22 +4,19 @@ namespace Omadonex\LaravelSupport\Classes\ImageRoutines;
 
 use Omadonex\LaravelSupport\Classes\ShellProcessor\ShellProcessor;
 
-class GhostScriptProcessor extends ShellProcessor
+class PDFProcessor extends ShellProcessor
 {
     /**
      * @param $input
      * @param $output
-     * @param null $resolution
+     * @param $w
+     * @param $h
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function convertToJpg($input, $output, $resolution = null)
+    public static function resize($input, $output, $w, $h)
     {
-        if (is_null($resolution)) {
-            $command = "gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -sOutputFile={$output} {$input}";
-        } else {
-            $command = "gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -r{$resolution} -sOutputFile={$output} {$input}";
-        }
+        $command = "pdfscale -r \"custom mm {$w} {$h}\" -f disable {$input} {$output}";
 
         return self::call($command);
     }
@@ -30,13 +27,14 @@ class GhostScriptProcessor extends ShellProcessor
      * @return array
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function splitPDF($input, $outputFolder)
+    public static function split($input, $outputFolder)
     {
         $command = "gs -q -dNODISPLAY -c '({$input}) (r) file runpdfbegin pdfpagecount = quit'";
         $output = self::call($command);
         $countPages = (int) $output[0];
         $data = [
             'count' => $countPages,
+            'folder' => $outputFolder,
             'pathArray' => [],
         ];
         for ($i = 0; $i < $countPages; $i++) {
@@ -48,19 +46,5 @@ class GhostScriptProcessor extends ShellProcessor
         }
 
         return $data;
-    }
-
-    /**
-     * @param $inputPages
-     * @param $output
-     * @return mixed
-     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
-     */
-    public static function mergePDF($inputPages, $output)
-    {
-        $pagesStr = implode(' ', $inputPages);
-        $command = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile={$output} {$pagesStr}";
-
-        return self::call($command);
     }
 }
