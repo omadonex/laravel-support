@@ -25,32 +25,6 @@ class GhostScriptProcessor extends ShellProcessor
     }
 
     /**
-     * @param $input
-     * @param $outputFolder
-     * @return array
-     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
-     */
-    public static function splitPDF($input, $outputFolder)
-    {
-        $command = "gs -q -dNODISPLAY -c '({$input}) (r) file runpdfbegin pdfpagecount = quit'";
-        $output = self::call($command);
-        $countPages = (int) $output[0];
-        $data = [
-            'count' => $countPages,
-            'pathArray' => [],
-        ];
-        for ($i = 0; $i < $countPages; $i++) {
-            $pathOutput = "{$outputFolder}/{$i}.pdf";
-            $index = $i + 1;
-            $command = "gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -dFirstPage={$index} -dLastPage={$index} -sOutputFile={$pathOutput} {$input}";
-            self::call($command);
-            $data['pathArray'][] = $pathOutput;
-        }
-
-        return $data;
-    }
-
-    /**
      * @param $inputPages
      * @param $output
      * @return mixed
