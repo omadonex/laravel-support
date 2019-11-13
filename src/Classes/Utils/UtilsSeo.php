@@ -6,6 +6,6 @@ class UtilsSeo
 {
     public static function detectBot($userAgent)
     {
-        return preg_match('/YandexBot/i', $userAgent);
+        return (bool) preg_match('/YandexBot/i', $userAgent);
     }
 }
