@@ -4,4 +4,4 @@ import Vue from 'vue';
 
 // устанавливаем полифил array.findIndex - глобально
 findIndex.shim();
-window.EventBus = new Vue();
+omx.global.window.EventBus = new Vue();
