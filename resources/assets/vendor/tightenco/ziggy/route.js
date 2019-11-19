@@ -6,7 +6,7 @@ class Router extends String {
 
         this.name           = name;
         this.absolute       = absolute;
-        this.ziggy          = customZiggy;
+        this.ziggy          = customZiggy ? customZiggy : omx.global.route.data;
         this.template       = this.name ? new UrlBuilder(name, absolute, this.ziggy).construct() : '';
         this.urlParams      = this.normalizeParams(params);
         this.queryParams    = this.normalizeParams(params);

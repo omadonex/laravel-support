@@ -7,6 +7,7 @@ global.utils = {};
 
 if (global.ssr) {
   global.window = {};
+  global.window.location = context.location;
   global.document = {};
   global.csrfToken = context.csrfToken;
 
