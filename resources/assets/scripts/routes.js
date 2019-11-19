@@ -1,15 +1,4 @@
-import cloneDeep from 'clone-deep';
 import { getCamelName } from "./helpers";
-
-/**
- * https://github.com/tightenco/ziggy
- * выгружает Laravel Routes и добавляет их window.route
- */
-// клонируем для последующего экспорта
-const Routes = cloneDeep(window.route);
-// удаляем оригинальную ф-ю
-window.route = null;
-delete window.route;
 
 class RoutesUtils {
   generate(routesInfo, module) {
@@ -22,7 +11,7 @@ class RoutesUtils {
       dynamic.forEach((item) => {
         params[item] = `dynamic_${item}`;
       });
-      let path = Routes(routeName, params, false).url();
+      let path = omx.global.route.Routes(routeName, params, false, omx.global.route.data).url();
       dynamic.forEach((item) => {
         path = path.replace(`dynamic_${item}`, `:${item}`);
       });
