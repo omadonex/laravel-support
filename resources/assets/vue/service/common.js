@@ -1,4 +1,3 @@
-import { Routes } from '../../scripts/routes';
 import { fUpCase, getCamelName, getIndex, getProp, propExists, strReplaceAll } from "../../scripts/helpers";
 
 const CommonService = {
@@ -65,7 +64,7 @@ const CommonService = {
      * @param args
      */
     route(...args) {
-      return Routes(...args);
+      return omx.global.route.Routes(...args);
     },
 
     /**

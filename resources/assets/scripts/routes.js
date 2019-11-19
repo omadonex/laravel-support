@@ -46,4 +46,4 @@ class RoutesUtils {
   };
 }
 
-export { Routes, RoutesUtils };
+export default RoutesUtils;
