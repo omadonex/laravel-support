@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-const meta = document.head.querySelector('meta[name="csrf-token"]');
-const csrfToken = meta ? meta.content : null;
 const axiosInstance = axios.create({
   headers: {
     common: {
       'X-Requested-With': 'XMLHttpRequest',
-      'X-CSRF-TOKEN': csrfToken,
+      'X-CSRF-TOKEN': omx.global.csrfToken,
     },
   },
 });
@@ -15,7 +13,7 @@ const SmartAjaxService = {
   data() {
     return {
       Data__smartAjax: {
-        csrfToken: csrfToken,
+        csrfToken: omx.global.csrfToken,
         axios: axiosInstance,
         transNs: 'vendor.support.mixins.smartAjax',
       },

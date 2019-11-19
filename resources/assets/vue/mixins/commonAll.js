@@ -1,7 +1,7 @@
 export default {
   data() {
     return {
-      eventBus: window.EventBus,
+      eventBus: omx.global.utils.EventBus,
     }
   },
 
