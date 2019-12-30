@@ -12,12 +12,14 @@ abstract class FileStorageAdapterBase implements IFileStorageAdapter
 
     protected $cloud;
     protected $disks;
+    protected $storageClass;
 
-    public function __construct($cloud = false)
+    public function __construct($cloud = false, $storageClass = 'COLD')
     {
         $this->cloud = $cloud;
         $key = $cloud ? self::DISK_KEY_CLOUD : self::DISK_KEY_LOCAL;
         $this->disks = $this->getStorageDiskArray()[$key];
+        $this->storageClass = $storageClass;
     }
 
     abstract protected function getStorageDiskArray();
@@ -30,7 +32,7 @@ abstract class FileStorageAdapterBase implements IFileStorageAdapter
     public function put($disk, $filename, $contents, $cold = true)
     {
         if ($this->cloud && $cold) {
-            $this->getStorage($disk)->getDriver()->put($filename, $contents, ['StorageClass' => 'COLD']);
+            $this->getStorage($disk)->getDriver()->put($filename, $contents, ['StorageClass' => $this->storageClass]);
         } else {
             $this->getStorage($disk)->put($filename, $contents);
         }
