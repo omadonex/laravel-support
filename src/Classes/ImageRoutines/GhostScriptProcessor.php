@@ -13,7 +13,7 @@ class GhostScriptProcessor extends ShellProcessor
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function convertToJpg($input, $output, $resolution = null)
+    public static function makePreview($input, $output, $resolution = null)
     {
         if (is_null($resolution)) {
             $command = "gs -dBATCH -dNOPAUSE -sDEVICE=jpeg -sOutputFile={$output} {$input}";
@@ -36,5 +36,30 @@ class GhostScriptProcessor extends ShellProcessor
         $command = "gs -q -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -sOutputFile={$output} {$pagesStr}";
 
         return self::call($command);
+    }
+
+    /**
+     * @param $input
+     * @param $outputFolder
+     * @return array
+     * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
+     */
+    public static function splitPDF($input, $outputFolder)
+    {
+        $command = "gs -q -dNODISPLAY -c '({$input}) (r) file runpdfbegin pdfpagecount = quit'";
+        $output = self::call($command);
+        $countPages = (int) $output[0];
+        $data = [
+            'count' => $countPages,
+            'pathArray' => [],
+        ];
+        for ($i = 0; $i < $countPages; $i++) {
+            $pathOutput = "{$outputFolder}/{$i}.pdf";
+            $index = $i + 1;
+            $command = "gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER -dFirstPage={$index} -dLastPage={$index} -sOutputFile={$pathOutput} {$input}";
+            self::call($command);
+            $data['pathArray'][] = $pathOutput;
+        }
+        return $data;
     }
 }

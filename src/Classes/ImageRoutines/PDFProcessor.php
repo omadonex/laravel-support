@@ -14,7 +14,7 @@ class PDFProcessor extends ShellProcessor
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function scale($input, $output, $w, $h)
+    public static function resize($input, $output, $w, $h)
     {
         $command = "pdfscale -r \"custom mm {$w} {$h}\" -f disable {$input} {$output}";
 

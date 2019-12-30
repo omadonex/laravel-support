@@ -16,7 +16,7 @@ class PDFUtilities
 
         return "temp/{$str}";
     }
-    
+
     public static function split($input, $file = false)
     {
         $folder = self::getTempFolder();
@@ -29,10 +29,10 @@ class PDFUtilities
 
         return PDFProcessor::split($path, storage_path("app/{$folder}"));
     }
-    
+
     public static function convertToJpg($input, $file = false)
     {
-        
+
     }
 
     /**
@@ -42,14 +42,14 @@ class PDFUtilities
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function scale($contents, $w, $h)
+    public static function resize($contents, $w, $h)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input.pdf");
         $outputPath = storage_path("app/{$folder}/output.pdf");
         Storage::disk('local')->put("{$folder}/input.pdf", $contents);
 
-        PDFProcessor::scale($inputPath, $outputPath, $w, $h);
+        PDFProcessor::resize($inputPath, $outputPath, $w, $h);
         $resultContents = Storage::disk('local')->get("{$folder}/output.pdf");
         Storage::disk('local')->deleteDirectory($folder);
 

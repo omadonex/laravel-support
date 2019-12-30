@@ -25,14 +25,14 @@ class GhostScriptUtilities
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function convertToJpg($contents, $resolution = null)
+    public static function makePreview($contents, $resolution = null)
     {
         $folder = self::getTempFolder();
         $inputPath = storage_path("app/{$folder}/input");
         $outputPath = storage_path("app/{$folder}/output");
         Storage::disk('local')->put("{$folder}/input", $contents);
 
-        GhostScriptProcessor::convertToJpg($inputPath, $outputPath, $resolution);
+        GhostScriptProcessor::makePreview($inputPath, $outputPath, $resolution);
         $resultContents = Storage::disk('local')->get("{$folder}/output");
         Storage::disk('local')->deleteDirectory($folder);
 
@@ -45,11 +45,11 @@ class GhostScriptUtilities
      * @return mixed
      * @throws \Omadonex\LaravelSupport\Classes\Exceptions\OmxShellException
      */
-    public static function convertToJpgFromFile($path, $resolution = null)
+    public static function makePreviewFromFile($path, $resolution = null)
     {
         $folder = self::getTempFolder();
         $outputPath = storage_path("app/{$folder}/output");
-        GhostScriptProcessor::convertToJpg($path, $outputPath, $resolution);
+        GhostScriptProcessor::makePreview($path, $outputPath, $resolution);
         $resultContents = Storage::disk('local')->get("{$folder}/output");
         Storage::disk('local')->deleteDirectory($folder);
 
