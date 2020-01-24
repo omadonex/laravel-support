@@ -84,7 +84,7 @@ class ImagickUtilities
     {
         $img = self::loadInstance($contents);
 
-        $processResult = self::process($img, function ($instance, $iterator) use ($strict) {
+        $processResult = self::process($img, function ($instance, $iterator) use ($strict, $contents) {
             $resolution = $instance->getImageResolution();
             $xDpi = (int) $resolution['x'];
             $yDpi = (int) $resolution['y'];
@@ -92,10 +92,35 @@ class ImagickUtilities
             $dpi = null;
             if ($strict) {
                 if (($xDpi === 0) || ($yDpi === 0) || ($xDpi !== $yDpi)) {
-                    return null;
+
+                    $folder     = UtilsCustom::random_str(20);
+                    $inputPath  = storage_path("app/{$folder}/input.pdf");
+                    Storage::disk('local')->put("{$folder}/input.pdf", $contents);
+                    exec("identify -quiet -format '%x' $inputPath", $data);
+                    Storage::disk('local')->deleteDirectory($folder);
+
+                    if($data && is_array($data)){
+                        $data = explode(' ', $data[0]);
+
+                        if (count($data) > 1) {
+                            if($data[1] == 'PixelsPerInch'){
+                                $dpi = $data[0];
+                            }elseif($data[1] == 'PixelsPerCentimeter'){
+                                $dpi = ceil($data[0] * 2.54);
+                            }elseif($data[1] == 'Undefined'){
+                                $dpi = $data[0];
+                            }
+                        } elseif (count($data) === 1 && is_numeric((int) $data[0])) {
+                            $dpi = (int) $data[0];
+                        }
+                    }
+
+                    if (is_null($dpi) || $dpi <= 0) {
+                        return null;
+                    }
                 }
 
-                $dpi = $xDpi;
+                $xDpi = $resolution['x'] = $resolution['y'] = $dpi;
             }
 
             return [
