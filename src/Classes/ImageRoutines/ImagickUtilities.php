@@ -117,10 +117,12 @@ class ImagickUtilities
 
                     if (is_null($dpi) || $dpi <= 0) {
                         return null;
+                    } else {
+                        $xDpi = $resolution['x'] = $resolution['y'] = $dpi;
                     }
                 }
 
-                $xDpi = $resolution['x'] = $resolution['y'] = $dpi;
+                $dpi = $xDpi;
             }
 
             return [
