@@ -325,11 +325,15 @@ class ImagickUtilities
         $params = self::determineParams($contents, true, false);
         $fieldsPix = ScaleCalculator::toPix($cuttingFieldsSize, $params['dpi']);
         //Рисуем только на нулевом слое, т.к. дорисовывать поля везде нет возможности
-        ImagickProcessor::drawCuttingFields("{$inputPath}[0]", $outputPath, [
-            'width' => $params['wPix'] + 2 * $fieldsPix,
-            'height' => $params['hPix'] + 2 * $fieldsPix,
-            'fields' => $fieldsPix,
-        ]);
+        try {
+            ImagickProcessor::drawCuttingFields("{$inputPath}[0]", $outputPath, [
+                'width' => $params['wPix'] + 2 * $fieldsPix,
+                'height' => $params['hPix'] + 2 * $fieldsPix,
+                'fields' => $fieldsPix,
+            ]);
+        } catch (\Exception $e) {
+
+        }
 
         $resultContents = Storage::disk('local')->get("{$folder}/output");
         Storage::disk('local')->deleteDirectory($folder);
