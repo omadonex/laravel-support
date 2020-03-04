@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "illuminate/support": "5.5.*",
+        "illuminate/support": "^5.5",
         "ramsey/uuid": "^3.8",
         "setasign/fpdi-fpdf": "^2.2"
     },
