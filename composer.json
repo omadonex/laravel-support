@@ -10,7 +10,7 @@
     ],
     "require": {
         "illuminate/support": "^5.5|^6.0|^7.0",
-        "ramsey/uuid": "^3.8",
+        "ramsey/uuid": "^3.8|^4.0",
         "setasign/fpdi-fpdf": "^2.2"
     },
     "autoload": {
