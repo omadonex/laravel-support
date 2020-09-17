@@ -9,6 +9,7 @@ class ConstantsCustom
     const MAIN_DATA_GLOBAL = 'mainDataGlobal';
     const MAIN_DATA_GLOBAL_KEY = 'global';
     const MAIN_DATA_PAGE = 'mainDataPage';
+    const MAIN_DATA_SEO = 'mainDataSeo';
 
     const ACTIVATION_EMAIL_REPEAT_MINUTES = 5;
 
