@@ -16,7 +16,10 @@
     "autoload": {
         "psr-4": {
             "Omadonex\\LaravelSupport\\": "src/"
-        }
+        },
+        "files":[
+            "src/Classes/Helpers.php"
+        ]
     },
     "extra": {
         "laravel": {
