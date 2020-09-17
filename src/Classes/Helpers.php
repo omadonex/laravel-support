@@ -12,7 +12,7 @@ if (!function_exists('mainDataGlobal'))
 
 if (!function_exists('mainDataPage'))
 {
-    function mainDataGlobal()
+    function mainDataPage()
     {
         $key = \Omadonex\LaravelSupport\Classes\ConstantsCustom::MAIN_DATA_PAGE;
 
