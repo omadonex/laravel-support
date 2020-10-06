@@ -77,6 +77,14 @@ class UtilsApp
         return json_decode(json_encode($pageOrData->data->t->page), true);
     }
 
+    public static function getCurrentPageSeoData($modules, $routeName)
+    {
+        $pageDataSeoList = self::getPagesData($modules);
+        $seoPage = UtilsCustom::getCamelName($routeName);
+        
+        return $pageDataSeoList[$seoPage];
+    }
+
     private static function getLiveDataDefault()
     {
         return [
