@@ -76,7 +76,7 @@ class UtilsApp
 
         return json_decode(json_encode($pageOrData->data->t->page), true);
     }
-
+    
     public static function getCurrentPageSeoData($modules, $routeName)
     {
         $pageDataSeoList = self::getPagesData($modules);
@@ -179,5 +179,21 @@ class UtilsApp
             'data' => $dataM,
             'dataT' => $data['t'],
         ];
+    }
+
+    public static function evalAppendsStr($appendsData)
+    {
+        $appendsArray = [];
+        foreach ($appendsData as $prop => $value) {
+            if (is_array($value)) {
+                foreach ($value as $item) {
+                    $appendsArray[] = "{$prop}[]={$item}";
+                }
+            } else {
+                $appendsArray[] = "{$prop}={$value}";
+            }
+        }
+
+        return '&' . implode('&', $appendsArray);
     }
 }
