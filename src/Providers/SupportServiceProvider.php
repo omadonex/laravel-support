@@ -26,7 +26,6 @@ class SupportServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom("{$pathRoot}/resources/lang", 'support');
 
         $this->publishes([
-            "{$pathRoot}/config/locale.php" => config_path('omx/locale.php'),
             "{$pathRoot}/config/modules.php" => config_path('modules.php'),
         ], 'config');
         $this->publishes([
