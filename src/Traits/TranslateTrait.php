@@ -11,7 +11,7 @@ trait TranslateTrait
 
     public function getTranslate($lang = null, $defaultLangProp = null)
     {
-        $langKey = $lang ?: app('locale')->getCurrLanguage();
+        $langKey = $lang ?: app('locale')->getLangCurrent();
         $filtered = $this->translates->filter(function ($value, $key) use ($langKey) {
             return $value->lang === $langKey;
         });
@@ -20,7 +20,7 @@ trait TranslateTrait
             return $filtered->first();
         }
 
-        $defaultLangKey = app('locale')->getDefaultLanguage();
+        $defaultLangKey = app('locale')->getLangDefault();
         if ($defaultLangProp && property_exists($this, $defaultLangProp)) {
             $defaultLangKey = $defaultLangProp;
         }
@@ -35,13 +35,13 @@ trait TranslateTrait
 
     public function hasTranslateForLang($lang = null)
     {
-        $langKey = $lang ?: app('locale')->getCurrLanguage();
+        $langKey = $lang ?: app('locale')->getLangCurrent();
 
         return in_array($langKey, $this->translates->pluck('lang')->all());
     }
 
     public function getAvailableLangList()
     {
-        return app('locale')->getLanguageList($this->translates->pluck('lang')->all());
+        return app('locale')->getLangList($this->translates->pluck('lang')->all());
     }
 }

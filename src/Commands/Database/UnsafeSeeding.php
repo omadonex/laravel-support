@@ -42,7 +42,7 @@ class UnsafeSeeding extends Command
      */
     public function handle()
     {
-        if (!file_exists(database_path('seeds/UnsafeDatabaseSeeder.php'))) {
+        if (!file_exists(database_path('seeders/UnsafeDatabaseSeeder.php'))) {
             $this->warn('UnsafeDatabaseSeeder.php not found. Nothing to do');
 
             return ;
