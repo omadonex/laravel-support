@@ -135,11 +135,12 @@ class ApiModelController extends ApiBaseController
         return [];
     }
 
-    protected function modelFind($id, $resource = false, $resourceClass = null, $smart = false, $smartField = null, $closures = [])
+    protected function modelFind($id, $resource = false, $resourceClass = null, $resourceParams = [], $smart = false, $smartField = null, $closures = [])
     {
         return $this->repo->find($id, [
             'resource' => $resource,
             'resourceClass' => $resourceClass,
+            'resourceParams' => $resourceParams,
             'enabled' => $this->enabled,
             'relations' => $this->relations,
             'trashed' => $this->trashed,
@@ -149,11 +150,12 @@ class ApiModelController extends ApiBaseController
         ]);
     }
 
-    protected function modelSearch($resource = false, $resourceClass = null, $closures = [])
+    protected function modelSearch($resource = false, $resourceClass = null, $resourceParams = [], $closures = [])
     {
         return $this->repo->search([
             'resource' => $resource,
             'resourceClass' => $resourceClass,
+            'resourceParams' => $resourceParams,
             'enabled' => $this->enabled,
             'relations' => $this->relations,
             'trashed' => $this->trashed,
@@ -161,11 +163,12 @@ class ApiModelController extends ApiBaseController
         ]);
     }
 
-    protected function modelList($resource = false, $resourceClass = null, $methodName = null, $methodParams = [], $closures = [])
+    protected function modelList($resource = false, $resourceClass = null, $resourceParams = [], $methodName = null, $methodParams = [], $closures = [])
     {
         $options = [
             'resource' => $resource,
             'resourceClass' => $resourceClass,
+            'resourceParams' => $resourceParams,
             'enabled' => $this->enabled,
             'paginate' => $this->paginate,
             'relations' => $this->relations,
@@ -177,38 +180,38 @@ class ApiModelController extends ApiBaseController
         return ($method === 'list') ? $this->repo->list($options) : $this->repo->$method($methodParams, $options);
     }
 
-    protected function modelCreate($data, $resource = false, $resourceClass = null)
+    protected function modelCreate($data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
         $model = $this->service->create($data);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, false);
+        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams, false);
     }
 
-    protected function modelCreateT($data, $resource = false, $resourceClass = null)
+    protected function modelCreateT($data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
         $dataSplit = UtilsApp::splitModelDataWithTranslate($data);
 
         $model = $this->service->createT($dataSplit['data'], $dataSplit['dataT']);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, false);
+        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams, false);
     }
 
-    protected function modelUpdate($id, $data, $resource = false, $resourceClass = null)
+    protected function modelUpdate($id, $data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
         $model = $this->service->update($id, $data, true);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, false);
+        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams, false);
     }
 
-    protected function modelUpdateT($id, $data, $resource = false, $resourceClass = null)
+    protected function modelUpdateT($id, $data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
         $dataSplit = UtilsApp::splitModelDataWithTranslate($data);
         $model = $this->service->updateT($id, $dataSplit['data'], $dataSplit['dataT'], true);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, false);
+        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams,  false);
     }
 }

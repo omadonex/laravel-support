@@ -28,6 +28,11 @@ return [
     'enable' => 'Enable',
     'enabled' => 'Enabled',
     'error' => 'Error',
+    'free' => [
+        'm' => 'Free',
+        'f' => 'Free',
+        'i' => 'Free',
+    ],
     'gallery' => 'Gallery',
     'info' => 'Info',
     'login' => 'Sign in',

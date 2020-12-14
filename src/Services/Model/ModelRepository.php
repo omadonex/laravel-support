@@ -37,6 +37,7 @@ abstract class ModelRepository implements IModelRepository
             'exceptions' => false,
             'resource' => false,
             'resourceClass' => null,
+            'resourceParams' => [],
             'relations' => false,
             'trashed' => null,
             'smart' => false,
@@ -133,18 +134,19 @@ abstract class ModelRepository implements IModelRepository
         return $this->model->availableRelations ?: [];
     }
 
-    public function toResource($modelOrCollection, $resource = false, $resourceClass = null, $paginate = false)
+    public function toResource($modelOrCollection, $resource = false, $resourceClass = null, $resourceParams = [], $paginate = false)
     {
         if (!$resource) {
             return $modelOrCollection;
         }
 
-        $finalResourceClass = $this->resourceClass;
-        if ($resourceClass) {
-            $finalResourceClass = $resourceClass;
-        }
+        $finalResourceClass = $resourceClass ?: $this->resourceClass;
 
         if ($modelOrCollection instanceof Model) {
+            if ($resourceParams) {
+                return new $finalResourceClass($modelOrCollection, $resourceParams);
+            }
+
             return new $finalResourceClass($modelOrCollection);
         }
 
@@ -179,7 +181,7 @@ abstract class ModelRepository implements IModelRepository
             return null;
         }
 
-        return $this->toResource($model, $realOptions['resource'], $realOptions['resourceClass'], false);
+        return $this->toResource($model, $realOptions['resource'], $realOptions['resourceClass'], $realOptions['resourceParams'], false);
     }
 
     public function find($modelOrId, $options = [])
@@ -203,7 +205,7 @@ abstract class ModelRepository implements IModelRepository
             return null;
         }
 
-        return $this->toResource($model, $realOptions['resource'], $realOptions['resourceClass'], false);
+        return $this->toResource($model, $realOptions['resource'], $realOptions['resourceClass'], $realOptions['resourceParams'], false);
     }
 
     public function list($options = [])
@@ -212,7 +214,7 @@ abstract class ModelRepository implements IModelRepository
 
         $collection = $this->getPaginatedResult($this->makeQB($realOptions), $realOptions['paginate']);
 
-        return $this->toResource($collection, $realOptions['resource'], $realOptions['resourceClass'], $realOptions['paginate']);
+        return $this->toResource($collection, $realOptions['resource'], $realOptions['resourceClass'], $realOptions['resourceParams'], $realOptions['paginate']);
     }
 
     public function agrCount($options = [])

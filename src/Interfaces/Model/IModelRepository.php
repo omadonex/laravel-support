@@ -28,13 +28,15 @@ interface IModelRepository
 
     /**
      * Приводит результат запроса в состояние ресурса
+     *
      * @param $modelOrCollection
-     * @param bool $resource
+     * @param false $resource
      * @param null $resourceClass
-     * @param bool $paginate
+     * @param array $resourceParams
+     * @param false $paginate
      * @return mixed
      */
-    public function toResource($modelOrCollection, $resource = false, $resourceClass = null, $paginate = false);
+    public function toResource($modelOrCollection, $resource = false, $resourceClass = null, $resourceParams = [], $paginate = false);
 
     /**
      * @param $modelOrId
