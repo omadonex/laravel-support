@@ -1,5 +1,7 @@
 <?php
 
+use Nwidart\Modules\Activators\FileActivator;
+
 return [
 
     /*
@@ -32,10 +34,8 @@ return [
             'scaffold/config' => 'Config/config.php',
             'scaffold/providerBinding' => 'Providers/BindingServiceProvider.php',
             'scaffold/providerEvent' => 'Providers/EventServiceProvider.php',
-            'scaffold/providerRoute' => 'Providers/RouteServiceProvider.php',
             'mailer/mailerInterface' => 'Interfaces/IModuleMailer.php',
             'mailer/mailerService' => 'Services/ModuleMailer.php',
-            'seeder/seederTest' => 'Database/Seeders/TestDatabaseSeeder.php',
             'seeder/seederUnsafe' => 'Database/Seeders/UnsafeDatabaseSeeder.php',
             'layout/layout' => 'Resources/views/layouts/module.blade.php',
             'test/routes' => 'Tests/Feature/Routes/RoutesTest.php',
@@ -52,10 +52,8 @@ return [
             'scaffold/config' => ['STUDLY_NAME'],
             'scaffold/providerBinding' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'scaffold/providerEvent' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
-            'scaffold/providerRoute' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'mailer/mailerInterface' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'mailer/mailerService' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
-            'seeder/seederTest' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'seeder/seederUnsafe' => ['STUDLY_NAME', 'MODULE_NAMESPACE'],
             'test/routes' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE'],
             'composer' => [
@@ -212,4 +210,24 @@ return [
          */
         'files' => 'register',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Activators
+    |--------------------------------------------------------------------------
+    |
+    | You can define new types of activators here, file, database etc. The only
+    | required parameter is 'class'.
+    | The file activator will store the activation status in storage/installed_modules
+    */
+    'activators' => [
+        'file' => [
+            'class' => FileActivator ::class,
+            'statuses-file' => base_path('modules_statuses.json'),
+            'cache-key' => 'activator.installed',
+            'cache-lifetime' => 604800,
+        ],
+    ],
+
+    'activator' => 'file',
 ];

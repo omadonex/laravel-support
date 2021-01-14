@@ -9,11 +9,9 @@
     ],
     "extra": {
         "laravel": {
-            "providers": [
-                "$MODULE_NAMESPACE$\\$STUDLY_NAME$\\Providers\\ModuleServiceProvider"
-            ],
+            "providers": [],
             "aliases": {
-                
+
             }
         }
     },
