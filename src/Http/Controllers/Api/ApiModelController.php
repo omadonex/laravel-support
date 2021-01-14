@@ -10,25 +10,23 @@ use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterRelationsException
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterTrashedException;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;
 use Omadonex\LaravelSupport\Interfaces\Model\IModelRepository;
-use Omadonex\LaravelSupport\Interfaces\Model\IModelService;
 
 class ApiModelController extends ApiBaseController
 {
-    protected $repo;
-    protected $service;
+    /** @var IModelRepository */
+    protected $repository;
 
     protected $trashed;
     protected $relations;
     protected $enabled;
     protected $paginate;
 
-    public function __construct(IModelRepository $repo, IModelService $service, Request $request)
+    public function __construct(IModelRepository $repository, Request $request)
     {
         parent::__construct($request);
-        $this->repo = $repo;
-        $this->service = $service;
+        $this->repository = $repository;
 
-        $this->relations = $this->getParamRelations($request, $this->repo->getAvailableRelations());
+        $this->relations = $this->getParamRelations($request, $this->repository->getAvailableRelations());
 
         if ($request->isMethod('get')) {
             $this->trashed = $this->getParamTrashed($request);
@@ -137,7 +135,7 @@ class ApiModelController extends ApiBaseController
 
     protected function modelFind($id, $resource = false, $resourceClass = null, $resourceParams = [], $smart = false, $smartField = null, $closures = [])
     {
-        return $this->repo->find($id, [
+        return $this->repository->find($id, [
             'resource' => $resource,
             'resourceClass' => $resourceClass,
             'resourceParams' => $resourceParams,
@@ -152,7 +150,7 @@ class ApiModelController extends ApiBaseController
 
     protected function modelSearch($resource = false, $resourceClass = null, $resourceParams = [], $closures = [])
     {
-        return $this->repo->search([
+        return $this->repository->search([
             'resource' => $resource,
             'resourceClass' => $resourceClass,
             'resourceParams' => $resourceParams,
@@ -177,41 +175,41 @@ class ApiModelController extends ApiBaseController
         ];
         $method = $methodName ?: 'list';
 
-        return ($method === 'list') ? $this->repo->list($options) : $this->repo->$method($methodParams, $options);
+        return ($method === 'list') ? $this->repository->list($options) : $this->repository->$method($methodParams, $options);
     }
 
     protected function modelCreate($data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
-        $model = $this->service->create($data);
+        $model = $this->repository->create($data);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams, false);
+        return $this->repository->toResource($model, $resource, $resourceClass, $resourceParams, false);
     }
 
     protected function modelCreateT($data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
         $dataSplit = UtilsApp::splitModelDataWithTranslate($data);
 
-        $model = $this->service->createT($dataSplit['data'], $dataSplit['dataT']);
+        $model = $this->repository->createT($dataSplit['data'], $dataSplit['dataT']);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams, false);
+        return $this->repository->toResource($model, $resource, $resourceClass, $resourceParams, false);
     }
 
     protected function modelUpdate($id, $data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
-        $model = $this->service->update($id, $data, true);
+        $model = $this->repository->update($id, $data, true);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams, false);
+        return $this->repository->toResource($model, $resource, $resourceClass, $resourceParams, false);
     }
 
     protected function modelUpdateT($id, $data, $resource = false, $resourceClass = null, $resourceParams = [])
     {
         $dataSplit = UtilsApp::splitModelDataWithTranslate($data);
-        $model = $this->service->updateT($id, $dataSplit['data'], $dataSplit['dataT'], true);
+        $model = $this->repository->updateT($id, $dataSplit['data'], $dataSplit['dataT'], true);
         $model->load($this->getRelations($model));
 
-        return $this->repo->toResource($model, $resource, $resourceClass, $resourceParams,  false);
+        return $this->repository->toResource($model, $resource, $resourceClass, $resourceParams,  false);
     }
 }
