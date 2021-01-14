@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Models;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class UserActivation extends Model

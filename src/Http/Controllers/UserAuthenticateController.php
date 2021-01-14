@@ -4,7 +4,7 @@ namespace Omadonex\LaravelSupport\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Interfaces\User\IUserService;
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Omadonex\LaravelSupport\Models\UserAuthenticate;
 use Omadonex\LaravelSupport\Traits\UserUtmTrait;

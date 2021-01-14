@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxClassNotUsesTraitException;
+use Omadonex\LaravelSupport\Classes\Exceptions\OmxMethodNotImplementedInClassException;
+use Omadonex\LaravelSupport\Classes\Exceptions\OmxModelCanNotBeDisabledException;
+use Omadonex\LaravelSupport\Classes\Exceptions\OmxModelCanNotBeEnabledException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxModelNotSearchedException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxModelNotSmartFoundException;
 use Omadonex\LaravelSupport\Interfaces\Model\IModelRepository;
@@ -222,5 +225,105 @@ abstract class ModelRepository implements IModelRepository
         $realOptions = $this->getRealOptions($options);
 
         return $this->makeQB($realOptions)->count();
+    }
+
+    public function create($data, $fresh = true, $stopPropagation = false)
+    {
+        $model = $this->getModel()->create($data);
+        if ($fresh) {
+            $model = $model->fresh();
+        }
+
+        if (!$stopPropagation) {
+            $this->callbackCreated($model);
+        }
+
+        return $model;
+    }
+
+    public function createT($data, $dataT, $fresh = true)
+    {
+        $className = (new \ReflectionClass($this->getModel()))->getShortName() . 'Service';
+
+        throw new OmxMethodNotImplementedInClassException($className, 'createT');
+    }
+
+    public function update($modelOrId, $data, $returnModel = false, $stopPropagation = false)
+    {
+        $model = $this->find($modelOrId);
+        $result = $model->update($data);
+
+        if (!$stopPropagation) {
+            $this->callbackUpdated($model);
+        }
+
+        return $returnModel ? $model : $result;
+    }
+
+    public function updateT($modelOrId, $data, $dataT, $returnModel = false)
+    {
+        $className = (new \ReflectionClass($this->getModel()))->getShortName() . 'Service';
+
+        throw new OmxMethodNotImplementedInClassException($className, 'updateT');
+    }
+
+    public function updateOrCreate($data)
+    {
+        $model = $this->getModel()->updateOrCreate($data);
+        $this->callbackUpdatedOrCreated($model);
+
+        return $model;
+    }
+
+    public function destroy($id)
+    {
+        $this->getModel()->destroy($id);
+        $this->callbackDestroyed($id);
+    }
+
+    public function tryDestroy($id)
+    {
+        $this->destroy($id);
+    }
+
+    public function enable($id)
+    {
+        $modelClass = get_class($this->getModel());
+        if (!in_array(CanBeEnabledTrait::class, class_uses($modelClass))) {
+            throw new OmxClassNotUsesTraitException($modelClass, CanBeEnabledTrait::class);
+        }
+
+        $model = $this->find($id);
+        if (!$model->canEnable()) {
+            throw new OmxModelCanNotBeEnabledException($this->getModel()->cantEnableText());
+        }
+
+        $model->enable();
+        $this->callbackEnabled($model);
+    }
+
+    public function disable($id)
+    {
+        $modelClass = get_class($this->getModel());
+        if (!in_array(CanBeEnabledTrait::class, class_uses($modelClass))) {
+            throw new OmxClassNotUsesTraitException($modelClass, CanBeEnabledTrait::class);
+        }
+
+        $model = $this->find($id);
+        if (!$model->canDisable()) {
+            throw new OmxModelCanNotBeDisabledException($this->getModel()->cantDisableText());
+        }
+
+        $model->disable();
+        $this->callbackDisabled($model);
+    }
+
+    public function clear($force = false)
+    {
+        if ($force) {
+            $this->query()->forceDelete();
+        } else {
+            $this->query()->delete();
+        }
     }
 }

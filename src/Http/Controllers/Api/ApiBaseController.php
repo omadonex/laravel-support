@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Routing\Controller;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsResponseJson;
-use App\User;
+use App\Models\User;
 
 class ApiBaseController extends Controller
 {

@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Http\Middleware;
 
-use App\User;
+use App\Models\User;
 use Closure;
 
 class TryAuth

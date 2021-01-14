@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Traits\Tests;
 
-use App\User;
+use App\Models\User;
 use Modules\Typography\Interfaces\Models\Repositories\ITypographyRepository;
 use Omadonex\LaravelSupport\Classes\ConstantsCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;

@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Http\Middleware;
 
-use App\User;
+use App\Models\User;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Support\Facades\DB;
