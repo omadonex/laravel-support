@@ -234,7 +234,7 @@ abstract class ModelRepository implements IModelRepository
             $model = $model->fresh();
         }
 
-        if (!$stopPropagation) {
+        if (!$stopPropagation && method_exists($this, 'callbackCreated')) {
             $this->callbackCreated($model);
         }
 
