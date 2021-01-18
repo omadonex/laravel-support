@@ -3,7 +3,7 @@
 namespace Omadonex\LaravelSupport\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterEnabledException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterPaginateException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxBadParameterRelationsException;
@@ -37,7 +37,7 @@ class ApiModelController extends ApiBaseController
 
     private function getParamRelations(Request $request, $availableRelations)
     {
-        $key = ConstantsCustom::REQUEST_PARAM_RELATIONS;
+        $key = ConstCustom::REQUEST_PARAM_RELATIONS;
         $data = $request->all();
         if (!array_key_exists($key, $data) || ($data[$key] === 'false')) {
             return false;
@@ -66,7 +66,7 @@ class ApiModelController extends ApiBaseController
 
     private function getParamEnabled(Request $request)
     {
-        $key = ConstantsCustom::REQUEST_PARAM_ENABLED;
+        $key = ConstCustom::REQUEST_PARAM_ENABLED;
         $data = $request->all();
         if (!array_key_exists($key, $data)) {
             return null;
@@ -85,7 +85,7 @@ class ApiModelController extends ApiBaseController
 
     private function getParamPaginate(Request $request)
     {
-        $key = ConstantsCustom::REQUEST_PARAM_PAGINATE;
+        $key = ConstCustom::REQUEST_PARAM_PAGINATE;
         $data = $request->all();
         if (!array_key_exists($key, $data) || ($data[$key] === 'true')) {
             return true;
@@ -104,13 +104,13 @@ class ApiModelController extends ApiBaseController
 
     private function getParamTrashed(Request $request)
     {
-        $key = ConstantsCustom::REQUEST_PARAM_TRASHED;
+        $key = ConstCustom::REQUEST_PARAM_TRASHED;
         $data = $request->all();
         if (!array_key_exists($key, $data)) {
             return null;
         }
 
-        if (in_array($data[$key], [ConstantsCustom::DB_QUERY_TRASHED_WITH, ConstantsCustom::DB_QUERY_TRASHED_ONLY])) {
+        if (in_array($data[$key], [ConstCustom::DB_QUERY_TRASHED_WITH, ConstCustom::DB_QUERY_TRASHED_ONLY])) {
             return $data[$key];
         }
 

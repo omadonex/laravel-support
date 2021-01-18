@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxClassNotUsesTraitException extends \Exception
@@ -19,6 +19,6 @@ class OmxClassNotUsesTraitException extends \Exception
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'class' => $className,
             'trait' => $traitName,
-        ]), ConstantsCustom::EXCEPTION_CLASS_NOT_USES_TRAIT);
+        ]), ConstCustom::EXCEPTION_CLASS_NOT_USES_TRAIT);
     }
 }

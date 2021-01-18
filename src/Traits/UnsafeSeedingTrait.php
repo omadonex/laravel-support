@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Traits;
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 
 trait UnsafeSeedingTrait
 {
@@ -10,19 +10,19 @@ trait UnsafeSeedingTrait
     {
         if (property_exists($this, 'unsafePivotTables')) {
             foreach ($this->unsafePivotTables as $tableName) {
-                \DB::table($tableName)->where(ConstantsCustom::DB_FIELD_UNSAFE_SEEDING, true)->delete();
+                \DB::table($tableName)->where(ConstCustom::DB_FIELD_UNSAFE_SEEDING, true)->delete();
             }
         }
     }
 
     public function scopeUnsafeSeeding($query)
     {
-        return $query->where(ConstantsCustom::DB_FIELD_UNSAFE_SEEDING, true);
+        return $query->where(ConstCustom::DB_FIELD_UNSAFE_SEEDING, true);
     }
 
     public function isUnsafeSeeding()
     {
-        $field = ConstantsCustom::DB_FIELD_UNSAFE_SEEDING;
+        $field = ConstCustom::DB_FIELD_UNSAFE_SEEDING;
 
         return $this->$field;
     }

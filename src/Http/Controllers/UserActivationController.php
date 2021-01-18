@@ -5,7 +5,7 @@ namespace Omadonex\LaravelSupport\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsResponseJson;
 use Omadonex\LaravelSupport\Events\UserActivationResendEvent;
@@ -36,7 +36,7 @@ class UserActivationController extends Controller
         }
 
         $data = [
-            ConstantsCustom::MAIN_DATA_PAGE => [
+            ConstCustom::MAIN_DATA_PAGE => [
                 'token' => $token,
                 'email' => $userActivation->user->email,
             ],
@@ -62,7 +62,7 @@ class UserActivationController extends Controller
             UtilsApp::addLiveNotify(trans('support::auth.activated'));
 
             return UtilsResponseJson::okResponse([
-                ConstantsCustom::REDIRECT_URL => route('content.lesson.index'),
+                ConstCustom::REDIRECT_URL => route('content.lesson.index'),
             ], true);
         }
 
@@ -79,16 +79,16 @@ class UserActivationController extends Controller
         $userActivation = auth()->check() ? $user->userActivation : null;
         if (!auth()->check() || $user->isActivated() || !$userActivation) {
             return UtilsResponseJson::errorResponse([
-                ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendError'),
+                ConstCustom::ERROR_MESSAGE => trans('support::auth.activationResendError'),
             ]);
         }
 
         $now = Carbon::now();
-        if ($now->diffInMinutes($userActivation->sent_at) < ConstantsCustom::ACTIVATION_EMAIL_REPEAT_MINUTES) {
-            $seconds = ConstantsCustom::ACTIVATION_EMAIL_REPEAT_MINUTES * 60 - $now->diffInSeconds($userActivation->sent_at);
+        if ($now->diffInMinutes($userActivation->sent_at) < ConstCustom::ACTIVATION_EMAIL_REPEAT_MINUTES) {
+            $seconds = ConstCustom::ACTIVATION_EMAIL_REPEAT_MINUTES * 60 - $now->diffInSeconds($userActivation->sent_at);
 
             return UtilsResponseJson::errorResponse([
-                ConstantsCustom::ERROR_MESSAGE => trans('support::auth.activationResendTime', ['seconds' => $seconds]),
+                ConstCustom::ERROR_MESSAGE => trans('support::auth.activationResendTime', ['seconds' => $seconds]),
             ]);
         }
 

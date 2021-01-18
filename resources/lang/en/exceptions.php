@@ -1,6 +1,6 @@
 <?php
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 
 return [
     'OmxUnexpectedException' => [
@@ -10,16 +10,16 @@ return [
         'message' => 'Shell script execution error (result: `:result`)',
     ],
     'OmxBadParameterEnabledException' => [
-        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_ENABLED . '` can be one of next values: false | true',
+        'message' => 'Param `' . ConstCustom::REQUEST_PARAM_ENABLED . '` can be one of next values: false | true',
     ],
     'OmxBadParameterPaginateException' => [
-        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_PAGINATE . '` can be one of next values: "false | true | integer"',
+        'message' => 'Param `' . ConstCustom::REQUEST_PARAM_PAGINATE . '` can be one of next values: "false | true | integer"',
     ],
     'OmxBadParameterRelationsException' => [
-        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_RELATIONS . '` can be one of next values: "false | true | array (:relations)"',
+        'message' => 'Param `' . ConstCustom::REQUEST_PARAM_RELATIONS . '` can be one of next values: "false | true | array (:relations)"',
     ],
     'OmxBadParameterTrashedException' => [
-        'message' => 'Param `' . ConstantsCustom::REQUEST_PARAM_TRASHED . '` can be one of next values: "with | only"',
+        'message' => 'Param `' . ConstCustom::REQUEST_PARAM_TRASHED . '` can be one of next values: "with | only"',
     ],
     'OmxClassNotUsesTraitException' => [
         'message' => 'Class `:class` not uses trait `:trait`',

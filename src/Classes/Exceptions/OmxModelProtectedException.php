@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxModelProtectedException extends \Exception
@@ -14,6 +14,6 @@ class OmxModelProtectedException extends \Exception
         $exClassName = UtilsCustom::getShortClassName($this);;
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'class' => get_class($model),
-        ]), ConstantsCustom::EXCEPTION_MODEL_PROTECTED);
+        ]), ConstCustom::EXCEPTION_MODEL_PROTECTED);
     }
 }

@@ -2,18 +2,18 @@
 
 namespace Omadonex\LaravelSupport\Traits;
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 
 trait ProtectedGenerateTrait
 {
     public function scopeProtectedGenerate($query)
     {
-        return $query->where(ConstantsCustom::DB_FIELD_PROTECTED_GENERATE, true);
+        return $query->where(ConstCustom::DB_FIELD_PROTECTED_GENERATE, true);
     }
 
     public function isProtectedGenerate()
     {
-        $field = ConstantsCustom::DB_FIELD_PROTECTED_GENERATE;
+        $field = ConstCustom::DB_FIELD_PROTECTED_GENERATE;
 
         return $this->$field;
     }

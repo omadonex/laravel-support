@@ -4,7 +4,7 @@ namespace Omadonex\LaravelSupport\Traits\Tests;
 
 use App\Models\User;
 use Modules\Typography\Interfaces\Models\Repositories\ITypographyRepository;
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsApp;
 
 trait RoutesTestTrait
@@ -98,13 +98,13 @@ trait RoutesTestTrait
                     $middleware = $route->gatherMiddleware();
 
                     if (in_array('auth', $middleware)) {
-                        $authType = ConstantsCustom::TEST_AUTH_TYPE_SESSION;
+                        $authType = ConstCustom::TEST_AUTH_TYPE_SESSION;
                     } elseif (in_array('auth:api', $middleware)) {
-                        $authType = ConstantsCustom::TEST_AUTH_TYPE_API;
+                        $authType = ConstCustom::TEST_AUTH_TYPE_API;
                     } elseif (in_array('guest', $middleware)) {
-                        $authType = ConstantsCustom::TEST_AUTH_TYPE_GUEST;
+                        $authType = ConstCustom::TEST_AUTH_TYPE_GUEST;
                     } else {
-                        $authType = ConstantsCustom::TEST_AUTH_TYPE_NO_MATTER;
+                        $authType = ConstCustom::TEST_AUTH_TYPE_NO_MATTER;
                     }
 
                     $aclOn = in_array('acl', $middleware);
@@ -236,16 +236,16 @@ trait RoutesTestTrait
 
             $response = null;
             switch ($routeData['authType']) {
-                case ConstantsCustom::TEST_AUTH_TYPE_SESSION:
+                case ConstCustom::TEST_AUTH_TYPE_SESSION:
                     $response = ($method === 'GET') ? $this->actingAs($user)->get($url) : $this->actingAs($user)->$method($url, $requestData);
                     break;
-                case ConstantsCustom::TEST_AUTH_TYPE_API:
+                case ConstCustom::TEST_AUTH_TYPE_API:
                     $response = ($method === 'GET') ? $this->get("{$url}?api_token={$user->api_token}") : $this->actingAs($user, 'api')->$method($url, $requestData);
                     break;
-                case ConstantsCustom::TEST_AUTH_TYPE_NO_MATTER:
+                case ConstCustom::TEST_AUTH_TYPE_NO_MATTER:
                     $response = ($method === 'GET') ? $this->get($url) : $this->$method($url, $requestData);
                     break;
-                case ConstantsCustom::TEST_AUTH_TYPE_GUEST:
+                case ConstCustom::TEST_AUTH_TYPE_GUEST:
                     //TODO omadonex: тут может быть непонятка с auth()->logout() в случае api, но таких урлов не должно быть в принципе
                     auth()->logout();
                     $response = ($method === 'GET') ? $this->$method($url) : $this->$method($url, $requestData);

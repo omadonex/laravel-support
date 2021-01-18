@@ -10,7 +10,7 @@ namespace Omadonex\LaravelSupport\Services\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxClassNotUsesTraitException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxMethodNotImplementedInClassException;
 use Omadonex\LaravelSupport\Classes\Exceptions\OmxModelCanNotBeDisabledException;
@@ -97,11 +97,11 @@ abstract class ModelRepository implements IModelRepository
                 throw new OmxClassNotUsesTraitException($this->modelClass, SoftDeletes::class);
             }
 
-            if ($options['trashed'] === ConstantsCustom::DB_QUERY_TRASHED_WITH) {
+            if ($options['trashed'] === ConstCustom::DB_QUERY_TRASHED_WITH) {
                 $qb->withTrashed();
             }
 
-            if ($options['trashed'] === ConstantsCustom::DB_QUERY_TRASHED_ONLY) {
+            if ($options['trashed'] === ConstCustom::DB_QUERY_TRASHED_ONLY) {
                 $qb->onlyTrashed();
             }
         }

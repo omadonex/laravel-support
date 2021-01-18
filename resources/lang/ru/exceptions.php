@@ -1,6 +1,6 @@
 <?php
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 
 return [
     'OmxUnexpectedException' => [
@@ -10,16 +10,16 @@ return [
         'message' => 'Ошибка выполнения консольного скрипта (результат: `:result`)'
     ],
     'OmxBadParameterEnabledException' => [
-        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_ENABLED . '` может принимать одно из следующих значений: false | true',
+        'message' => 'Параметр `' . ConstCustom::REQUEST_PARAM_ENABLED . '` может принимать одно из следующих значений: false | true',
     ],
     'OmxBadParameterPaginateException' => [
-        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_PAGINATE . '` может принимать одно из следующих значений: "false | true | integer"',
+        'message' => 'Параметр `' . ConstCustom::REQUEST_PARAM_PAGINATE . '` может принимать одно из следующих значений: "false | true | integer"',
     ],
     'OmxBadParameterRelationsException' => [
-        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_RELATIONS . '` может принимать одно из следующих значений: "false | true | array (:relations)"',
+        'message' => 'Параметр `' . ConstCustom::REQUEST_PARAM_RELATIONS . '` может принимать одно из следующих значений: "false | true | array (:relations)"',
     ],
     'OmxBadParameterTrashedException' => [
-        'message' => 'Параметр `' . ConstantsCustom::REQUEST_PARAM_TRASHED . '` может принимать одно из следующих значений: "with | only"',
+        'message' => 'Параметр `' . ConstCustom::REQUEST_PARAM_TRASHED . '` может принимать одно из следующих значений: "with | only"',
     ],
     'OmxClassNotUsesTraitException' => [
         'message' => 'Класс `:class` не использует trait `:trait`',

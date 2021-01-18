@@ -15,7 +15,7 @@ class CreateUserActivationsTable extends Migration
     {
         Schema::create('user_activations', function (Blueprint $table) {
             $table->unsignedInteger('user_id');
-            $table->string('token', \Omadonex\LaravelSupport\Classes\ConstantsCustom::DB_FIELD_LEN_TOKEN_ACTIVATION)->unique();
+            $table->string('token', \Omadonex\LaravelSupport\Classes\ConstCustom::DB_FIELD_LEN_TOKEN_ACTIVATION)->unique();
             $table->timestamp('sent_at')->index();
 
             $table->primary('user_id');

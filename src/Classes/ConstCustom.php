@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes;
 
-class ConstantsCustom
+class ConstCustom
 {
     const REDIRECT_URL = 'redirectUrl';
     const ERROR_MESSAGE = 'errorMessage';
@@ -30,6 +30,7 @@ class ConstantsCustom
     const DB_FIELD_UNSAFE_SEEDING = 'omx_unsafe_seeding';
 
     const DB_FIELD_LEN_LANG = 15;
+    const DB_FIELD_LEN_STR_KEY = 36;
     const DB_FIELD_LEN_PRIMARY_STR = 36;
     const DB_FIELD_LEN_TOKEN_API = 64;
     const DB_FIELD_LEN_TOKEN_ACTIVATION = 64;

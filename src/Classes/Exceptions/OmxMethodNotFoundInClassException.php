@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxMethodNotFoundInClassException extends \Exception
@@ -19,6 +19,6 @@ class OmxMethodNotFoundInClassException extends \Exception
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'method' => $methodName,
             'class' => $className,
-        ]), ConstantsCustom::EXCEPTION_METHOD_NOT_FOUND_IN_CLASS);
+        ]), ConstCustom::EXCEPTION_METHOD_NOT_FOUND_IN_CLASS);
     }
 }

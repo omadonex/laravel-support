@@ -2,7 +2,7 @@
 
 namespace Omadonex\LaravelSupport\Classes\Exceptions;
 
-use Omadonex\LaravelSupport\Classes\ConstantsCustom;
+use Omadonex\LaravelSupport\Classes\ConstCustom;
 use Omadonex\LaravelSupport\Classes\Utils\UtilsCustom;
 
 class OmxShellException extends \Exception
@@ -18,6 +18,6 @@ class OmxShellException extends \Exception
         $exClassName = UtilsCustom::getShortClassName($this);;
         parent::__construct(trans("support::exceptions.{$exClassName}.message", [
             'result' => $result,
-        ]), ConstantsCustom::EXCEPTION_SHELL);
+        ]), ConstCustom::EXCEPTION_SHELL);
     }
 }
