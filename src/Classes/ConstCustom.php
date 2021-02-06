@@ -14,6 +14,7 @@ class ConstCustom
     const MAIN_DATA_CUSTOM_PAGE = 'mainDataCustomPage';
 
     const ACTIVATION_EMAIL_REPEAT_MINUTES = 5;
+    const PASSWORD_RESET_REPEAT_MINUTES = 3;
 
     const REQUEST_PARAM_ENABLED = '__enabled';
     const REQUEST_PARAM_PAGINATE = '__paginate';
