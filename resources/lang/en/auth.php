@@ -4,12 +4,14 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'activate' => 'You need to activate your account. We have sent you an activation link, please check your email.',
-    'activateInfo' => 'If you dont receive e-mail yet, click on the next button',
+    'activateInfo' => 'If you dont receive e-mail yet, please click',
     'activationResendError' => 'Resending e-mail custom error.',
     'activationResendTime' => 'Next e-mail can be sent after :seconds sec.',
     'activationResendSuccess' => 'Activation e-mail has been successfully sent.',
     'activationToken' => 'Activation token is not correct. Please check your link.',
     'activated' => 'Your account has been successfully activated',
+    'passwordRequestMessage' => 'Please enter the email that is associated with your account. A password reset email will be sent to this address.',
+    'passwordResetMessage' => 'Please enter your email and new password',
 
     'forms' => [
         'login' => [

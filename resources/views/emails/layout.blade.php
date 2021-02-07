@@ -1,8 +1,7 @@
 @component('mail::message')
 
 @if ($headerImage)
-![header][image]
-[image]: {{ asset($headerImageSrc) }} "{{ $headerImageAlt }}"
+<img src="{{ asset($headerImageSrc) }}" alt="{{ $headerImageAlt }}">
 @endif
 
 @if ($greeting)
