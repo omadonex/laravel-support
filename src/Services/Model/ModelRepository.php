@@ -253,7 +253,7 @@ abstract class ModelRepository implements IModelRepository
         $model = $this->find($modelOrId);
         $result = $model->update($data);
 
-        if (!$stopPropagation) {
+        if (!$stopPropagation && method_exists($this, 'callbackUpdated')) {
             $this->callbackUpdated($model);
         }
 
@@ -270,7 +270,9 @@ abstract class ModelRepository implements IModelRepository
     public function updateOrCreate($data)
     {
         $model = $this->getModel()->updateOrCreate($data);
-        $this->callbackUpdatedOrCreated($model);
+        if (method_exists($this, 'callbackUpdatedOrCreated')) {
+            $this->callbackUpdatedOrCreated($model);
+        }
 
         return $model;
     }
@@ -278,7 +280,9 @@ abstract class ModelRepository implements IModelRepository
     public function destroy($id)
     {
         $this->getModel()->destroy($id);
-        $this->callbackDestroyed($id);
+        if (method_exists($this, 'callbackDestroyed')) {
+            $this->callbackDestroyed($id);
+        }
     }
 
     public function tryDestroy($id)
@@ -299,7 +303,9 @@ abstract class ModelRepository implements IModelRepository
         }
 
         $model->enable();
-        $this->callbackEnabled($model);
+        if (method_exists($this, 'callbackEnabled')) {
+            $this->callbackEnabled($model);
+        }
     }
 
     public function disable($id)
@@ -315,7 +321,9 @@ abstract class ModelRepository implements IModelRepository
         }
 
         $model->disable();
-        $this->callbackDisabled($model);
+        if (method_exists($this, 'callbackDisabled')) {
+            $this->callbackDisabled($model);
+        }
     }
 
     public function clear($force = false)
