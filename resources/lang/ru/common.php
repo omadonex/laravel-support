@@ -41,7 +41,7 @@ return [
     'notification' => 'Уведомление',
     'notifications' => 'Уведомления',
     'pickDate' => 'Выбрать дату',
-    'profile' => 'Мастерская',
+    'profile' => 'Профиль',
     'register' => 'Регистрация',
     'reset' => 'Сброс',
     'save' => 'Сохранить',
