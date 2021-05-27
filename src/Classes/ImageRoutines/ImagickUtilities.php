@@ -354,9 +354,16 @@ class ImagickUtilities
         $img = self::loadInstance($contents);
 
         $processResult = self::process($img, function ($instance, $iterator) use ($returnPath) {
-            $instance->setImageFormat('pdf');
+            $instance->setFormat('pdf');
 
-            return $instance->getImageBlob();
+            $folder    = self::getTempFolder();
+            $inputPath = storage_path("app/{$folder}/input.pdf");
+            mkdir(storage_path("app/{$folder}"));
+            $instance->writeImage($inputPath);
+            $content = file_get_contents($inputPath);
+            Storage::disk('local')->deleteDirectory($folder);
+
+            return $content;
         }, $all, $index);
 
         $img->clear();
