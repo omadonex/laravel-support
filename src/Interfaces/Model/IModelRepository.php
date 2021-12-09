@@ -15,6 +15,12 @@ interface IModelRepository
     public function getModel();
 
     /**
+     * Возвращает название класса модели
+     * @return string
+     */
+    public function getModelClass();
+
+    /**
      * Возвращает Query builder для построения запросов
      * @return mixed
      */
