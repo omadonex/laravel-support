@@ -127,6 +127,11 @@ abstract class ModelRepository implements IModelRepository
         return $this->model;
     }
 
+    public function getModelClass()
+    {
+        return $this->modelClass;
+    }
+
     public function query()
     {
         return $this->model->query();
